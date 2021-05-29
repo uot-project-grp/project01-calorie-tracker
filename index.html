@@ -10,14 +10,15 @@
 </head>
 <body>
     <div class="columns">
-        <section class="column">
-            <h2>Add Food Items</h2>
-            <form>
+        <section class="column box">
+            
+            <form id="manualForm">
+                <h2>Add Food Items</h2>
                 <label for="manualInput">Input Manually</label>
-                <div>
-                    <input type="text" id="manualInput">
-                    <input type="text" id="manualCalorie">
-                    <button>Submit</button>
+                <div class="is-flex">
+                    <input type="text" id="manualInput" class="input is-info">
+                    <input type="text" id="manualCalorie" class="input is-info">
+                    <button class="button is-info submitButton">Submit</button>
                 </div>
             </form>
             <form>
@@ -29,7 +30,17 @@
             </form>
         </section>
         <section class="column">
-            <h2>Calories consumed</h2>
+            <table class="table table is-fullwidth is-hoverable">
+                <h2>Calories consumed</h2>
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Food Item</th>
+                        <th>Calories</th>
+                    </tr>
+                </thead>
+            </table>
+            
         </section>
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
