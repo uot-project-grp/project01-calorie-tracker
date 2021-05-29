@@ -4,9 +4,35 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css" />
     <title>Calorie Tracker</title>
 </head>
 <body>
-    
+    <div class="columns">
+        <section class="column">
+            <h2>Add Food Items</h2>
+            <form>
+                <label for="manualInput">Input Manually</label>
+                <div>
+                    <input type="text" id="manualInput">
+                    <input type="text" id="manualCalorie">
+                    <button>Submit</button>
+                </div>
+            </form>
+            <form>
+                <label for="foodSearch">Input Manually</label>
+                <div>
+                    <input type="text" id="foodSearch">
+                    <button>Search</button>
+                </div>
+            </form>
+        </section>
+        <section class="column">
+            <h2>Calories consumed</h2>
+        </section>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="./assets/js/script.js"></script>
 </body>
 </html>
