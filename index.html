@@ -9,27 +9,32 @@
     <title>Calorie Tracker</title>
 </head>
 <body>
-    <div class="columns">
-        <section class="column box">
-            
+    <!----MAIN SECTION OF PAGE---->
+    <div class="columns is-flex is-align-items-stretch">
+        <!----SEARCH / ADD SECTION - SEARCH AND ADD FOOD ITEMS---->
+        <section class="column boxBorder searchSection">    
+            <!----FORM TO ADD ITEMS MANUALLY---->
             <form id="manualForm">
                 <h2>Add Food Items</h2>
                 <label for="manualInput">Input Manually</label>
                 <div class="is-flex">
                     <input type="text" id="manualInput" class="input is-info">
                     <input type="text" id="manualCalorie" class="input is-info">
-                    <button class="button is-info submitButton">Submit</button>
+                    <button class="button is-info submitButton" type="submit">Submit</button>
                 </div>
             </form>
-            <form>
-                <label for="foodSearch">Input Manually</label>
-                <div>
-                    <input type="text" id="foodSearch">
-                    <button>Search</button>
+            <!----FORM TO SEARCH AND ADD ITEMS VIA API---->
+            <form id="searchForm">
+                <label for="foodSearch">Search Food Item</label>
+                <div class="is-flex">
+                    <input type="text" id="foodSearch" class="input is-info">
+                    <button class="button is-info submitButton" type="submit">Search</button>
                 </div>
             </form>
         </section>
-        <section class="column">
+        <!----CALORIE CONSUMED SECTION---->
+        <section class="column boxBorder calorieSection">
+            <!----CALORIE CONSUMED TABLE---->
             <table class="table table is-fullwidth is-hoverable">
                 <h2>Calories consumed</h2>
                 <thead>
@@ -39,9 +44,19 @@
                         <th>Calories</th>
                     </tr>
                 </thead>
+                <tbody>
+                    <tr>
+                        <th>1</th>
+                        <th>Apple</th>
+                        <th>10</th>
+                    </tr>
+                </tbody>
             </table>
             
         </section>
+    </div>
+    <div id="copy">
+
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="./assets/js/script.js"></script>
