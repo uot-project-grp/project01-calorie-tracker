@@ -1,5 +1,5 @@
 //-----FIXED TEST VARIABLE FROM SAMPLE DATA EXTRACTED-----//
-var jsonResult = {
+var calorieDetails = {
     imgLink: ["https://spoonacular.com/recipeImages/655726-312x231.jpg", "https://spoonacular.com/recipeImages/638746-312x231.jpg"],
     calorie: [429.85, 356.99],
     weightPerServing: [316, 666],
@@ -9,7 +9,7 @@ var jsonResult = {
 
 //-----EXTRACT DATA FROM FOOD API-----//
 /*var foodSearchResults = function(data) {
-    var jsonResult = {
+    var calorieDetails = {
         imgLink: [],
         calorie: [],
         weightPerServing: [],
@@ -35,7 +35,9 @@ var jsonResult = {
 
 //-----FETCH API FOR FOOD ITEM - SPOONACULAR-----//
 var fetchFood = function(searchText) {
-    fetch(
+    
+    //-----WORKING FETCH CODE - USING FIXED VARIABLE FOR TESTING-----//
+    /*fetch(
         "https://api.spoonacular.com/recipes/complexSearch?apiKey=528245fe05d64c8ea869f7952527c40a&query="+searchText+"&addRecipeNutrition=true&number=2"
     ).then(function(response) {
         if (response.ok) {
@@ -48,7 +50,7 @@ var fetchFood = function(searchText) {
         else {
             console.log("Result not found.")
         }
-    })
+    })*/
 }
 
 //-----EVENT HANDLER FOR SEARCH SUBMIT-----//
