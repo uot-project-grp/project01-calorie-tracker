@@ -1,7 +1,37 @@
-//
-var foodSearchResults = function() {
-    
+//-----FIXED TEST VARIABLE FROM SAMPLE DATA EXTRACTED-----//
+var jsonResult = {
+    imgLink: ["https://spoonacular.com/recipeImages/655726-312x231.jpg", "https://spoonacular.com/recipeImages/638746-312x231.jpg"],
+    calorie: [429.85, 356.99],
+    weightPerServing: [316, 666],
+    uomPerServing: ["g", "g"],
+    FoodName: ["Perfect Chicken Soup", "Chipotle Chicken Soup"]
 }
+
+//-----EXTRACT DATA FROM FOOD API-----//
+/*var foodSearchResults = function(data) {
+    var jsonResult = {
+        imgLink: [],
+        calorie: [],
+        weightPerServing: [],
+        uomPerServing: [],
+        FoodName: []
+    }
+    //var imgLink = [];
+    //var calorie = [];
+    //var weightPerServing = [];
+    //var uomPerServing = [];
+    //var FoodName = [];
+
+    for (var i=0; i<data.results.length; i++) {
+        jsonResult.imgLink[i] = data.results[i].image;
+        jsonResult.calorie[i] = data.results[i].nutrition.nutrients[0].amount;
+        jsonResult.weightPerServing[i] = data.results[i].nutrition.weightPerServing.amount;
+        jsonResult.uomPerServing[i] = data.results[i].nutrition.weightPerServing.unit;
+        jsonResult.FoodName[i] = data.results[i].title;
+    }
+     
+    console.log(jsonResult);
+}*/
 
 //-----FETCH API FOR FOOD ITEM - SPOONACULAR-----//
 var fetchFood = function(searchText) {
