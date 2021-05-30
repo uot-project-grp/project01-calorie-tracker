@@ -1,3 +1,6 @@
+var resultSection = document.querySelector("#result-display");
+console.log(resultSection);
+
 //-----FIXED TEST VARIABLE FROM SAMPLE DATA EXTRACTED-----//
 var calorieDetails = {
     imgLink: ["https://spoonacular.com/recipeImages/655726-312x231.jpg", "https://spoonacular.com/recipeImages/638746-312x231.jpg"],
@@ -52,6 +55,54 @@ var fetchFood = function(searchText) {
         }
     })*/
     //-----FOR TESTING ONLY - THIS FUNCTION SHOULD BE IN foodSearchResults-----//
+    displaySearchResults(calorieDetails);
+}
+
+var displaySearchResults = function(result) {
+    
+    if (result.FoodName.length) {
+        for (var i=0; i<result.FoodName.length; i++) {
+            console.log(result.FoodName[i]);
+            //var displayBox = $("<article>")
+            //    .addClass("column boxBorder searchResult");
+            var displayBox = document.createElement("article");
+            displayBox.className = "column boxBorder searchResult";
+            //var imgBox = $("<div>")
+            //    .html("<img src='"+result.imgLink[i]+"' alt='icon'/>");
+            var imgBox = document.createElement("img");
+            //imgBox.className = "imgBox";
+            imgBox.src=result.imgLink[i];
+            imgBox.alt='food image';
+            //imgBox.innerHTML = "<img src='"+result.imgLink[i]+"' alt='icon'/>"
+            //console.log(imgBox);
+            var textBox = document.createElement("div");
+            /*var textBox = $("<div>")
+                .html("<p>"+result.FoodName[i]+"</p><p>Calories: "
+                +result.calorie[i]+" kcal</p><p>Serving: "+
+                result.weightPerServing[i]+" "+result.uomPerServing[i]+"</p>");
+            $(imgBox).appendTo(displayBox);
+            $(textBox).appendTo(displayBox);*/
+            textBox.innerHTML = "<p>"+result.FoodName[i]+"</p><p>Calories: "
+                +result.calorie[i]+" kcal</p><p>Serving: "+
+                result.weightPerServing[i]+" "+result.uomPerServing[i]+"</p>"
+            
+            var addButton = document.createElement("button");
+            addButton.className = "button is-info addButton";
+            addButton.textContent = "Add";
+
+            displayBox.appendChild(imgBox);
+            displayBox.appendChild(textBox);
+            displayBox.appendChild(addButton);
+            //console.log($("#result-display"), displayBox);
+            //$(displayBox).appendTo(resultSection)
+            resultSection.appendChild(displayBox);
+        }
+    }
+    else {
+        var displayBox = document.createElement("article");
+        displayBox.className = "column boxBorder searchResult";
+        displayBox.textContent = "No results found, please try again!!"
+    }
     
 }
 
