@@ -35,30 +35,34 @@
         <!----CALORIE CONSUMED SECTION---->
         <section class="column boxBorder calorieSection">
             <!----CALORIE CONSUMED TABLE---->
-            <table class="table table is-fullwidth is-hoverable">
+            <table id="calorieConsumed" class="table table is-fullwidth is-hoverable">
                 <h2>Calories consumed</h2>
                 <thead>
                     <tr>
                         <th>No.</th>
                         <th>Food Item</th>
-                        <th>Calories</th>
+                        <th>Calories (kcal)</th>
+                        <th>Serving (g)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th>1</th>
-                        <th>Apple</th>
-                        <th>10</th>
-                    </tr>
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
             </table>
             
         </section>
     </div>
     <!----MAIN SECTION RESULT DISPLAY SECTION---->
     <div id="result-display" class="columns main-display">
-        <article class="column boxBorder searchResult">Apple</article>
-        <article class="column boxBorder searchResult">Apple</article>
+        <!--<article class="column boxBorder searchResult">Apple</article>
+        <article class="column boxBorder searchResult">Apple</article>-->
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="./assets/js/script.js"></script>

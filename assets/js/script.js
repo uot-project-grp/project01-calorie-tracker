@@ -67,7 +67,7 @@ var displaySearchResults = function(result) {
 
             var displayBox = document.createElement("article");
             displayBox.className = "column boxBorder searchResult";
-
+            displayBox.setAttribute("data-result-id", i);
             var imgBox = document.createElement("img");
 
             imgBox.src=result.imgLink[i];
@@ -110,4 +110,16 @@ $("#searchForm").on("submit", function(event) {
     //console.log($(this));
     var searchText = $("#foodSearch").val().trim();
     fetchFood(searchText);
+})
+
+//-----EVENT HANDLER FOR ADD RESULT CLICK-----//
+$("#result-display").on("click", ".addButton", function(event) {
+    console.log($(this).closest(".searchResult").attr("data-result-id"));
+    var index = $(this).closest(".searchResult").attr("data-result-id");
+    var sno = $("#calorieConsumed tr").length -1;
+    console.log(length);
+    $("tbody").append("<tr><th>"+sno+"</th><th>"+calorieDetails.FoodName[index]+
+        "</th><td class='cal'>"+calorieDetails.calorie[index]+"</td><td class='serv'>"+calorieDetails.weightPerServing[index]+
+        "</td></tr>");
+
 })
