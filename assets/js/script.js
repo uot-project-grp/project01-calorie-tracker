@@ -23,14 +23,14 @@ var calorieDetails = {
     //var FoodName = [];
 
     for (var i=0; i<data.results.length; i++) {
-        jsonResult.imgLink[i] = data.results[i].image;
-        jsonResult.calorie[i] = data.results[i].nutrition.nutrients[0].amount;
-        jsonResult.weightPerServing[i] = data.results[i].nutrition.weightPerServing.amount;
-        jsonResult.uomPerServing[i] = data.results[i].nutrition.weightPerServing.unit;
-        jsonResult.FoodName[i] = data.results[i].title;
+        calorieDetails.imgLink[i] = data.results[i].image;
+        calorieDetails.calorie[i] = data.results[i].nutrition.nutrients[0].amount;
+        calorieDetails.weightPerServing[i] = data.results[i].nutrition.weightPerServing.amount;
+        calorieDetails.uomPerServing[i] = data.results[i].nutrition.weightPerServing.unit;
+        calorieDetails.FoodName[i] = data.results[i].title;
     }
      
-    console.log(jsonResult);
+    console.log(calorieDetails);
 }*/
 
 //-----FETCH API FOR FOOD ITEM - SPOONACULAR-----//
