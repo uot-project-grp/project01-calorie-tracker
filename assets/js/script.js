@@ -86,13 +86,20 @@ var displaySearchResults = function(result) {
                 +result.calorie[i]+" kcal</p><p>Serving: "+
                 result.weightPerServing[i]+" "+result.uomPerServing[i]+"</p>"
             
+            var buttonDiv = document.createElement("div");
+            buttonDiv.className = "buttonContainer";
             var addButton = document.createElement("button");
             addButton.className = "button is-info addButton";
             addButton.textContent = "Add";
+            var showRecipe = document.createElement("button");
+            showRecipe.className = "button is-info showRecipe";
+            showRecipe.textContent = "Recipe";
+            buttonDiv.appendChild(addButton);
+            buttonDiv.appendChild(showRecipe);
 
             displayBox.appendChild(imgBox);
             displayBox.appendChild(textBox);
-            displayBox.appendChild(addButton);
+            displayBox.appendChild(buttonDiv);
             //console.log($("#result-display"), displayBox);
             //$(displayBox).appendTo(resultSection)
             resultSection.appendChild(displayBox);
