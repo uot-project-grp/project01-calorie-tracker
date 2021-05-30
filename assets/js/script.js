@@ -58,30 +58,23 @@ var fetchFood = function(searchText) {
     displaySearchResults(calorieDetails);
 }
 
+//-----DISPLAY API RESULTS-----//
 var displaySearchResults = function(result) {
     
     if (result.FoodName.length) {
         for (var i=0; i<result.FoodName.length; i++) {
             console.log(result.FoodName[i]);
-            //var displayBox = $("<article>")
-            //    .addClass("column boxBorder searchResult");
+
             var displayBox = document.createElement("article");
             displayBox.className = "column boxBorder searchResult";
-            //var imgBox = $("<div>")
-            //    .html("<img src='"+result.imgLink[i]+"' alt='icon'/>");
+
             var imgBox = document.createElement("img");
-            //imgBox.className = "imgBox";
+
             imgBox.src=result.imgLink[i];
             imgBox.alt='food image';
-            //imgBox.innerHTML = "<img src='"+result.imgLink[i]+"' alt='icon'/>"
-            //console.log(imgBox);
+
             var textBox = document.createElement("div");
-            /*var textBox = $("<div>")
-                .html("<p>"+result.FoodName[i]+"</p><p>Calories: "
-                +result.calorie[i]+" kcal</p><p>Serving: "+
-                result.weightPerServing[i]+" "+result.uomPerServing[i]+"</p>");
-            $(imgBox).appendTo(displayBox);
-            $(textBox).appendTo(displayBox);*/
+
             textBox.innerHTML = "<p>"+result.FoodName[i]+"</p><p>Calories: "
                 +result.calorie[i]+" kcal</p><p>Serving: "+
                 result.weightPerServing[i]+" "+result.uomPerServing[i]+"</p>"
@@ -100,8 +93,7 @@ var displaySearchResults = function(result) {
             displayBox.appendChild(imgBox);
             displayBox.appendChild(textBox);
             displayBox.appendChild(buttonDiv);
-            //console.log($("#result-display"), displayBox);
-            //$(displayBox).appendTo(resultSection)
+
             resultSection.appendChild(displayBox);
         }
     }
@@ -109,8 +101,7 @@ var displaySearchResults = function(result) {
         var displayBox = document.createElement("article");
         displayBox.className = "column boxBorder searchResult";
         displayBox.textContent = "No results found, please try again!!"
-    }
-    
+    }    
 }
 
 //-----EVENT HANDLER FOR SEARCH SUBMIT-----//
