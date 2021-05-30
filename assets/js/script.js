@@ -51,12 +51,14 @@ var fetchFood = function(searchText) {
             console.log("Result not found.")
         }
     })*/
+    //-----FOR TESTING ONLY - THIS FUNCTION SHOULD BE IN foodSearchResults-----//
+    
 }
 
 //-----EVENT HANDLER FOR SEARCH SUBMIT-----//
 $("#searchForm").on("submit", function(event) {
     event.preventDefault();
-    console.log($(this));
+    //console.log($(this));
     var searchText = $("#foodSearch").val().trim();
     fetchFood(searchText);
 })

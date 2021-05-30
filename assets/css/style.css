@@ -1,9 +1,26 @@
+* {
+    box-sizing: border-box;
+}
+
+.main-search, .main-display {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
 .calorieSection, .searchSection {
     margin: 20px;
+    flex: 1 40%;
 }
 
 .boxBorder {
     background-color: #fff;
     border-radius: 6px;
-    box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 10%), 0 0 0 1px rgb(10 10 10 / 2%);
+    box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 10%), 0 0 0 1px rgb(10 10 10 / 2%);    
+}
+
+.searchResult {
+    margin: 5px 20px;
+    flex: 1 40%;
+    max-width: calc(50% - 40px);
 }
