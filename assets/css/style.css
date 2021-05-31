@@ -24,7 +24,7 @@
   /* Title */
   .titleHero {
     text-align: center;
-    font-size: 30px; 
+    font-size: 32px; 
     font-family: "Optima", sans-serif; 
     color: rgb(9, 116, 89);
     margin-top: -1em;
@@ -32,7 +32,6 @@
     padding: 0 5px 0 5px;
   }
   
-
  /* Logo */
 .logo {
     text-align: left;
@@ -48,7 +47,7 @@
 /* Subheading */
 .subHead {
     text-align: center;
-    font-size: 15px; 
+    font-size: 18px; 
     font-family: "Optima", sans-serif; 
     text-decoration: overline;
     border-top: -20px solid transparent;
