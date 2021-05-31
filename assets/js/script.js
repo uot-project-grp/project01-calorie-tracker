@@ -1,5 +1,26 @@
 var resultSection = document.querySelector("#result-display");
 console.log(resultSection);
+var editDelete = `
+<div class="dropdown is-right editDelete">
+<div class="dropdown-trigger">
+  <span aria-haspopup="true" aria-controls="dropdown-menu3">
+    <span class="oi oi-caret-bottom">
+    </span>
+  </span>
+</div>
+<div class="dropdown-menu menuOveride" id="dropdown-menu3" role="menu">
+  <div class="dropdown-content">
+    <a class="dropdown-item editBtn">
+      Edit
+    </a>
+    <a class="dropdown-item deleteBtn">
+      Delete
+    </a>
+  </div>
+</div>
+</div>    
+`
+;
 
 //-----FIXED TEST VARIABLE FROM SAMPLE DATA EXTRACTED-----//
 var calorieDetails = {
@@ -111,6 +132,7 @@ $("#searchForm").on("submit", function(event) {
     var searchText = $("#foodSearch").val().trim();
     resultSection.textContent = "";
     fetchFood(searchText);
+    $("#foodSearch").val("");
 })
 
 //-----EVENT HANDLER FOR ADD RESULT CLICK-----//
@@ -118,7 +140,7 @@ $("#result-display").on("click", ".selectOneButton", function(event) {
     console.log($(this).closest(".searchResult").attr("data-result-id"));
     var index = $(this).closest(".searchResult").attr("data-result-id");
     var sno = $("#calorieConsumed tr").length -1;
-    var editDelete = `
+    /*var editDelete = `
     <div class="dropdown is-right editDelete">
     <div class="dropdown-trigger">
       <span aria-haspopup="true" aria-controls="dropdown-menu3">
@@ -138,7 +160,7 @@ $("#result-display").on("click", ".selectOneButton", function(event) {
     </div>
   </div>    
     `
-    ;
+    ;*/
     console.log(length);
     $("tbody").append("<tr><th class='sno'>"+sno+"</th><th>"+calorieDetails.FoodName[index]+
         "</th><td><span class='cal'>"+calorieDetails.calorie[index]+"</span></td><td><span class='serv'>"+calorieDetails.weightPerServing[index]+
@@ -163,6 +185,7 @@ $(document).on("click", function(event) {
     }
 })
 
+//-----TABLE EDIT BUTTON LOGIC-----//
 $(".calorieSection").on("click", ".editBtn", function() {
     console.log("edit");
     console.log($(this))
@@ -177,7 +200,7 @@ $(".calorieSection").on("click", ".editBtn", function() {
     console.log($(this).closest("tr").find(".serv"))
     $(this).closest("tr").find(".serv").replaceWith(servInput);
     servInput.trigger("focus");
-
+    //-----AUTOMATIC CALORIE CHANGE LOGIC FOR CHANGE IN SERVING-----//
     $(".calorieSection").on("change keyup paste click", ".form-control", function() {
         console.log($(".form-control").val().trim());
         var newVal = ((cal/serving)*$(".form-control").val().trim()).toFixed(2);
@@ -186,7 +209,8 @@ $(".calorieSection").on("click", ".editBtn", function() {
     })
 })
 
-$(".calorieSection").on("blur", "input", function() {
+//-----TABLE SAVE LOGIC ON BLUR-----//
+$(".calorieSection").on("blur", ".form-control", function() {
     var text = $(this)
         .val()
         .trim();
@@ -195,6 +219,7 @@ $(".calorieSection").on("blur", "input", function() {
     $(this).replaceWith(servVal);
 })
 
+//-----TABLE DELETE BUTTON LOGIC-----//
 $(".calorieSection").on("click", ".deleteBtn", function() {
     console.log("delete");
     $(this).closest("tr").remove();
@@ -202,4 +227,17 @@ $(".calorieSection").on("click", ".deleteBtn", function() {
         console.log("here");
         $(this).text(i+1);
     })
+})
+
+//-----ONCLICK MANUAL SUBMIT-----//
+$("#manualForm").on("submit", function(event) {
+    event.preventDefault();
+    var sno = $("#calorieConsumed tr").length -1;
+    console.log($("#manualInput").val().trim());
+    $(".calorieSection").find("tbody").append("<tr><th class='sno'>"+sno+"</th><th>"+$("#manualInput").val().trim()+
+        "</th><td><span class='cal'>"+$("#manualCalorie").val().trim()+"</span></td><td><span class='serv'>"+$("#manualServing").val().trim()+
+        "</span></td><td>"+editDelete+"</td></tr>");
+    $("#manualInput").val("");
+    $("#manualCalorie").val("");
+    $("#manualServing").val("");
 })
