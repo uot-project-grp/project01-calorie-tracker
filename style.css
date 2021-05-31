@@ -1,7 +1,7 @@
 /* background and padding */
 .header {
     overflow: hidden;
-    background-color: #bac8e5;
+    background-image: linear-gradient(rgb(253, 154, 24), rgb(255, 255, 254));
     padding: 20px 10px;
   }
   
@@ -24,8 +24,8 @@
   .titleHero {
     text-align: center;
     font-size: 30px; 
-    font: serif; 
-    color: rgb(88, 61, 61);
+    font-family: "Optima", sans-serif; 
+    color: rgb(9, 116, 89);
     margin-top: -1em;
     text-indent: 2em;
     padding: 0 5px 0 5px;
@@ -45,8 +45,9 @@
 .subHead {
     text-align: center;
     font-size: 15px; 
-    font-style: italic; 
-    color: rgb(88, 61, 61);
+    font-family: "Optima", sans-serif; 
+    text-decoration: overline;
+    color: rgb(9, 116, 89);
     line-height: 0%;
     white-space: nowrap;
     margin: 10px 0;
@@ -67,7 +68,7 @@
     cursor: pointer;
     display: block;
     text-decoration: none;
-    color: #df1d1d;
+    color: #b874b8;
     opacity: 1;
     pointer-events: auto;   
 }
