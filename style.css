@@ -34,8 +34,14 @@
 .logo {
     text-align: left;
     position: absolute;
-    left: -50px;
+    left: -40px;
     top: 20px;
+    height: 80px;
+    max-height: 400px;
+    width: 100%;
+    background-size: 100%;
+
+    
   }
 
 .subHead {
