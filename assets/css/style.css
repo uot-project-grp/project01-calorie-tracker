@@ -42,3 +42,7 @@
 .buttonContainer button {
     margin: 5px 0;
 }
+
+.menuOveride {
+    min-width: auto;
+}

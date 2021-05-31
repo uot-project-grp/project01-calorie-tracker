@@ -81,13 +81,13 @@ var displaySearchResults = function(result) {
             
             var buttonDiv = document.createElement("div");
             buttonDiv.className = "buttonContainer";
-            var addButton = document.createElement("button");
-            addButton.className = "button is-info addButton";
-            addButton.textContent = "Add";
+            var selectOneButton = document.createElement("button");
+            selectOneButton.className = "button is-info selectOneButton";
+            selectOneButton.textContent = "Select";
             var showRecipe = document.createElement("button");
             showRecipe.className = "button is-info showRecipe";
             showRecipe.textContent = "Recipe";
-            buttonDiv.appendChild(addButton);
+            buttonDiv.appendChild(selectOneButton);
             buttonDiv.appendChild(showRecipe);
 
             displayBox.appendChild(imgBox);
@@ -109,17 +109,65 @@ $("#searchForm").on("submit", function(event) {
     event.preventDefault();
     //console.log($(this));
     var searchText = $("#foodSearch").val().trim();
+    resultSection.textContent = "";
     fetchFood(searchText);
 })
 
 //-----EVENT HANDLER FOR ADD RESULT CLICK-----//
-$("#result-display").on("click", ".addButton", function(event) {
+$("#result-display").on("click", ".selectOneButton", function(event) {
     console.log($(this).closest(".searchResult").attr("data-result-id"));
     var index = $(this).closest(".searchResult").attr("data-result-id");
     var sno = $("#calorieConsumed tr").length -1;
+    var editDelete = `
+    <div class="dropdown is-right editDelete">
+    <div class="dropdown-trigger">
+      <span aria-haspopup="true" aria-controls="dropdown-menu3">
+        <span class="oi oi-caret-bottom">
+        </span>
+      </span>
+    </div>
+    <div class="dropdown-menu menuOveride" id="dropdown-menu3" role="menu">
+      <div class="dropdown-content">
+        <a class="dropdown-item">
+          Edit
+        </a>
+        <a class="dropdown-item">
+          Delete
+        </a>
+      </div>
+    </div>
+  </div>    
+    `
+    ;
     console.log(length);
     $("tbody").append("<tr><th>"+sno+"</th><th>"+calorieDetails.FoodName[index]+
         "</th><td class='cal'>"+calorieDetails.calorie[index]+"</td><td class='serv'>"+calorieDetails.weightPerServing[index]+
-        "</td></tr>");
-
+        "</td><td>"+editDelete+"</td></tr>");
+    /*var selectHeader = $("<h3>").text("Food item selected. Please verify the serving quantity and add.");
+    var selecrDetails = $("div").html("<h4>"+calorieDetails.FoodName[index]+
+        "</h4><div class='foodSelectDetails'><span>Calories: "+calorieDetails.calorie[index]+
+        " kcal</span><span>Serving :");*/
+        //<span class='oi oi-caret-bottom'>
+    resultSection.textContent = "";
 })
+
+//-----TOGGLE ON THE DROPDOWN WHEN CLICKED-----//
+$("body").on("click", ".dropdown", function() {
+    $(this).toggleClass("is-active");
+})
+
+//-----TOGGLE OFF THE DROPDOWN WHEN CLICKED OUTSIDE-----//
+$(document).on("click", function(event) {
+    if ($(".dropdown").hasClass("is-active") && $(".dropdown").has(event.target).length === 0) {
+        $(".dropdown").removeClass("is-active");
+    }
+})
+
+/*$(document).click(function(event) {
+    event.stopPropagation()
+    var cont = $(".dropdown");
+
+    if (cont.has(event.target).length === 0) {
+        cont.toggleClass("is-active");
+    }
+})*/
