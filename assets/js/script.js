@@ -128,10 +128,10 @@ $("#result-display").on("click", ".selectOneButton", function(event) {
     </div>
     <div class="dropdown-menu menuOveride" id="dropdown-menu3" role="menu">
       <div class="dropdown-content">
-        <a class="dropdown-item">
+        <a class="dropdown-item editBtn">
           Edit
         </a>
-        <a class="dropdown-item">
+        <a class="dropdown-item deleteBtn">
           Delete
         </a>
       </div>
@@ -141,8 +141,8 @@ $("#result-display").on("click", ".selectOneButton", function(event) {
     ;
     console.log(length);
     $("tbody").append("<tr><th>"+sno+"</th><th>"+calorieDetails.FoodName[index]+
-        "</th><td class='cal'>"+calorieDetails.calorie[index]+"</td><td class='serv'>"+calorieDetails.weightPerServing[index]+
-        "</td><td>"+editDelete+"</td></tr>");
+        "</th><td><span class='cal'>"+calorieDetails.calorie[index]+"</span></td><td><span class='serv'>"+calorieDetails.weightPerServing[index]+
+        "</span></td><td>"+editDelete+"</td></tr>");
     /*var selectHeader = $("<h3>").text("Food item selected. Please verify the serving quantity and add.");
     var selecrDetails = $("div").html("<h4>"+calorieDetails.FoodName[index]+
         "</h4><div class='foodSelectDetails'><span>Calories: "+calorieDetails.calorie[index]+
@@ -163,11 +163,24 @@ $(document).on("click", function(event) {
     }
 })
 
-/*$(document).click(function(event) {
-    event.stopPropagation()
-    var cont = $(".dropdown");
+$(".calorieSection").on("click", ".editBtn", function() {
+    console.log("edit");
+    console.log($(this))
+    var serving = $(this).closest("tr").find(".serv")
+        .text()
+        .trim();
+    
+    var servInput = $("<input>").addClass("form-control").val(serving);
 
-    if (cont.has(event.target).length === 0) {
-        cont.toggleClass("is-active");
-    }
-})*/
+    console.log($(this).closest("tr").find(".serv"))
+    $(this).closest("tr").find(".serv").replaceWith(servInput);
+    servInput.trigger("focus");
+})
+
+$(".calorieSection").on("change keyup paste click", ".form-control", function() {
+    console.log($(".form-control").val().trim());
+})
+
+$(".calorieSection").on("click", ".deleteBtn", function() {
+    console.log("delete")
+})
