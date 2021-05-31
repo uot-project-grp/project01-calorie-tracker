@@ -1,0 +1,71 @@
+/* background and padding */
+.header {
+    overflow: hidden;
+    background-color: #bac8e5;
+    padding: 20px 10px;
+  }
+  
+  /* Header */
+  .header a {
+    float: left;
+    color: black;
+    text-align: center;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 25px;
+    border-radius: 4px;
+  }
+  
+  .header-right {
+    float: right;
+  }
+
+  .titleHero {
+    text-align: center;
+    font-size: 30px; 
+    font: serif; 
+    color: rgb(88, 61, 61);
+    margin-top: -1em;
+    text-indent: 2em;
+    padding: 0 5px 0 5px;
+  }
+  
+.logo {
+    text-align: left;
+    position: absolute;
+    left: -50px;
+    top: 20px;
+  }
+
+.subHead {
+    text-align: center;
+    font-size: 15px; 
+    font-style: italic; 
+    color: rgb(88, 61, 61);
+    line-height: 0%;
+    white-space: nowrap;
+    margin: 10px 0;
+    margin-top: -1em;
+    text-indent: 2em;
+    padding: 0 5px 0 5px;
+}
+
+.User {
+    text-align: right;
+    position: absolute;
+    right: 20px;
+    top: 15px;  
+    box-sizing: border-box;
+    padding: 5px;
+    margin: 0 auto;
+    outline: none;
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+    color: #df1d1d;
+    opacity: 1;
+    pointer-events: auto;   
+}
+
+  
