@@ -61,8 +61,8 @@
     padding: 0 5px 0 5px;
 }
 
-/* Dropdown user box */
-.User {
+/* Dropdown box */
+.nav {
   text-align: right;
   position: absolute;
   right: 20px;
@@ -74,9 +74,36 @@
   cursor: pointer;
   display: block;
   text-decoration: none;
-  color: #b874b8;
   opacity: 1;
   pointer-events: auto; 
-  background: rgba(37, 185, 49, 0.747);
+}
+ul {
+  text-align: center;
+  margin: 30;
+  padding: 100;
+  transition: .2s ease-in-out;
+}
+ul li {
+  position: relative; 
+  display: inline-block;
+}
+ul li a {
+  background-color: rgb(31, 177, 68);
+  display: inline-block;
+  padding: 0 60px;
+}
+ul li ul {
+  text-align: right;
+  opacity: 0;
+  position: absolute;
+  visibility: hidden;
+}
+ul li:hover ul {
+  opacity: 1;
+  visibility: visible;
+}
+ul li ul li {
+  color: rgba(0, 0, 0, .8);
+  display: block;
 }
 
