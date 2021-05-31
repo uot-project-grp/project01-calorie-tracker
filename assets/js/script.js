@@ -140,7 +140,7 @@ $("#result-display").on("click", ".selectOneButton", function(event) {
     `
     ;
     console.log(length);
-    $("tbody").append("<tr><th>"+sno+"</th><th>"+calorieDetails.FoodName[index]+
+    $("tbody").append("<tr><th class='sno'>"+sno+"</th><th>"+calorieDetails.FoodName[index]+
         "</th><td><span class='cal'>"+calorieDetails.calorie[index]+"</span></td><td><span class='serv'>"+calorieDetails.weightPerServing[index]+
         "</span></td><td>"+editDelete+"</td></tr>");
     /*var selectHeader = $("<h3>").text("Food item selected. Please verify the serving quantity and add.");
@@ -196,5 +196,10 @@ $(".calorieSection").on("blur", "input", function() {
 })
 
 $(".calorieSection").on("click", ".deleteBtn", function() {
-    console.log("delete")
+    console.log("delete");
+    $(this).closest("tr").remove();
+    $(".sno").each(function(i) {
+        console.log("here");
+        $(this).text(i+1);
+    })
 })

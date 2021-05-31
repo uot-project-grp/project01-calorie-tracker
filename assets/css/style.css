@@ -61,3 +61,7 @@
     resize: none;
     outline: none;
 }
+
+.editDelete:hover {
+    cursor:pointer;
+}
