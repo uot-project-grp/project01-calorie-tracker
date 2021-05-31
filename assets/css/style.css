@@ -8,7 +8,7 @@
     justify-content: space-between;
 }
 
-.calorieSection, .searchSection {
+.calorieSection, .searchSection, .bio, .progress {
     margin: 20px;
     flex: 1 40%;
 }
@@ -64,4 +64,18 @@
 
 .editDelete:hover {
     cursor:pointer;
+}
+
+.avataar {
+    margin: 20px;
+    flex: 1 20%;
+}
+
+.bio, .prog {
+    margin: 20px;
+    flex: 1 35%;
+}
+.hero {
+    display: flex;
+    flex-direction: row;
 }
