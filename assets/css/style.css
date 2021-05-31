@@ -42,3 +42,26 @@
 .buttonContainer button {
     margin: 5px 0;
 }
+
+.menuOveride {
+    min-width: auto;
+}
+
+.form-control {
+    background: transparent;
+    border: none;
+    resize: none;
+    color: blue;
+    max-width: 50px;
+}
+
+.form-control:focus {
+    background: transparent;
+    border: none;
+    resize: none;
+    outline: none;
+}
+
+.editDelete:hover {
+    cursor:pointer;
+}
