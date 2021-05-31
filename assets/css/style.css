@@ -47,6 +47,7 @@
     font-size: 15px; 
     font-family: "Optima", sans-serif; 
     text-decoration: overline;
+    border-top: -20px solid transparent;
     color: rgb(9, 116, 89);
     line-height: 0%;
     white-space: nowrap;
