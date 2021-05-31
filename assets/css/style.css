@@ -21,6 +21,7 @@
     float: right;
   }
 
+  /* Title */
   .titleHero {
     text-align: center;
     font-size: 30px; 
@@ -31,6 +32,8 @@
     padding: 0 5px 0 5px;
   }
   
+
+ /* Logo */
 .logo {
     text-align: left;
     position: absolute;
@@ -42,6 +45,7 @@
     background-size: 100%; 
   }
 
+/* Subheading */
 .subHead {
     text-align: center;
     font-size: 15px; 
@@ -57,21 +61,22 @@
     padding: 0 5px 0 5px;
 }
 
+/* Dropdown user box */
 .User {
-    text-align: right;
-    position: absolute;
-    right: 20px;
-    top: 15px;  
-    box-sizing: border-box;
-    padding: 5px;
-    margin: 0 auto;
-    outline: none;
-    cursor: pointer;
-    display: block;
-    text-decoration: none;
-    color: #b874b8;
-    opacity: 1;
-    pointer-events: auto;   
+  text-align: right;
+  position: absolute;
+  right: 20px;
+  top: 15px;  
+  box-sizing: border-box;
+  padding: 5px;
+  margin: 0 auto;
+  outline: none;
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+  color: #b874b8;
+  opacity: 1;
+  pointer-events: auto; 
+  background: rgba(37, 185, 49, 0.747);
 }
 
-  
