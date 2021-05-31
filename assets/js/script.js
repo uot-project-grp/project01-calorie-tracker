@@ -169,16 +169,30 @@ $(".calorieSection").on("click", ".editBtn", function() {
     var serving = $(this).closest("tr").find(".serv")
         .text()
         .trim();
-    
+    var cal = $(this).closest("tr").find(".cal")
+        .text()
+        .trim();
     var servInput = $("<input>").addClass("form-control").val(serving);
 
     console.log($(this).closest("tr").find(".serv"))
     $(this).closest("tr").find(".serv").replaceWith(servInput);
     servInput.trigger("focus");
+
+    $(".calorieSection").on("change keyup paste click", ".form-control", function() {
+        console.log($(".form-control").val().trim());
+        var newVal = ((cal/serving)*$(".form-control").val().trim()).toFixed(2);
+        $(this).closest("tr").find(".cal")
+            .text(newVal);
+    })
 })
 
-$(".calorieSection").on("change keyup paste click", ".form-control", function() {
-    console.log($(".form-control").val().trim());
+$(".calorieSection").on("blur", "input", function() {
+    var text = $(this)
+        .val()
+        .trim();
+    
+    var servVal = $("<span>").addClass("serv").text(text);
+    $(this).replaceWith(servVal);
 })
 
 $(".calorieSection").on("click", ".deleteBtn", function() {
