@@ -286,3 +286,26 @@ $("#manualForm").on("submit", function(event) {
 })
 
 //-----WINDOW ONLOAD DISPLAY TABLE-----//
+$(window).on("load", function() {
+    //-----DISPLAY FROM LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
+    if (userDatabase[0].calConsumed.length === 0) {
+        return;
+    } else {$.each(userDatabase[0].calConsumed, function(index, value) {
+        if (value.date === dateToday) {
+            var currentIndex = index;
+        }
+        for (var i=0; i<userDatabase[0].calConsumed[currentIndex].cal.length; i++) {
+            $("tbody").append("<tr><th class='sno'>"+(i+1)+"</th><th>"+userDatabase[0].calConsumed[currentIndex].food[i]+
+            "</th><td><span class='cal'>"+userDatabase[0].calConsumed[currentIndex].cal[i]+"</span></td><td><span class='serv'>"+userDatabase[0].calConsumed[currentIndex].serv[i]+
+            "</span></td><td>"+editDelete+"</td></tr>");
+        }
+    })
+    }
+
+    /*for (var i=0; i<userDatabase[0].calConsumed[currentIndex].cal.length; i++) {
+        $("tbody").append("<tr><th class='sno'>"+i+"</th><th>"+userDatabase[0].calConsumed[currentIndex].food[i]+
+        "</th><td><span class='cal'>"+userDatabase[0].calConsumed[currentIndex].cal[i]+"</span></td><td><span class='serv'>"+userDatabase[0].calConsumed[currentIndex].serv[i]+
+        "</span></td><td>"+editDelete+"</td></tr>");
+    }*/
+    
+})
