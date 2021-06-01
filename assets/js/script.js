@@ -2,7 +2,7 @@ var resultSection = document.querySelector("#result-display");
 var userDatabase = [];
 //var userDatabase = JSON.parse(localStorage.getItem('userData')) || [];
 
-dateToday = moment().format("YYYY MM DD");
+dateToday = moment().format("YYYY-MM-DD");
 console.log(dateToday);
 
 if (localStorage.getItem('userData')) {
@@ -174,6 +174,24 @@ $("#result-display").on("click", ".selectOneButton", function(event) {
         "</span></td><td>"+editDelete+"</td></tr>");
 
     resultSection.textContent = "";
+    //-----ADD LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
+    if (userDatabase[0].calConsumed.length === 0) {
+        userDatabase[0].calConsumed.push({
+            date: dateToday,
+            food: [calorieDetails.FoodName[index]],
+            cal: [calorieDetails.calorie[index]],
+            serv: [calorieDetails.weightPerServing[index]]    
+        })
+        console.log(userDatabase)
+    } else {
+        console.log(userDatabase[0].calConsumed.length-1);
+        if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].date === dateToday) {
+            userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].food.push(calorieDetails.FoodName[index]);
+            userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.push(calorieDetails.calorie[index]);
+            userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].serv.push(calorieDetails.weightPerServing[index]);
+        }
+        console.log(userDatabase)
+    }
 })
 
 //-----TOGGLE ON THE DROPDOWN WHEN CLICKED-----//
