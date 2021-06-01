@@ -104,6 +104,10 @@ var fetchFood = function(searchText) {
     //-----FOR TESTING ONLY - THIS FUNCTION SHOULD BE IN foodSearchResults-----//
     displaySearchResults(calorieDetails);
 }
+//-----SAVE USERDATA IN LOCALSTORAGE-----//
+var saveUserData = function() {
+    localStorage.setItem('userData', JSON.stringify(userDatabase));
+}
 
 //-----DISPLAY API RESULTS-----//
 var displaySearchResults = function(result) {
@@ -192,6 +196,8 @@ $("#result-display").on("click", ".selectOneButton", function(event) {
         }
         console.log(userDatabase)
     }
+
+    saveUserData();
 })
 
 //-----TOGGLE ON THE DROPDOWN WHEN CLICKED-----//
@@ -208,8 +214,7 @@ $(document).on("click", function(event) {
 
 //-----TABLE EDIT BUTTON LOGIC-----//
 $(".calorieSection").on("click", ".editBtn", function() {
-    console.log("edit");
-    console.log($(this))
+
     var serving = $(this).closest("tr").find(".serv")
         .text()
         .trim();
@@ -218,12 +223,11 @@ $(".calorieSection").on("click", ".editBtn", function() {
         .trim();
     var servInput = $("<input>").addClass("form-control").val(serving);
 
-    console.log($(this).closest("tr").find(".serv"))
     $(this).closest("tr").find(".serv").replaceWith(servInput);
     servInput.trigger("focus");
     //-----AUTOMATIC CALORIE CHANGE LOGIC FOR CHANGE IN SERVING-----//
     $(".calorieSection").on("change keyup paste click", ".form-control", function() {
-        console.log($(".form-control").val().trim());
+
         var newVal = ((cal/serving)*$(".form-control").val().trim()).toFixed(2);
         $(this).closest("tr").find(".cal")
             .text(newVal);
@@ -237,17 +241,35 @@ $(".calorieSection").on("blur", ".form-control", function() {
         .trim();
     
     var servVal = $("<span>").addClass("serv").text(text);
-    $(this).replaceWith(servVal);
+    //-----EDIT LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
+    var rowIndex = $(this).closest("tr").index();
+    var calNew = parseFloat($(this).closest("tr").find(".cal").text());
+    var storeText = parseFloat(text);
+    console.log(calNew,storeText)
+
+    userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.splice(rowIndex,1,calNew);
+    userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].serv.splice(rowIndex,1,storeText);
+
+    $(this).replaceWith(servVal); 
+    saveUserData();  
 })
 
 //-----TABLE DELETE BUTTON LOGIC-----//
 $(".calorieSection").on("click", ".deleteBtn", function() {
     console.log("delete");
+    var rowIndex = $(this).closest("tr").index();
     $(this).closest("tr").remove();
+
+    //-----DELETE LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
+    userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].food.splice(rowIndex,1);
+    userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.splice(rowIndex,1);
+    userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].serv.splice(rowIndex,1);
+
     $(".sno").each(function(i) {
         console.log("here");
         $(this).text(i+1);
     })
+    saveUserData();
 })
 
 //-----ONCLICK MANUAL SUBMIT-----//
@@ -262,3 +284,5 @@ $("#manualForm").on("submit", function(event) {
     $("#manualCalorie").val("");
     $("#manualServing").val("");
 })
+
+//-----WINDOW ONLOAD DISPLAY TABLE-----//
