@@ -1,5 +1,28 @@
 var resultSection = document.querySelector("#result-display");
-console.log(resultSection);
+var userDatabase = [];
+//var userDatabase = JSON.parse(localStorage.getItem('userData')) || [];
+
+if (localStorage.getItem('userData')) {
+    userDatabase = JSON.parse(localStorage.getItem('userData'));
+}
+else {
+    var thisUser = {
+        name: "Random User",
+        initial: "RU",
+        gender: "Male",
+        weight: "78",
+        height: "180",
+        api: ["clientId","clientSecret","refresherToken","authCode","accessToken"],
+        calConsumed:[],
+        steps: [],
+        calBurned: []
+    }
+    userDatabase.push(thisUser);
+    localStorage.setItem('userData', JSON.stringify(userDatabase));
+}
+
+
+console.log(userDatabase);
 var editDelete = `
 <div class="dropdown is-right editDelete">
 <div class="dropdown-trigger">
@@ -136,40 +159,17 @@ $("#searchForm").on("submit", function(event) {
 })
 
 //-----EVENT HANDLER FOR ADD RESULT CLICK-----//
+//When the select on the search result is clicked
 $("#result-display").on("click", ".selectOneButton", function(event) {
     console.log($(this).closest(".searchResult").attr("data-result-id"));
     var index = $(this).closest(".searchResult").attr("data-result-id");
     var sno = $("#calorieConsumed tr").length -1;
-    /*var editDelete = `
-    <div class="dropdown is-right editDelete">
-    <div class="dropdown-trigger">
-      <span aria-haspopup="true" aria-controls="dropdown-menu3">
-        <span class="oi oi-caret-bottom">
-        </span>
-      </span>
-    </div>
-    <div class="dropdown-menu menuOveride" id="dropdown-menu3" role="menu">
-      <div class="dropdown-content">
-        <a class="dropdown-item editBtn">
-          Edit
-        </a>
-        <a class="dropdown-item deleteBtn">
-          Delete
-        </a>
-      </div>
-    </div>
-  </div>    
-    `
-    ;*/
+    //creates a table and inserts the data to the display table
     console.log(length);
     $("tbody").append("<tr><th class='sno'>"+sno+"</th><th>"+calorieDetails.FoodName[index]+
         "</th><td><span class='cal'>"+calorieDetails.calorie[index]+"</span></td><td><span class='serv'>"+calorieDetails.weightPerServing[index]+
         "</span></td><td>"+editDelete+"</td></tr>");
-    /*var selectHeader = $("<h3>").text("Food item selected. Please verify the serving quantity and add.");
-    var selecrDetails = $("div").html("<h4>"+calorieDetails.FoodName[index]+
-        "</h4><div class='foodSelectDetails'><span>Calories: "+calorieDetails.calorie[index]+
-        " kcal</span><span>Serving :");*/
-        //<span class='oi oi-caret-bottom'>
+
     resultSection.textContent = "";
 })
 
