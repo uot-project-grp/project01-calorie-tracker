@@ -1,0 +1,67 @@
+* {
+    box-sizing: border-box;
+}
+
+.main-search, .main-display {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.calorieSection, .searchSection {
+    margin: 20px;
+    flex: 1 40%;
+}
+
+.boxBorder {
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 10%), 0 0 0 1px rgb(10 10 10 / 2%);    
+}
+
+.searchResult {
+    margin: 5px 20px;
+    flex: 1 40%;
+    max-width: calc(50% - 40px);
+    display: flex;
+    font-size: 18px;
+    justify-content: space-around;
+    max-height: 150px;
+    align-items: center;
+}
+
+.searchResult img {
+    height: 100%;
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.buttonContainer button {
+    margin: 5px 0;
+}
+
+.menuOveride {
+    min-width: auto;
+}
+
+.form-control {
+    background: transparent;
+    border: none;
+    resize: none;
+    color: blue;
+    max-width: 50px;
+}
+
+.form-control:focus {
+    background: transparent;
+    border: none;
+    resize: none;
+    outline: none;
+}
+
+.editDelete:hover {
+    cursor:pointer;
+}
