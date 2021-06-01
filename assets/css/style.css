@@ -62,9 +62,11 @@
 
 /* Dropdown box */
 .nav {
+  font-family: "Optima", sans-serif; 
+  font-weight: bold;
   text-align: right;
   position: absolute;
-  right: 20px;
+  right: 10px;
   top: 0px;  
   box-sizing: border-box;
   padding: 5px;
@@ -88,21 +90,23 @@ ul li {
 }
 ul li a {
   background-color: rgb(31, 177, 68);
-  display: inline-block;
+  display: block;
   padding: 0 60px;
+  text-align: left;
 }
 ul li ul {
-  text-align: right;
-  opacity: 0;
-  position: absolute;
+  text-align: center;
+  opacity: 1;
+  position: sticky;
   visibility: hidden;
+  
 }
 ul li:hover ul {
   opacity: 1;
   visibility: visible;
 }
 ul li ul li {
-  color: rgba(0, 0, 0, .8);
+  color: rgba(5, 5, 5, 0.8);
   display: block;
 }
 
