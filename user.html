@@ -10,44 +10,45 @@
     <title>Calorie Tracker - User Page</title>
 </head>
 <body>
-    <main>
+    <h1>NEW USER - PLEASE FILL IN THE DETAILS</h1>
+    <form id="userData">
         <div class="field">
             <label class="label">Name</label>
             <div class="control">
-              <input class="name" type="text" placeholder="Name">
+              <input class="input name" type="text" placeholder="Name">
             </div>
         </div>
 
         <div class="field">
             <label class="label">Initials</label>
             <div class="control">
-              <input class="initial" type="text" placeholder="Initials">
+              <input class="input initial" type="text" placeholder="Initials">
             </div>
         </div>
 
-        <div class="field">
+        <div class="field gender">
             <label class="label">Gender</label>
             <div class="control">
               <label class="radio">
-                <input class="male" type="radio" name="gender">
+                <input type="radio" class=" male" name="gender">
                 Male
               </label>
               <label class="radio">
-                <input class="female" type="radio" name="gender">
+                <input type="radio" name="gender">
                 Female
               </label>
             </div>
         </div>
         <div class="field">
-            <label class="label">Weight</label>
+            <label class="label">Weight (kg)</label>
             <div class="control">
-              <input class="Weight" type="text" placeholder="Weight">
+              <input class="input weight" type="text" placeholder="Weight">
             </div>
         </div>
         <div class="field">
-            <label class="label">Height</label>
+            <label class="label">Height (cm)</label>
             <div class="control">
-              <input class="Height" type="text" placeholder="Height">
+              <input class="input height" type="text" placeholder="Height">
             </div>
         </div>
         <label class="label">Optional: Connect Google API</label>
@@ -55,20 +56,21 @@
             <label class="label">Connect to mock API</label>
             <div class="control">
               <label class="radio">
-                <input type="radio" name="api">
+                <input type="radio" class="mockapi" name="api">
                 Mock API
               </label>
             </div>
         </div>
-        <div class="field is-grouped">
+        <div class="field is-grouped buttonGroup">
             <div class="control">
-              <button class="button is-link"onclick add_to_list>Submit</button>
+              <button class="button is-link userSubmit">Submit</button>
             </div>
             <div class="control">
-              <button class="button is-link is-light">Cancel</button>
+              <button class="button is-link is-light userCancel">Cancel</button>
             </div>
         </div>
-    </main>
-<script src="graph.js"></script>
+    </form>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="./assets/js/userPage.js"></script>
 </body>
 </html>

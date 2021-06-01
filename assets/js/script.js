@@ -1,5 +1,28 @@
 var resultSection = document.querySelector("#result-display");
-console.log(resultSection);
+var userDatabase = [];
+//var userDatabase = JSON.parse(localStorage.getItem('userData')) || [];
+
+if (localStorage.getItem('userData')) {
+    userDatabase = JSON.parse(localStorage.getItem('userData'));
+}
+else {
+    var thisUser = {
+        name: "Random User",
+        initial: "RU",
+        gender: "Male",
+        weight: "78",
+        height: "180",
+        api: ["clientId","clientSecret","refresherToken","authCode","accessToken"],
+        calConsumed:[],
+        steps: [],
+        calBurned: []
+    }
+    userDatabase.push(thisUser);
+    localStorage.setItem('userData', JSON.stringify(userDatabase));
+}
+
+
+console.log(userDatabase);
 var editDelete = `
 <div class="dropdown is-right editDelete">
 <div class="dropdown-trigger">
