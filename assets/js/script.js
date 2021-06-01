@@ -2,6 +2,9 @@ var resultSection = document.querySelector("#result-display");
 var userDatabase = [];
 //var userDatabase = JSON.parse(localStorage.getItem('userData')) || [];
 
+dateToday = moment().format("YYYY MM DD");
+console.log(dateToday);
+
 if (localStorage.getItem('userData')) {
     userDatabase = JSON.parse(localStorage.getItem('userData'));
 }
