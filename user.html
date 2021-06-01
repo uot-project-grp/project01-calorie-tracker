@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" />
+    <link rel="stylesheet" href="./assets/css/userPageStyle.css" />
+    <title>Calorie Tracker - User Page</title>
+</head>
+<body>
+    <h1>NEW USER - PLEASE FILL IN THE DETAILS</h1>
+    <form id="userData">
+        <div class="field">
+            <label class="label">Name</label>
+            <div class="control">
+              <input class="input name" type="text" placeholder="Name">
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Initials</label>
+            <div class="control">
+              <input class="input initial" type="text" placeholder="Initials">
+            </div>
+        </div>
+
+        <div class="field gender">
+            <label class="label">Gender</label>
+            <div class="control">
+              <label class="radio">
+                <input type="radio" class=" male" name="gender">
+                Male
+              </label>
+              <label class="radio">
+                <input type="radio" name="gender">
+                Female
+              </label>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Weight (kg)</label>
+            <div class="control">
+              <input class="input weight" type="text" placeholder="Weight">
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Height (cm)</label>
+            <div class="control">
+              <input class="input height" type="text" placeholder="Height">
+            </div>
+        </div>
+        <label class="label">Optional: Connect Google API</label>
+        <div class="field">
+            <label class="label">Connect to mock API</label>
+            <div class="control">
+              <label class="radio">
+                <input type="radio" class="mockapi" name="api">
+                Mock API
+              </label>
+            </div>
+        </div>
+        <div class="field is-grouped buttonGroup">
+            <div class="control">
+              <button class="button is-link userSubmit">Submit</button>
+            </div>
+            <div class="control">
+              <button class="button is-link is-light userCancel">Cancel</button>
+            </div>
+        </div>
+    </form>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="./assets/js/userPage.js"></script>
+</body>
+</html>

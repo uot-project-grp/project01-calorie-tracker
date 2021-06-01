@@ -18,7 +18,33 @@ function myFunction() {
   }
 
 var resultSection = document.querySelector("#result-display");
-console.log(resultSection);
+var userDatabase = [];
+//var userDatabase = JSON.parse(localStorage.getItem('userData')) || [];
+
+dateToday = moment().format("YYYY-MM-DD");
+console.log(dateToday);
+
+if (localStorage.getItem('userData')) {
+    userDatabase = JSON.parse(localStorage.getItem('userData'));
+}
+else {
+    var thisUser = {
+        name: "Random User",
+        initial: "RU",
+        gender: "Male",
+        weight: "78",
+        height: "180",
+        api: ["clientId","clientSecret","refresherToken","authCode","accessToken"],
+        calConsumed:[],
+        steps: [],
+        calBurned: []
+    }
+    userDatabase.push(thisUser);
+    localStorage.setItem('userData', JSON.stringify(userDatabase));
+}
+
+
+console.log(userDatabase);
 var editDelete = `
 <div class="dropdown is-right editDelete">
 <div class="dropdown-trigger">
@@ -97,6 +123,10 @@ var fetchFood = function(searchText) {
     //-----FOR TESTING ONLY - THIS FUNCTION SHOULD BE IN foodSearchResults-----//
     displaySearchResults(calorieDetails);
 }
+//-----SAVE USERDATA IN LOCALSTORAGE-----//
+var saveUserData = function() {
+    localStorage.setItem('userData', JSON.stringify(userDatabase));
+}
 
 //-----DISPLAY API RESULTS-----//
 var displaySearchResults = function(result) {
@@ -155,41 +185,38 @@ $("#searchForm").on("submit", function(event) {
 })
 
 //-----EVENT HANDLER FOR ADD RESULT CLICK-----//
+//When the select on the search result is clicked
 $("#result-display").on("click", ".selectOneButton", function(event) {
     console.log($(this).closest(".searchResult").attr("data-result-id"));
     var index = $(this).closest(".searchResult").attr("data-result-id");
     var sno = $("#calorieConsumed tr").length -1;
-    /*var editDelete = `
-    <div class="dropdown is-right editDelete">
-    <div class="dropdown-trigger">
-      <span aria-haspopup="true" aria-controls="dropdown-menu3">
-        <span class="oi oi-caret-bottom">
-        </span>
-      </span>
-    </div>
-    <div class="dropdown-menu menuOveride" id="dropdown-menu3" role="menu">
-      <div class="dropdown-content">
-        <a class="dropdown-item editBtn">
-          Edit
-        </a>
-        <a class="dropdown-item deleteBtn">
-          Delete
-        </a>
-      </div>
-    </div>
-  </div>    
-    `
-    ;*/
+    //creates a table and inserts the data to the display table
     console.log(length);
     $("tbody").append("<tr><th class='sno'>"+sno+"</th><th>"+calorieDetails.FoodName[index]+
         "</th><td><span class='cal'>"+calorieDetails.calorie[index]+"</span></td><td><span class='serv'>"+calorieDetails.weightPerServing[index]+
         "</span></td><td>"+editDelete+"</td></tr>");
-    /*var selectHeader = $("<h3>").text("Food item selected. Please verify the serving quantity and add.");
-    var selecrDetails = $("div").html("<h4>"+calorieDetails.FoodName[index]+
-        "</h4><div class='foodSelectDetails'><span>Calories: "+calorieDetails.calorie[index]+
-        " kcal</span><span>Serving :");*/
-        //<span class='oi oi-caret-bottom'>
+
     resultSection.textContent = "";
+    //-----ADD LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
+    if (userDatabase[0].calConsumed.length === 0) {
+        userDatabase[0].calConsumed.push({
+            date: dateToday,
+            food: [calorieDetails.FoodName[index]],
+            cal: [calorieDetails.calorie[index]],
+            serv: [calorieDetails.weightPerServing[index]]    
+        })
+        console.log(userDatabase)
+    } else {
+        console.log(userDatabase[0].calConsumed.length-1);
+        if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].date === dateToday) {
+            userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].food.push(calorieDetails.FoodName[index]);
+            userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.push(calorieDetails.calorie[index]);
+            userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].serv.push(calorieDetails.weightPerServing[index]);
+        }
+        console.log(userDatabase)
+    }
+
+    saveUserData();
 })
 
 //-----TOGGLE ON THE DROPDOWN WHEN CLICKED-----//
@@ -206,8 +233,7 @@ $(document).on("click", function(event) {
 
 //-----TABLE EDIT BUTTON LOGIC-----//
 $(".calorieSection").on("click", ".editBtn", function() {
-    console.log("edit");
-    console.log($(this))
+
     var serving = $(this).closest("tr").find(".serv")
         .text()
         .trim();
@@ -216,12 +242,11 @@ $(".calorieSection").on("click", ".editBtn", function() {
         .trim();
     var servInput = $("<input>").addClass("form-control").val(serving);
 
-    console.log($(this).closest("tr").find(".serv"))
     $(this).closest("tr").find(".serv").replaceWith(servInput);
     servInput.trigger("focus");
     //-----AUTOMATIC CALORIE CHANGE LOGIC FOR CHANGE IN SERVING-----//
     $(".calorieSection").on("change keyup paste click", ".form-control", function() {
-        console.log($(".form-control").val().trim());
+
         var newVal = ((cal/serving)*$(".form-control").val().trim()).toFixed(2);
         $(this).closest("tr").find(".cal")
             .text(newVal);
@@ -235,17 +260,35 @@ $(".calorieSection").on("blur", ".form-control", function() {
         .trim();
     
     var servVal = $("<span>").addClass("serv").text(text);
-    $(this).replaceWith(servVal);
+    //-----EDIT LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
+    var rowIndex = $(this).closest("tr").index();
+    var calNew = parseFloat($(this).closest("tr").find(".cal").text());
+    var storeText = parseFloat(text);
+    console.log(calNew,storeText)
+
+    userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.splice(rowIndex,1,calNew);
+    userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].serv.splice(rowIndex,1,storeText);
+
+    $(this).replaceWith(servVal); 
+    saveUserData();  
 })
 
 //-----TABLE DELETE BUTTON LOGIC-----//
 $(".calorieSection").on("click", ".deleteBtn", function() {
     console.log("delete");
+    var rowIndex = $(this).closest("tr").index();
     $(this).closest("tr").remove();
+
+    //-----DELETE LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
+    userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].food.splice(rowIndex,1);
+    userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.splice(rowIndex,1);
+    userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].serv.splice(rowIndex,1);
+
     $(".sno").each(function(i) {
         console.log("here");
         $(this).text(i+1);
     })
+    saveUserData();
 })
 
 //-----ONCLICK MANUAL SUBMIT-----//
@@ -259,5 +302,30 @@ $("#manualForm").on("submit", function(event) {
     $("#manualInput").val("");
     $("#manualCalorie").val("");
     $("#manualServing").val("");
+})
+
+//-----WINDOW ONLOAD DISPLAY TABLE-----//
+$(window).on("load", function() {
+    //-----DISPLAY FROM LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
+    if (userDatabase[0].calConsumed.length === 0) {
+        return;
+    } else {$.each(userDatabase[0].calConsumed, function(index, value) {
+        if (value.date === dateToday) {
+            var currentIndex = index;
+        }
+        for (var i=0; i<userDatabase[0].calConsumed[currentIndex].cal.length; i++) {
+            $("tbody").append("<tr><th class='sno'>"+(i+1)+"</th><th>"+userDatabase[0].calConsumed[currentIndex].food[i]+
+            "</th><td><span class='cal'>"+userDatabase[0].calConsumed[currentIndex].cal[i]+"</span></td><td><span class='serv'>"+userDatabase[0].calConsumed[currentIndex].serv[i]+
+            "</span></td><td>"+editDelete+"</td></tr>");
+        }
+    })
+    }
+
+    /*for (var i=0; i<userDatabase[0].calConsumed[currentIndex].cal.length; i++) {
+        $("tbody").append("<tr><th class='sno'>"+i+"</th><th>"+userDatabase[0].calConsumed[currentIndex].food[i]+
+        "</th><td><span class='cal'>"+userDatabase[0].calConsumed[currentIndex].cal[i]+"</span></td><td><span class='serv'>"+userDatabase[0].calConsumed[currentIndex].serv[i]+
+        "</span></td><td>"+editDelete+"</td></tr>");
+    }*/
+    
 })
 
