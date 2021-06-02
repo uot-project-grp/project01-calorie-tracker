@@ -19,14 +19,25 @@ function myFunction() {
 
 /* User interface */
 // Select user profile
-function formFill(a, b, c){
-    theform.from.value = a;
-    theform.to.value = c;
-    for(var i = 0;i < document.getElementById("user-content").length;i++){
-        if(document.getElementById("user-content").options[i].value == c ){
-            document.getElementById("user-content").selectedIndex = i;
-        }
-    }
+selectElement('user-content','user1')
+
+function selectElement(id, valueToSelect) {    
+    let element = document.getElementById(id);
+    element.value = valueToSelect;
+}
+
+selectElement('user-content','user2')
+
+function selectElement(id, valueToSelect) {    
+    let element = document.getElementById(id);
+    element.value = valueToSelect;
+}
+
+selectElement('user-content','user3')
+
+function selectElement(id, valueToSelect) {    
+    let element = document.getElementById(id);
+    element.value = valueToSelect;
 }
 
 //Retrieve data from local storage 
