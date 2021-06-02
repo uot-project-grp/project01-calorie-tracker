@@ -1,17 +1,17 @@
 /* Toggling for when dropbox is clicked */
 function myFunction() {
-    document.getElementById("#").classList.toggle("show");
+    document.getElementById("#").classList.toggle("#");
   }
   
   /* Closing the dropdown menu if the user clicks outside of it */
   window.onclick = function(event) {
-    if (!event.target.matches('.nav')) {
-      var dropdowns = document.getElementsByClassName("nav");
+    if (!event.target.matches('.user')) {
+      var dropdowns = document.getElementsByClassName("user");
       var i;
       for (i = 0; i < dropdowns.length; i++) {
         var openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('show')) {
-          openDropdown.classList.remove('show');
+        if (openDropdown.classList.contains('#')) {
+          openDropdown.classList.remove('#');
         }
       }
     }

@@ -1,42 +1,29 @@
 /* Background and padding */
 .header {
     overflow: hidden;
-    background-image: linear-gradient(rgb(230, 174, 119), rgb(238, 176, 82));
-    padding: 20px 10px;
-  }
-  
-  /* Header */
-  .header a {
-    float: left;
-    color: black;
-    text-align: center;
-    padding: 12px;
-    text-decoration: none;
-    font-size: 18px;
-    line-height: 25px;
-    border-radius: 4px;
-  }
-  
-  .header-right {
-    float: right;
+    background: linear-gradient(rgb(230, 174, 119), rgb(238, 176, 82));
+    padding: 10px;
+    height: 120px; 
   }
 
   /* Title */
-  .titleHero {
+.titleHero {
     text-align: center;
-    font-size: 32px; 
+    font-size: 35px; 
     font-family: "Optima", sans-serif; 
     color: rgb(9, 116, 89);
-    margin-top: -1em;
-    text-indent: 2em;
-    padding: 0 5px 0 5px;
+    font-weight: bold;
+    margin-top: 1px;
+    text-indent: 5px;
+    padding: 5px;
   }
   
  /* Logo */
 .logo {
+    font-weight: bold;
     text-align: left;
     position: absolute;
-    left: -40px;
+    left: 10px;
     top: 20px;
     height: 80px;
     max-height: 400px;
@@ -50,24 +37,22 @@
     font-size: 18px; 
     font-family: "Optima", sans-serif; 
     text-decoration: overline;
-    border-top: -20px solid transparent;
+    border-top: -60px solid transparent;
     color: rgb(9, 116, 89);
     line-height: 0%;
     white-space: nowrap;
     margin: 10px 0;
     margin-top: -1em;
     text-indent: 2em;
-    padding: 0 5px 0 5px;
+    padding: 35px;
 }
 
 /* Dropdown box */
-.nav {
-  font-family: "Optima", sans-serif; 
-  font-weight: bold;
+.User {
   text-align: right;
   position: absolute;
-  right: 8px;
-  top: 0px;  
+  right: 20px;
+  top: 15px;  
   box-sizing: border-box;
   padding: 5px;
   margin: 0 auto;
@@ -77,37 +62,8 @@
   text-decoration: none;
   opacity: 1;
   pointer-events: auto; 
-}
-ul {
-  text-align: center;
-  margin: 30;
-  padding: 100;
-  transition: .2s ease-in-out;
-}
-ul li {
-  position: relative; 
-  display: inline-block;
-}
-ul li a {
-  background-color: rgb(31, 177, 68);
-  display: block;
-  padding: 0 60px;
-  text-align: left;
-}
-ul li ul {
-  text-align: center;
-  opacity: 1;
-  position: sticky;
-  visibility: hidden;
-  
-}
-ul li:hover ul {
-  opacity: 1;
-  visibility: visible;
-}
-ul li ul li {
-  color: rgba(5, 5, 5, 0.8);
-  display: block;
+  background-color: green;
+  font-weight: bold;
 }
 
 * {
