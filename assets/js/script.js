@@ -297,8 +297,8 @@ $("#manualForm").on("submit", function(event) {
     var sno = $("#calorieConsumed tr").length -1;
     console.log($("#manualInput").val().trim());
     var desc = $("#manualInput").val().trim();
-    var calNew = parseFloat($("#manualCalorie").val().trim()).toFixed(2);
-    var servNew = parseFloat($("#manualServing").val().trim()).toFixed(2);
+    var calNew = $("#manualCalorie").val().trim();
+    var servNew = $("#manualServing").val().trim();
 
     $(".calorieSection").find("tbody").append("<tr><th class='sno'>"+sno+"</th><th>"+desc+
         "</th><td><span class='cal'>"+calNew+"</span></td><td><span class='serv'>"+servNew+
