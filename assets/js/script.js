@@ -18,7 +18,7 @@ function myFunction() {
   }
 
 /* User interface */
-// Select user profile
+// Select and load user profile
 selectElement('user-content','user1')
 
 function selectElement(id, valueToSelect) {    
