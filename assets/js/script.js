@@ -326,6 +326,132 @@ $(window).on("load", function() {
         "</th><td><span class='cal'>"+userDatabase[0].calConsumed[currentIndex].cal[i]+"</span></td><td><span class='serv'>"+userDatabase[0].calConsumed[currentIndex].serv[i]+
         "</span></td><td>"+editDelete+"</td></tr>");
     }*/
+
+
+// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
+
+// Weather API integration/functionality begins here
+console.log("asdfasd")
+$("#displayWeather").on("click", function serachEvent (event) {
+    let cardElContainer = $("#cardElementsContainer").text("");
+    // these are the variables for the API fetch
+    let locationQuery = '';
+
+    cardElContainer.text('');
+    event.preventDefault();
+    console.log(locationQuery)
+
+    fetch(
+            'https://api.openweathermap.org/data/2.5/forecast?q=Toronto&cnt=48&appid=4e9b190f26827f446e804d86e0f8f699'
+            )
+            .then(function (response) {
+                    return response.json();
+            })
+            .then(function (weatherData) {
+
+                    let weatherDataList = weatherData.list || [];
+
+                    //     data from API
+                    console.log(weatherData);
+
+                    if (weatherDataList.length == 0) {
+                            //TODO: show a friendly error message
+                            return; 
+                    }            
+        
+                    let firstDate = weatherDataList[0].dt_txt;
+                    let firstDateMoment = moment(firstDate);
+                    let now = moment();
+
+                    firstDateMoment.set({
+                            hour: now.get('hour'),
+                            minute: now.get('minute'),
+                            second: now.get('second')
+                    });
+                    // Build an array of moments we want to report on (one per day)
+                    let forcastDayMoments = [];
+                    for (let i = 0; i < 5; i++) {
+                            let forcastDayMoment = moment(firstDateMoment).add(i, 'days');
+                            forcastDayMoments.push(forcastDayMoment);
+                    }
+
+                    let forcastDataItems = [];
+                    forcastDayMoments.forEach(function (forcastDayMoment) {
+                            let previousDiffInMS;
+                            let previousWeatherData;
+                            for (let i = 0; i < weatherDataList.length; i++) {
+                                    let dayDateTime = weatherDataList[i].dt_txt;
+                                    let weatherMoment = moment(dayDateTime);
+                                    let diffInMS = moment(weatherMoment).diff(forcastDayMoment);
+                                    diffInMS = Math.abs(diffInMS);
+
+                                    if (previousDiffInMS === undefined) {
+                                            previousDiffInMS = diffInMS;
+                                            previousWeatherData = weatherDataList[i];
+                                            continue;
+                                    }
+
+                                    if (diffInMS > previousDiffInMS || (i == weatherDataList.length - 1)) {
+                                            forcastDataItems.push(previousWeatherData);
+                                            break;
+                                    }
+
+                                    previousDiffInMS = diffInMS;
+                                    previousWeatherData = weatherDataList[i];
+                            }
+                    });
+
+                    forcastDataItems.forEach(function (forcastDataItem) {
+
+                            let dayDateTime = forcastDataItem.dt_txt;
+                            let dayTempKelvin = Math.floor(forcastDataItem.main.temp - 273);
+                            let dayWindSpeed = forcastDataItem.wind.speed;
+                            let dayWeatherDetailsDescription = forcastDataItem.weather[0].description;
+                            let dayWeatherDetailsIcon = forcastDataItem.weather[0].icon;
+                            let weatherIconUrl = 'http://openweathermap.org/img/wn/' +
+                                    dayWeatherDetailsIcon +
+                                    '@2x.png';
+
+                            // creating the elements for each card
+                            cardElContainer = $("#cardElementsContainer");
+                            createcardEL = $("<div>").addClass("card  border border-primary").text(dayDateTime);
+                            createCardBody = $("<div>").addClass("card-body");
+                            headerEl = $("<h5>").addClass("card-title");
+                            listElTemp = $("<li>").addClass("listClass").attr("id", "dayTemp").text(dayTempKelvin + " C");
+                            listElWind = $("<li>").addClass("listClass").attr("id", "dayWind").text(dayWindSpeed + " m/s");
+                            listElDetailsDescription = $("<li>").addClass("listClass").attr("id", "detailsDescription").text(dayWeatherDetailsDescription);;
+                            imageIcon = $("<img>").attr("src", weatherIconUrl);
+
+                            // appending all the elements within each card
+                            headerEl.append(listElTemp);
+                            headerEl.append(listElWind);
+                            headerEl.append(listElDetailsDescription);
+                            headerEl.append(imageIcon);
+                            createCardBody.append(headerEl);
+                            createcardEL.append(createCardBody);
+                            cardElContainer.append(createcardEL);
+                            
+                            let coldWeather = "It seems like a cold day, maybe stay and do a home workout"
+                            let niceWeather = "It seems like a nice day, try go outside for a walk or a run"
+                    // add iff statements to append extra information 
+                        if (dayTempKelvin < 15) {
+                            workoutSugg = $("<p>").text(coldWeather);
+                            headerEl.append(workoutSugg);
+                        }
+                        if (dayTempKelvin > 15 && dayTempKelvin <25 ) {
+                            workoutSugg = $("<p>").text(niceWeather);
+                            headerEl.append(workoutSugg);
+                        }
+
+                    });
+                    // -----------------------------------------------------------------------------------------------
+            });
+
+            
+});
+
     
 })
 

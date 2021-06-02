@@ -148,3 +148,8 @@
     flex-direction: row;
 }
 
+/* stylesfor the weather section */
+#cardElementsContainer{
+    display: flex;
+    flex-direction: row;
+}
