@@ -67,23 +67,26 @@ var editDelete = `
 `
 ;
 
+var calorieDetails = {};
 //-----FIXED TEST VARIABLE FROM SAMPLE DATA EXTRACTED-----//
-var calorieDetails = {
+/*var calorieDetails = {
     imgLink: ["https://spoonacular.com/recipeImages/655726-312x231.jpg", "https://spoonacular.com/recipeImages/638746-312x231.jpg"],
     calorie: [429.85, 356.99],
     weightPerServing: [316, 666],
     uomPerServing: ["g", "g"],
     FoodName: ["Perfect Chicken Soup", "Chipotle Chicken Soup"]
-}
+}*/
 
 //-----EXTRACT DATA FROM FOOD API-----//
-/*var foodSearchResults = function(data) {
-    var calorieDetails = {
+var foodSearchResults = function(data) {
+    console.log(data.results[0].analyzedInstructions)
+    calorieDetails = {
         imgLink: [],
         calorie: [],
         weightPerServing: [],
         uomPerServing: [],
-        FoodName: []
+        FoodName: [],
+        instruction: []
     }
     //var imgLink = [];
     //var calorie = [];
@@ -97,17 +100,18 @@ var calorieDetails = {
         calorieDetails.weightPerServing[i] = data.results[i].nutrition.weightPerServing.amount;
         calorieDetails.uomPerServing[i] = data.results[i].nutrition.weightPerServing.unit;
         calorieDetails.FoodName[i] = data.results[i].title;
+        calorieDetails.instruction[i] = data.results[i].analyzedInstructions;
     }
-     
+    displaySearchResults(calorieDetails);
     console.log(calorieDetails);
-}*/
+}
 
 //-----FETCH API FOR FOOD ITEM - SPOONACULAR-----//
 var fetchFood = function(searchText) {
     
     //-----WORKING FETCH CODE - USING FIXED VARIABLE FOR TESTING-----//
-    /*fetch(
-        "https://api.spoonacular.com/recipes/complexSearch?apiKey=528245fe05d64c8ea869f7952527c40a&query="+searchText+"&addRecipeNutrition=true&number=2"
+    fetch(
+        "https://api.spoonacular.com/recipes/complexSearch?apiKey=528245fe05d64c8ea869f7952527c40a&query="+searchText+"&addRecipeNutrition=true&number=6"
     ).then(function(response) {
         if (response.ok) {
             console.log(response);
@@ -119,9 +123,9 @@ var fetchFood = function(searchText) {
         else {
             console.log("Result not found.")
         }
-    })*/
+    })
     //-----FOR TESTING ONLY - THIS FUNCTION SHOULD BE IN foodSearchResults-----//
-    displaySearchResults(calorieDetails);
+    //displaySearchResults(calorieDetails);
 }
 //-----SAVE USERDATA IN LOCALSTORAGE-----//
 var saveUserData = function() {
@@ -130,7 +134,6 @@ var saveUserData = function() {
 
 //-----DISPLAY API RESULTS-----//
 var displaySearchResults = function(result) {
-    
     if (result.FoodName.length) {
         for (var i=0; i<result.FoodName.length; i++) {
             console.log(result.FoodName[i]);
@@ -154,12 +157,15 @@ var displaySearchResults = function(result) {
             var selectOneButton = document.createElement("button");
             selectOneButton.className = "button is-info selectOneButton";
             selectOneButton.textContent = "Select";
-            var showRecipe = document.createElement("button");
-            showRecipe.className = "button is-info showRecipe";
-            showRecipe.textContent = "Recipe";
             buttonDiv.appendChild(selectOneButton);
-            buttonDiv.appendChild(showRecipe);
 
+            console.log(result.instruction[i].length);
+            if (result.instruction[i].length) {
+                var showRecipe = document.createElement("button");
+                showRecipe.className = "button is-info showRecipe";
+                showRecipe.textContent = "Recipe";
+                buttonDiv.appendChild(showRecipe);
+            }
             displayBox.appendChild(imgBox);
             displayBox.appendChild(textBox);
             displayBox.appendChild(buttonDiv);
@@ -171,6 +177,7 @@ var displaySearchResults = function(result) {
         var displayBox = document.createElement("article");
         displayBox.className = "column boxBorder searchResult";
         displayBox.textContent = "No results found, please try again!!"
+        resultSection.appendChild(displayBox);
     }    
 }
 
@@ -184,10 +191,10 @@ $("#searchForm").on("submit", function(event) {
     $("#foodSearch").val("");
 })
 
-//-----EVENT HANDLER FOR ADD RESULT CLICK-----//
+//-----EVENT HANDLER FOR SELECT RESULT CLICK-----//
 //When the select on the search result is clicked
 $("#result-display").on("click", ".selectOneButton", function(event) {
-    console.log($(this).closest(".searchResult").attr("data-result-id"));
+
     var index = $(this).closest(".searchResult").attr("data-result-id");
     var sno = $("#calorieConsumed tr").length -1;
     //creates a table and inserts the data to the display table
@@ -198,7 +205,7 @@ $("#result-display").on("click", ".selectOneButton", function(event) {
 
     resultSection.textContent = "";
     //-----ADD LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
-    if (userDatabase[0].calConsumed.length === 0) {
+    if (userDatabase[0].calConsumed.length === 0 || userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].date != dateToday) {
         userDatabase[0].calConsumed.push({
             date: dateToday,
             food: [calorieDetails.FoodName[index]],
@@ -291,17 +298,76 @@ $(".calorieSection").on("click", ".deleteBtn", function() {
     saveUserData();
 })
 
-//-----ONCLICK MANUAL SUBMIT-----//
+//-----ON CLICK MANUAL SUBMIT-----//
 $("#manualForm").on("submit", function(event) {
     event.preventDefault();
     var sno = $("#calorieConsumed tr").length -1;
     console.log($("#manualInput").val().trim());
-    $(".calorieSection").find("tbody").append("<tr><th class='sno'>"+sno+"</th><th>"+$("#manualInput").val().trim()+
-        "</th><td><span class='cal'>"+$("#manualCalorie").val().trim()+"</span></td><td><span class='serv'>"+$("#manualServing").val().trim()+
+    var desc = $("#manualInput").val().trim();
+    var calNew = $("#manualCalorie").val().trim();
+    var servNew = $("#manualServing").val().trim();
+
+    $(".calorieSection").find("tbody").append("<tr><th class='sno'>"+sno+"</th><th>"+desc+
+        "</th><td><span class='cal'>"+calNew+"</span></td><td><span class='serv'>"+servNew+
         "</span></td><td>"+editDelete+"</td></tr>");
+
+    //-----ADD LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
+    if (userDatabase[0].calConsumed.length === 0 || userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].date != dateToday) {
+        userDatabase[0].calConsumed.push({
+            date: dateToday,
+            food: desc,
+            cal: calNew,
+            serv: servNew    
+        })
+        console.log(userDatabase)
+    } else {
+        console.log(userDatabase[0].calConsumed.length-1);
+        if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].date === dateToday) {
+            userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].food.push(desc);
+            userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.push(calNew);
+            userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].serv.push(servNew);
+        }
+        console.log(userDatabase)
+    }
+
+    saveUserData();
     $("#manualInput").val("");
     $("#manualCalorie").val("");
     $("#manualServing").val("");
+})
+
+//-----ON CLICK RECIPE BUTTON OPEN MODAL-----//
+$("#result-display").on("click", ".showRecipe", function(event) {
+    var index = $(this).closest(".searchResult").attr("data-result-id");
+    var recipe = calorieDetails.instruction[index];
+    var recipeHead = "<h3> Recipe for " + calorieDetails.FoodName[index] + "</h3>"
+    var recipeText = "";
+    console.log(recipe);
+    var inininText = "";
+    var inText = "";
+    $.each(recipe, function(index, value) {
+        console.log(value.name);
+        inText = value.name;
+        inText = "<p><span class='recipeBold'>INSTRUCTION "+(index+1)+": </span>"+inText+" </p>";
+        $.each(value.steps, function(index, valueIn) {
+            inininText = inininText + valueIn.step + " ";
+        })
+        recipeText = recipeText + inText + "<p class='recipeBold'>STEPS</p><span>"+inininText+"</span>";
+        inininText = "";
+    })
+    recipeText = recipeHead + recipeText;
+    console.log(recipeText);
+
+    var newModal = $("<div>").addClass("modal is-active")
+        .html('<div class="modal-background"></div><div class="modal-content myRecipe">'+
+        recipeText+'</div><button class="modal-close is-large" aria-label="close"></button');
+
+    $("#result-display").append(newModal);   
+})
+
+//-----ON CLICK CLOSE MODAL CLOSE-----//
+$("#result-display").on("click", ".modal-close", function(event) {
+    $(".modal").remove();
 })
 
 //-----WINDOW ONLOAD DISPLAY TABLE-----//
@@ -312,14 +378,15 @@ $(window).on("load", function() {
     } else {$.each(userDatabase[0].calConsumed, function(index, value) {
         if (value.date === dateToday) {
             var currentIndex = index;
-        }
-        for (var i=0; i<userDatabase[0].calConsumed[currentIndex].cal.length; i++) {
-            $("tbody").append("<tr><th class='sno'>"+(i+1)+"</th><th>"+userDatabase[0].calConsumed[currentIndex].food[i]+
-            "</th><td><span class='cal'>"+userDatabase[0].calConsumed[currentIndex].cal[i]+"</span></td><td><span class='serv'>"+userDatabase[0].calConsumed[currentIndex].serv[i]+
-            "</span></td><td>"+editDelete+"</td></tr>");
+            for (var i=0; i<userDatabase[0].calConsumed[currentIndex].cal.length; i++) {
+                $("tbody").append("<tr><th class='sno'>"+(i+1)+"</th><th>"+userDatabase[0].calConsumed[currentIndex].food[i]+
+                "</th><td><span class='cal'>"+userDatabase[0].calConsumed[currentIndex].cal[i]+"</span></td><td><span class='serv'>"+userDatabase[0].calConsumed[currentIndex].serv[i]+
+                "</span></td><td>"+editDelete+"</td></tr>");
+            }
         }
     })
     }
+})
 
     /*for (var i=0; i<userDatabase[0].calConsumed[currentIndex].cal.length; i++) {
         $("tbody").append("<tr><th class='sno'>"+i+"</th><th>"+userDatabase[0].calConsumed[currentIndex].food[i]+
@@ -452,6 +519,4 @@ $("#displayWeather").on("click", function serachEvent (event) {
             
 });
 
-    
-})
 

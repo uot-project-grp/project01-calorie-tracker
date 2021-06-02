@@ -34,4 +34,10 @@ $("#userData").on("click", ".userSubmit", function(event) {
 
     userDatabase.push(thisUser);
     localStorage.setItem('userData', JSON.stringify(userDatabase));
+    window.location.replace("index.html");
+})
+
+$("#userData").on("click", ".userCancel", function(event) {
+    event.preventDefault();
+    window.location.replace("index.html");
 })
