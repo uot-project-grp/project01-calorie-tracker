@@ -198,7 +198,7 @@ $("#result-display").on("click", ".selectOneButton", function(event) {
 
     resultSection.textContent = "";
     //-----ADD LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
-    if (userDatabase[0].calConsumed.length === 0) {
+    if (userDatabase[0].calConsumed.length === 0 || userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].date != dateToday) {
         userDatabase[0].calConsumed.push({
             date: dateToday,
             food: [calorieDetails.FoodName[index]],
@@ -296,9 +296,34 @@ $("#manualForm").on("submit", function(event) {
     event.preventDefault();
     var sno = $("#calorieConsumed tr").length -1;
     console.log($("#manualInput").val().trim());
-    $(".calorieSection").find("tbody").append("<tr><th class='sno'>"+sno+"</th><th>"+$("#manualInput").val().trim()+
-        "</th><td><span class='cal'>"+$("#manualCalorie").val().trim()+"</span></td><td><span class='serv'>"+$("#manualServing").val().trim()+
+    var desc = $("#manualInput").val().trim();
+    var calNew = parseFloat($("#manualCalorie").val().trim()).toFixed(2);
+    var servNew = parseFloat($("#manualServing").val().trim()).toFixed(2);
+
+    $(".calorieSection").find("tbody").append("<tr><th class='sno'>"+sno+"</th><th>"+desc+
+        "</th><td><span class='cal'>"+calNew+"</span></td><td><span class='serv'>"+servNew+
         "</span></td><td>"+editDelete+"</td></tr>");
+
+    //-----ADD LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
+    if (userDatabase[0].calConsumed.length === 0 || userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].date != dateToday) {
+        userDatabase[0].calConsumed.push({
+            date: dateToday,
+            food: desc,
+            cal: calNew,
+            serv: servNew    
+        })
+        console.log(userDatabase)
+    } else {
+        console.log(userDatabase[0].calConsumed.length-1);
+        if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].date === dateToday) {
+            userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].food.push(desc);
+            userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.push(calNew);
+            userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].serv.push(servNew);
+        }
+        console.log(userDatabase)
+    }
+
+    saveUserData();
     $("#manualInput").val("");
     $("#manualCalorie").val("");
     $("#manualServing").val("");
@@ -312,11 +337,11 @@ $(window).on("load", function() {
     } else {$.each(userDatabase[0].calConsumed, function(index, value) {
         if (value.date === dateToday) {
             var currentIndex = index;
-        }
-        for (var i=0; i<userDatabase[0].calConsumed[currentIndex].cal.length; i++) {
-            $("tbody").append("<tr><th class='sno'>"+(i+1)+"</th><th>"+userDatabase[0].calConsumed[currentIndex].food[i]+
-            "</th><td><span class='cal'>"+userDatabase[0].calConsumed[currentIndex].cal[i]+"</span></td><td><span class='serv'>"+userDatabase[0].calConsumed[currentIndex].serv[i]+
-            "</span></td><td>"+editDelete+"</td></tr>");
+            for (var i=0; i<userDatabase[0].calConsumed[currentIndex].cal.length; i++) {
+                $("tbody").append("<tr><th class='sno'>"+(i+1)+"</th><th>"+userDatabase[0].calConsumed[currentIndex].food[i]+
+                "</th><td><span class='cal'>"+userDatabase[0].calConsumed[currentIndex].cal[i]+"</span></td><td><span class='serv'>"+userDatabase[0].calConsumed[currentIndex].serv[i]+
+                "</span></td><td>"+editDelete+"</td></tr>");
+            }
         }
     })
     }
