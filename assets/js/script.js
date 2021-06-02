@@ -157,12 +157,15 @@ var displaySearchResults = function(result) {
             var selectOneButton = document.createElement("button");
             selectOneButton.className = "button is-info selectOneButton";
             selectOneButton.textContent = "Select";
-            var showRecipe = document.createElement("button");
-            showRecipe.className = "button is-info showRecipe";
-            showRecipe.textContent = "Recipe";
             buttonDiv.appendChild(selectOneButton);
-            buttonDiv.appendChild(showRecipe);
 
+            console.log(result.instruction[i].length);
+            if (result.instruction[i].length) {
+                var showRecipe = document.createElement("button");
+                showRecipe.className = "button is-info showRecipe";
+                showRecipe.textContent = "Recipe";
+                buttonDiv.appendChild(showRecipe);
+            }
             displayBox.appendChild(imgBox);
             displayBox.appendChild(textBox);
             displayBox.appendChild(buttonDiv);
