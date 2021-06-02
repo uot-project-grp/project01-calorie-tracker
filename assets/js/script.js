@@ -340,7 +340,7 @@ $("#manualForm").on("submit", function(event) {
 $("#result-display").on("click", ".showRecipe", function(event) {
     var index = $(this).closest(".searchResult").attr("data-result-id");
     var recipe = calorieDetails.instruction[index];
-    var recipeHead = "<h3> Recipe for " + calorieDetails.FoodName[index] + ".</h3>"
+    var recipeHead = "<h3> Recipe for " + calorieDetails.FoodName[index] + "</h3>"
     var recipeText = "";
     console.log(recipe);
     var inininText = "";
@@ -348,13 +348,14 @@ $("#result-display").on("click", ".showRecipe", function(event) {
     $.each(recipe, function(index, value) {
         console.log(value.name);
         inText = value.name;
-        inText = "<p>"+inText+".</p>";
+        inText = "<p><span class='recipeBold'>INSTRUCTION "+(index+1)+": </span>"+inText+" </p>";
         $.each(value.steps, function(index, valueIn) {
-            inininText = inininText + valueIn.step + ". ";
+            inininText = inininText + valueIn.step + " ";
         })
-        recipeText = recipeText + inText + "<p>STEPS</p><p>"+inininText+"</p>";
+        recipeText = recipeText + inText + "<p class='recipeBold'>STEPS</p><span>"+inininText+"</span>";
         inininText = "";
     })
+    recipeText = recipeHead + recipeText;
     console.log(recipeText);
 
     var newModal = $("<div>").addClass("modal is-active")
