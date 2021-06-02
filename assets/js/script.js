@@ -1,24 +1,42 @@
 /* Toggling for when dropbox is clicked */
 function myFunction() {
-    document.getElementById("#").classList.toggle("#");
+    document.getElementById("changeUser").classList.toggle("changeUser");
   }
   
   /* Closing the dropdown menu if the user clicks outside of it */
   window.onclick = function(event) {
     if (!event.target.matches('.user')) {
-      var dropdowns = document.getElementsByClassName("user");
+      var dropdowns = document.getElementsByClassName("User");
       var i;
       for (i = 0; i < dropdowns.length; i++) {
         var openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('#')) {
-          openDropdown.classList.remove('#');
+        if (openDropdown.classList.contains('changeUser')) {
+          openDropdown.classList.remove('changeUser');
         }
       }
     }
   }
 
+/* User interface */
+// Select user profile
+function formFill(a, b, c){
+    theform.from.value = a;
+    theform.to.value = c;
+    for(var i = 0;i < document.getElementById("user-content").length;i++){
+        if(document.getElementById("user-content").options[i].value == c ){
+            document.getElementById("user-content").selectedIndex = i;
+        }
+    }
+}
+
+//Retrieve data from local storage 
+var RetriveUserData = function() {
+localStorage.setItem('userData', JSON.stringify(userDatabase));
+  }
+
 var resultSection = document.querySelector("#result-display");
 var userDatabase = [];
+
 //var userDatabase = JSON.parse(localStorage.getItem('userData')) || [];
 
 dateToday = moment().format("YYYY-MM-DD");
