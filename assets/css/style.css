@@ -88,6 +88,7 @@
 }
 
 .searchResult {
+    display: flex;
     margin: 5px 20px;
     flex: 1 40%;
     max-width: calc(50% - 40px);
