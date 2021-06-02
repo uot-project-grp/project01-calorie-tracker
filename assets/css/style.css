@@ -81,6 +81,38 @@
     flex: 1 40%;
 }
 
+.manualSubmitInput {
+    display: flex;
+}
+
+#manualCalorie, #manualServing, .submitButton {
+    flex: 30%;
+}
+
+.searchButton {
+    flex: 19%;
+}
+
+.mainBoxHeader {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+#manualForm, #searchForm {
+    padding: 5px;
+}
+
+.searchSection h3 {
+    font-size: 22px;
+}
+
+.mainBoxOr {
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+    padding: 15px 0 0 0;
+}
+
 .boxBorder {
     background-color: #fff;
     border-radius: 6px;

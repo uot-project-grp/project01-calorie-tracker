@@ -72,24 +72,25 @@
     <div class="columns main-search">
         <!----SEARCH / ADD SECTION - SEARCH AND ADD FOOD ITEMS---->
         <section class="column boxBorder searchSection">   
-            <h2>Add Food Items</h2> 
+            <h2 class="mainBoxHeader">Add Food Items</h2> 
             <!----FORM TO ADD ITEMS MANUALLY---->
             <form id="manualForm">
 
-                <label for="manualInput">Input Manually</label>
-                <div class="is-flex">
-                    <input type="text" id="manualInput" class="input is-info">
-                    <input type="text" id="manualCalorie" class="input is-info">
-                    <input type="text" id="manualServing" class="input is-info">
+                <h3><label for="manualInput">Input Manually</label></h3>
+                <div class="is-flex manualSubmitInput">
+                    <input type="text" id="manualInput" placeholder="Description" class="input is-info">
+                    <input type="text" id="manualCalorie" placeholder="Calorie(kcal)" class="input is-info">
+                    <input type="text" id="manualServing" placeholder="Serving(g)" class="input is-info">
                     <button class="button is-info submitButton" type="submit">Submit</button>
                 </div>
             </form>    
             <!----FORM TO SEARCH AND ADD ITEMS VIA API---->
+            <h3 class="mainBoxOr">OR</h3>
             <form id="searchForm">
                 <h3><label for="foodSearch">Search Food Item</label></h3>
                 <div class="is-flex">
                     <input type="text" id="foodSearch" class="input is-info">
-                    <button class="button is-info submitButton" type="submit">Search</button>
+                    <button class="button is-info searchButton" type="submit">Search</button>
                 </div>
             </form>
             <!----EDIT RESULTS BEFORE ADDING---->
@@ -101,7 +102,7 @@
         <section class="column boxBorder calorieSection">
             <!----CALORIE CONSUMED TABLE---->
             <table id="calorieConsumed" class="table table is-fullwidth is-hoverable">
-                <h2>Calories consumed</h2>
+                <h2 class="mainBoxHeader">Calories consumed</h2>
                 <thead>
                     <tr>
                         <th width="5%">No.</th>
