@@ -37,7 +37,9 @@ else {
         api: ["clientId","clientSecret","refresherToken","authCode","accessToken"],
         calConsumed:[],
         steps: [],
-        calBurned: []
+        calBurned: [],
+        calTarget:"2000",
+        totalCal:"0"
     }
     userDatabase.push(thisUser);
     localStorage.setItem('userData', JSON.stringify(userDatabase));
@@ -210,9 +212,11 @@ $("#result-display").on("click", ".selectOneButton", function(event) {
             date: dateToday,
             food: [calorieDetails.FoodName[index]],
             cal: [calorieDetails.calorie[index]],
-            serv: [calorieDetails.weightPerServing[index]]    
+            serv: [calorieDetails.weightPerServing[index]]   
         })
         console.log(userDatabase)
+        // adding calories to totalCal
+        // userDatabase[0].totalCal=userDatabase[0].totalCal+calorieDetails.calorie[index];
     } else {
         console.log(userDatabase[0].calConsumed.length-1);
         if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].date === dateToday) {
@@ -320,6 +324,7 @@ $("#manualForm").on("submit", function(event) {
             serv: servNew    
         })
         console.log(userDatabase)
+        
     } else {
         console.log(userDatabase[0].calConsumed.length-1);
         if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].date === dateToday) {
@@ -374,6 +379,8 @@ var userNameEl=document.querySelector("#user-name");
 var userGenderEl=document.querySelector("#user-gender");
 var userWeightEl=document.querySelector("#user-weight");
 var userHeightEl=document.querySelector("#user-height");
+var userCalTargetEl=document.querySelector("#target-bar");
+var userCalConsumedEl=document.querySelector("#prog-bar");
 //-----WINDOW ONLOAD DISPLAY TABLE-----//
 $(window).on("load", function() {
     // MVP - DISPLAY THE FIRST USER's DETAIL
@@ -381,6 +388,10 @@ $(window).on("load", function() {
     userGenderEl.textContent=userDatabase[0].gender;
     userWeightEl.textContent=userDatabase[0].weight;
     userHeightEl.textContent=userDatabase[0].height;
+    userCalTargetEl.textContent=userDatabase[0].calTarget+" Cal";
+    // userCalTargetEl.max=userDatabase[0].calTarget;
+    userCalConsumedEl.textContent=userDatabase[0].totalCal + " Cal";
+    // userCalTargetEl.max=userDatabase[0].calTarget;
     //-----DISPLAY FROM LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
 
     if (userDatabase[0].calConsumed.length === 0) {

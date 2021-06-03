@@ -214,8 +214,12 @@
 .align-right {
     padding-left: 4px;
 }
+.align-center {
+    text-align: center;
+}
 /* stylesfor the weather section */
 #cardElementsContainer{
     display: flex;
     flex-direction: row;
 }
+
