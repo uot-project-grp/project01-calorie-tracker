@@ -402,17 +402,17 @@ $(window).on("load", function() {
 // this functoin will get the lon/lat of the user location.
 let latitude = '';
 let longitude = '';
+let positionBtn = $("#getLocation")
 $("#getLocation").on("click", function getLocation () {
-     if (navigator.geolocation) {
-       navigator.geolocation.getCurrentPosition(showPosition);
-     } else { 
-       x.innerHTML = "Geolocation is not supported by this browser.";
-     }
-   function showPosition(position) {
-    latitude = position.coords.latitude;
-    longitude =position.coords.longitude
-       console.log(latitude)
-       console.log(longitude);
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        positionBtn.text("Geolocation is not supported by this browser.");
+    }
+    function showPosition(position) {
+        latitude = Math.floor(position.coords.latitude);
+        longitude =Math.floor(position.coords.longitude);
+        positionBtn.text("longitude = " + longitude + " " + " latitude = " + latitude)
    }
 
 })
