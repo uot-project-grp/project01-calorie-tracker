@@ -1,0 +1,10 @@
+h1 {
+    font-size: 32px;
+    text-align: center;
+    margin: 15px;
+}
+
+#userData {
+    width: 70%;
+    margin: 50px auto;
+}

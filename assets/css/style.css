@@ -1,0 +1,268 @@
+/* Background and padding */
+.header {
+    overflow: hidden;
+    background: linear-gradient(rgb(230, 174, 119), rgb(238, 176, 82));
+    padding: 10px;
+    height: 120px; 
+  }
+
+  /* Title */
+.titleHero {
+    text-align: center;
+    font-size: 35px; 
+    font-family: "Optima", sans-serif; 
+    color: rgb(9, 116, 89);
+    font-weight: bold;
+    margin-top: 1px;
+    text-indent: 5px;
+    padding: 5px;
+  }
+  
+ /* Logo */
+.logo {
+    font-weight: bold;
+    text-align: left;
+    position: absolute;
+    left: 10px;
+    top: 20px;
+    height: 80px;
+    max-height: 400px;
+    width: 100%;
+    background-size: 100%; 
+  }
+
+/* Subheading */
+.subHead {
+    text-align: center;
+    font-size: 18px; 
+    font-family: "Optima", sans-serif; 
+    text-decoration: overline;
+    border-top: -60px solid transparent;
+    color: rgb(9, 116, 89);
+    line-height: 0%;
+    white-space: nowrap;
+    margin: 10px 0;
+    margin-top: -1em;
+    text-indent: 2em;
+    padding: 35px;
+}
+
+/* Dropdown box */
+.User {
+  text-align: right;
+  position: absolute;
+  right: 20px;
+  top: 15px;  
+  box-sizing: border-box;
+  padding: 5px;
+  margin: 0 auto;
+  outline: none;
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+  opacity: 1;
+  pointer-events: auto; 
+  background-color: green;
+  font-weight: bold;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.main-search, .main-display {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.calorieSection, .searchSection {
+    margin: 20px;
+    flex: 1 40%;
+}
+
+.manualSubmitInput {
+    display: flex;
+}
+
+#manualCalorie, #manualServing, .submitButton {
+    flex: 30%;
+}
+
+.searchButton {
+    flex: 19%;
+}
+
+.mainBoxHeader {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+#manualForm, #searchForm {
+    padding: 5px;
+}
+
+.searchSection h3 {
+    font-size: 22px;
+}
+
+.mainBoxOr {
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+    padding: 15px 0 0 0;
+}
+
+.boxBorder {
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 10%), 0 0 0 1px rgb(10 10 10 / 2%);    
+}
+
+.searchResult {
+    display: flex;
+    margin: 5px 20px;
+    flex: 1 40%;
+    max-width: calc(50% - 40px);
+    display: flex;
+    font-size: 18px;
+    justify-content: space-between;
+    max-height: 150px;
+    align-items: center;
+}
+
+.searchResult img {
+    height: 100%;
+}
+
+.dispResTextBox {
+    margin: 5px;
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.buttonContainer button {
+    margin: 5px 10px 5px 5px;
+}
+
+.myRecipe {
+    color: white;
+}
+
+.myRecipe h3 {
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+}
+
+.recipeBold {
+    font-weight: bold;
+}
+
+
+.menuOveride {
+    min-width: auto;
+}
+
+.form-control {
+    background: transparent;
+    border: none;
+    resize: none;
+    color: rgb(38, 38, 221);
+    max-width: 50px;
+    padding: 0 0 5px 0;
+}
+
+.form-control:focus {
+    background: transparent;
+    border: none;
+    resize: none;
+    outline: none;
+}
+
+.editDelete:hover {
+    cursor:pointer;
+}
+
+.avataar {
+    margin: 20px 0 20px 20px;
+    vertical-align: middle;
+    border-radius: 50%;
+}
+
+.bio, .prog {
+    margin: 20px;
+    flex: 1 35%;
+}
+.hero {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.bio-info {
+    display: flex;
+    flex-direction: column;
+    
+    
+}
+.bio-items {
+    padding: 0;
+}
+.display-flex {
+    display: flex!important;
+}
+.align-right {
+    padding-left: 4px;
+}
+.align-center {
+    text-align: center;
+}
+/* stylesfor the weather section */
+#cardElementsContainer{
+    display: flex;
+    flex-direction: row;
+}
+
+.myCalTarget {
+    padding: 10px 0;
+    font-weight: bold;
+}
+
+.myCalTarget span {
+    padding: 0 5px;
+}
+
+.myCalTarget input {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.myCalBar{
+    padding: 10px 5px;
+    font-weight: bold;
+}
+
+.progressCalCon {
+    margin: 5px 0;
+}
+
+.bioBoxCont {
+    max-width: calc(50% - 40px);
+    flex: 40%;
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 20px;
+}
+
+.prog {
+    flex-direction: column;
+}
+
+.weatherBox {
+    padding: 8px;
+}

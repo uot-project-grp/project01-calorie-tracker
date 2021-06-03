@@ -1,12 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" />
+    <!-- <link href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css" rel="stylesheet" type="text/css" /> -->
+    <link rel="stylesheet" href="./assets/css/style.css" />
     <title>Calorie Tracker</title>
 </head>
 <body>
+       <!-- FAVICON FOR TITLE TAB-->
+    <link rel="shortcut icon" href="./assets/images/logo.png" /> 
+    <div class="header">
+ 
+         <!--HEADER TITLE-->
+             <div class="titleHero" id="heroContainer">
+                     <h1 id="title">Counting Calories</h1>
+             </div>
+         <!---LOGO FOR HEADER-->
+                     <div class="logo">
+                     <img id="logo" src="assets/images/logo.png" alt="MIC" style="max-width: 80px; max-height: 80px;">
+                    </div>
+         <!--SUBHEADING-->
+                 <div class="subHead">
+                   <h4 id="subHead">Helping you pursue you fitness goals and monitor your lifestyle choices</h4>
+                </div>
+         <!---DROPDOWN BOX FOR USER SELECTION-->
+         <div class="User">
+            <select name="User" id="user-content">
+              <option val="">Select User</option>
+                <option value="#">User 1</option>
+                <option value="#">User 2</option>
+                <option value="#">User 3</option>
+            </select>
+         </div>
+    </div>
+    <!-- hero/jumbotron start -->
+    <section class="hero boxBorder columns">
+        <!-- Start avataar here -->
+    <div class="bioBoxCont boxBorder">   
+        <div class="avataar">    
+            <img src="https://picsum.photos/id/1005/200" alt="avataar" class="avataar"/>
+        </div>
+        <!-- End avataar here -->
+        <!-- Start bio here -->
+        <div class="column align-center bio"> 
+            <h2 class="column mainBoxHeader">Bio</h2>
+            <ul class ="bio-info">
+                <li class="bio-items">
+                    <div class="display-flex">
+                        <div>
+                            <span>Name:</span>
+                        </div>
+                        <div class="align-right">
+                            <span id="user-name"></span>
+                        </div>
+                    </div>
+                </li>
+                <li class="bio-items">
+                    <div class="display-flex">
+                        <div>
+                            <span>Gender:</span>
+                        </div>
+                        <div class="align-right">
+                            <span id="user-gender"></span>
+                        </div>
+                    </div>
+                </li>
+                <li class="bio-items">
+                    <div class="display-flex">
+                        <div>
+                            <span>Weight:</span>
+                        </div>
+                        <div class="align-right">
+                            <span id="user-weight"></span>
+                        </div>
+                    </div>
+                </li>
+                <li class="bio-items">
+                    <div class="display-flex">
+                        <div>
+                            <span>Height:</span>
+                        </div>
+                        <div class="align-right">
+                            <span id="user-height"></span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>     
+        <!-- end bio here -->
+        <!-- Start Progress Section -->
+        <section class="column boxBorder prog bioBoxCont">    
+            <div class="column is-12 align-center">
+                    <h2 class="mainBoxHeader">Progress</h2>
+            </div>
+            <div class = "column">
+                <div>
+                   <div class="is-flex myCalTarget">
+                        <span>Calorie Target: </span>
+                        <span class="setMyTarget"></span>
+                        <span>kcal</span>
+                        <span><button class="calTarButton">Edit</button></span>
+                        
+
+    <!--                <div id="target-bar" class="box">   
+                        </div>          -->
+                    </div>      
+                    <!-- <div>
+                        <progress id="target-bar" value="19" max="90">
+                        </progress>
+                    </div> -->
+                </div> 
+                <div>
+                    <div class="myCalBar">
+                        <span>Calorie Consumed: </span>
+                        <span class="myCalPercent"></span>
+                        <progress class="progress is-primary progressCalCon" value="" max="100"></progress>
+<!--                    <div id="prog-bar" class="box">
+                        </div>          -->
+                    </div>
+                    <!-- <div >
+                        <progress id="prog-bar" value="" max="">
+                        </progress>
+                    </div> -->
+                </div>
+            </div>    
+<!--             <div class="column is-12">
+                <form>
+                    <label for="cal-goal">Enter Your Daily Calorie Goal</label>
+                    <input type="number" placeholder="Calories" id="cal-goal" name="cal-goal" class="form-input input" />
+                    <button class="button is-info">Set Goal</button>
+                </form>
+            </div> -->
+        </section>
+        <!-- End Progress Section -->
+    </section>
+    <!-- hero/jumbotron end -->
     
+    <!----MAIN SECTION OF PAGE---->
+    <div class="columns main-search">
+        <!----SEARCH / ADD SECTION - SEARCH AND ADD FOOD ITEMS---->
+        <section class="column boxBorder searchSection">   
+            <h2 class="mainBoxHeader">Add Food Items</h2> 
+            <!----FORM TO ADD ITEMS MANUALLY---->
+            <form id="manualForm">
+
+                <h3><label for="manualInput">Input Manually</label></h3>
+                <div class="is-flex manualSubmitInput">
+                    <input type="text" id="manualInput" placeholder="Description" class="input is-info">
+                    <input type="text" id="manualCalorie" placeholder="Calorie(kcal)" class="input is-info">
+                    <input type="text" id="manualServing" placeholder="Serving(g)" class="input is-info">
+                    <button class="button is-info submitButton" type="submit">Submit</button>
+                </div>
+            </form>    
+            <!----FORM TO SEARCH AND ADD ITEMS VIA API---->
+            <h3 class="mainBoxOr">OR</h3>
+            <form id="searchForm">
+                <h3><label for="foodSearch">Search Food Item</label></h3>
+                <div class="is-flex">
+                    <input type="text" id="foodSearch" class="input is-info">
+                    <button class="button is-info searchButton" type="submit">Search</button>
+                </div>
+            </form>
+            <!----EDIT RESULTS BEFORE ADDING---->
+            <!--<div id="editServing">
+
+            </div> -->
+        </section>
+        <!----CALORIE CONSUMED SECTION---->
+        <section class="column boxBorder calorieSection">
+            <!----CALORIE CONSUMED TABLE---->
+            <table id="calorieConsumed" class="table table is-fullwidth is-hoverable">
+                <h2 class="mainBoxHeader">Calories consumed</h2>
+                <thead>
+                    <tr>
+                        <th width="5%">No.</th>
+                        <th width="50%">Food Item</th>
+                        <th width="20%">Calories(kcal)</th>
+                        <th width="20%">Serving(g)</th>
+                        <th width="5%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th><span class="oi oi-plus"></span></th>
+                    </tr>
+                </tfoot>
+            </table>
+            
+        </section>
+    </div>
+    <!----MAIN SECTION RESULT DISPLAY SECTION---->
+    <div id="result-display" class="columns main-display">
+        <!--<article class="column boxBorder searchResult">Apple</article>
+        <article class="column boxBorder searchResult">Apple</article>-->
+    </div>
+
+
+    <!-- Weather display here -->
+    <div class="cardElementsContainer column boxBorder calorieSection"  id="cardElementsContainer">
+        <!--<button class="my-2 my-sm-0 button is-info submitButton" id="getLocation">Click here to ger your location</button>-->
+        <button class="btn btn-outline-success my-2 my-sm-0 button is-info submitButton" id="displayWeather" >Click here for weather and work our suggestions</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <!-- <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script> -->
+    <script src="./assets/js/script.js"></script>
 </body>
 </html>
