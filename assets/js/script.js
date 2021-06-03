@@ -225,13 +225,12 @@ $("#result-display").on("click", ".selectOneButton", function(event) {
             userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].serv.push(calorieDetails.weightPerServing[index]);
         }
         console.log(userDatabase)
-    }
-
-    saveUserData();
+    }   
     //Dynamically update progress bar on add
     if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.length) {
         progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
     }
+    saveUserData();
 })
 
 //-----TOGGLE ON THE DROPDOWN WHEN CLICKED-----//
@@ -285,14 +284,14 @@ $(".calorieSection").on("blur", ".form-control", function() {
     userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].serv.splice(rowIndex,1,storeText);
 
     $(this).replaceWith(servVal); 
-    saveUserData();  
-
+ 
     //Dynamically update progress bar on edit
     if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.length) {
         progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
     } else {
         progressBar([0]);
     }
+    saveUserData(); 
 })
 
 //-----TABLE DELETE BUTTON LOGIC-----//
@@ -310,14 +309,14 @@ $(".calorieSection").on("click", ".deleteBtn", function() {
         console.log("here");
         $(this).text(i+1);
     })
-    saveUserData();
+
     //Dynamically update progress bar on delete
     if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.length) {
         progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
     } else {
         progressBar([0]);
     }
-    
+    saveUserData();
 })
 
 //-----ON CLICK MANUAL SUBMIT-----//
@@ -354,11 +353,11 @@ $("#manualForm").on("submit", function(event) {
         console.log(userDatabase)
     }
 
-    saveUserData();
     //Dynamically update progress bar on add
     if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.length) {
         progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
     }
+    saveUserData();
     //clears form values
     $("#manualInput").val("");
     $("#manualCalorie").val("");
@@ -421,7 +420,8 @@ $(".myCalTarget").on("blur", ".form-control", function() {
 
     var calTar = $("<span>").addClass("setMyTarget").text(text);
     userDatabase[0].calTarget = text;
-    $(this).replaceWith(calTar); 
+    $(this).replaceWith(calTar);
+    saveUserData();
     progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
 })    
 
