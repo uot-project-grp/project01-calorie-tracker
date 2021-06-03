@@ -407,6 +407,7 @@ $(window).on("load", function() {
         }
     })
     }
+    
 })
 
     /*for (var i=0; i<userDatabase[0].calConsumed[currentIndex].cal.length; i++) {
@@ -439,11 +440,32 @@ $("#getLocation").on("click", function getLocation () {
 })
 
 // Weather API integration/functionality begins here
-$("#displayWeather").on("click", function serachEvent (event) {    
+$("#displayWeather").on("click", function serachEvent (event) { 
+    event.preventDefault();
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+        
+    } else { 
+        positionBtn.text("Geolocation is not supported by this browser.");
+        return;
+    }
+    function showPosition(position) {
+        latitude = Math.floor(position.coords.latitude);
+        longitude =Math.floor(position.coords.longitude);
+        //positionBtn.text("longitude = " + longitude + " " + " latitude = " + latitude)
+        searchWeather(latitude, longitude)
+    }
+
+   console.log(longitude,latitude)
+   
+})
+
+function searchWeather(latitude,longitude) {
+
     let cardElContainer = $("#cardElementsContainer").text("");
     // these are the variables for the API fetch
     cardElContainer.text('');
-    event.preventDefault();
+    
     fetch(
         'https://api.openweathermap.org/data/2.5/forecast?lat=' +
         latitude +
@@ -555,11 +577,11 @@ $("#displayWeather").on("click", function serachEvent (event) {
                             workoutSugg = $("<p>").text(coldWeather);
                             headerEl.append(workoutSugg);
                         }
-                        if (dayTempKelvin > 15 && dayTempKelvin <25 ) {
+                        if (dayTempKelvin >= 15 && dayTempKelvin <25 ) {
                             workoutSugg = $("<p>").text(niceWeather);
                             headerEl.append(workoutSugg);
                         }
-                        if (dayTempKelvin > 25 ) {
+                        if (dayTempKelvin >= 25 ) {
                             workoutSugg = $("<p>").text(hotWeather);
                             headerEl.append(workoutSugg);
                         }
@@ -571,6 +593,6 @@ $("#displayWeather").on("click", function serachEvent (event) {
                     // -----------------------------------------------------------------------------------------------
             });
 
-});
+}
 
 
