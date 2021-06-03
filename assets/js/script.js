@@ -409,19 +409,37 @@ $(window).on("load", function() {
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
 
+// this functoin will get the lon/lat of the user location.
+let latitude = '';
+let longitude = '';
+let positionBtn = $("#getLocation")
+$("#getLocation").on("click", function getLocation () {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        positionBtn.text("Geolocation is not supported by this browser.");
+    }
+    function showPosition(position) {
+        latitude = Math.floor(position.coords.latitude);
+        longitude =Math.floor(position.coords.longitude);
+        positionBtn.text("longitude = " + longitude + " " + " latitude = " + latitude)
+   }
+
+})
+
 // Weather API integration/functionality begins here
-console.log("asdfasd")
-$("#displayWeather").on("click", function serachEvent (event) {
+$("#displayWeather").on("click", function serachEvent (event) {    
     let cardElContainer = $("#cardElementsContainer").text("");
     // these are the variables for the API fetch
-    let locationQuery = '';
-
     cardElContainer.text('');
     event.preventDefault();
-    console.log(locationQuery)
-
     fetch(
-            'https://api.openweathermap.org/data/2.5/forecast?q=Toronto&cnt=48&appid=4e9b190f26827f446e804d86e0f8f699'
+        'https://api.openweathermap.org/data/2.5/forecast?lat=' +
+        latitude +
+        '&lon='+
+        longitude +
+        '&appid=4e9b190f26827f446e804d86e0f8f699'
+            // 'https://api.openweathermap.org/data/2.5/forecast?q=Toronto&cnt=48&appid=4e9b190f26827f446e804d86e0f8f699'
             )
             .then(function (response) {
                     return response.json();
@@ -484,7 +502,6 @@ $("#displayWeather").on("click", function serachEvent (event) {
 
                             let dayDateTime = forcastDataItem.dt_txt;
                             let dayTempKelvin = Math.floor(forcastDataItem.main.temp - 273);
-                            let dayWindSpeed = forcastDataItem.wind.speed;
                             let dayWeatherDetailsDescription = forcastDataItem.weather[0].description;
                             let dayWeatherDetailsIcon = forcastDataItem.weather[0].icon;
                             let weatherIconUrl = 'http://openweathermap.org/img/wn/' +
@@ -497,22 +514,32 @@ $("#displayWeather").on("click", function serachEvent (event) {
                             createCardBody = $("<div>").addClass("card-body");
                             headerEl = $("<h5>").addClass("card-title");
                             listElTemp = $("<li>").addClass("listClass").attr("id", "dayTemp").text(dayTempKelvin + " C");
-                            listElWind = $("<li>").addClass("listClass").attr("id", "dayWind").text(dayWindSpeed + " m/s");
                             listElDetailsDescription = $("<li>").addClass("listClass").attr("id", "detailsDescription").text(dayWeatherDetailsDescription);;
                             imageIcon = $("<img>").attr("src", weatherIconUrl);
 
                             // appending all the elements within each card
                             headerEl.append(listElTemp);
-                            headerEl.append(listElWind);
                             headerEl.append(listElDetailsDescription);
                             headerEl.append(imageIcon);
                             createCardBody.append(headerEl);
                             createcardEL.append(createCardBody);
                             cardElContainer.append(createcardEL);
                             
-                            let coldWeather = "It seems like a cold day, maybe stay and do a home workout"
+                            let extremlyColdWeather = "It seems like a very cold day, maybe stay and do a home workout"
+                            let veryColdWeather = "It seems like a cold day, maybe take a warm layer before going to workout outside"
+                            let coldWeather = "It seems cooler then normal, maybe take an extra layer before working out outside"
                             let niceWeather = "It seems like a nice day, try go outside for a walk or a run"
+                            let hotWeather = "It seems like a very hot day, if you go out make sure to keep hydrated"
+                            let veryHotWeather = "It seems like an extremly hot day, try not to stay out too long"
                     // add iff statements to append extra information 
+                        if (dayTempKelvin < 0) {
+                            workoutSugg = $("<p>").text(extremlyColdWeather);
+                            headerEl.append(workoutSugg);
+                        }
+                        if (dayTempKelvin < 10) {
+                            workoutSugg = $("<p>").text(veryColdWeather);
+                            headerEl.append(workoutSugg);
+                        }
                         if (dayTempKelvin < 15) {
                             workoutSugg = $("<p>").text(coldWeather);
                             headerEl.append(workoutSugg);
@@ -521,12 +548,18 @@ $("#displayWeather").on("click", function serachEvent (event) {
                             workoutSugg = $("<p>").text(niceWeather);
                             headerEl.append(workoutSugg);
                         }
-
+                        if (dayTempKelvin > 25 ) {
+                            workoutSugg = $("<p>").text(hotWeather);
+                            headerEl.append(workoutSugg);
+                        }
+                        if (dayTempKelvin > 30 ) {
+                            workoutSugg = $("<p>").text(veryHotWeather);
+                            headerEl.append(workoutSugg);
+                        }
                     });
                     // -----------------------------------------------------------------------------------------------
             });
 
-            
 });
 
 
