@@ -6,10 +6,10 @@
     height: 120px; 
   }
 
-  /* Title */
+/* Title */
 .titleHero {
     text-align: center;
-    font-size: 35px; 
+    font-size: 38px; 
     font-family: "Optima", sans-serif; 
     color: rgb(9, 116, 89);
     font-weight: bold;
@@ -18,7 +18,7 @@
     padding: 5px;
   }
   
- /* Logo */
+/* Logo */
 .logo {
     font-weight: bold;
     text-align: left;
@@ -42,8 +42,7 @@
     line-height: 0%;
     white-space: nowrap;
     margin: 10px 0;
-    margin-top: -1em;
-    text-indent: 2em;
+    margin-top: -30px;
     padding: 35px;
 }
 
@@ -60,7 +59,6 @@
   display: block;
   pointer-events: auto; 
   background-color: rgb(64, 175, 64);
-  font-weight: bold;
 }
 
 * {
