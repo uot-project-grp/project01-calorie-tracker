@@ -438,7 +438,7 @@ $(window).on("load", function() {
         }
     }
     //Display calorie target from storage in progress
-    $(".setMyTarget").text(userDatabase[0].calTarget + " kcal");
+    $(".setMyTarget").text(userDatabase[0].calTarget);
 
     //-----DISPLAY FROM LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
 
