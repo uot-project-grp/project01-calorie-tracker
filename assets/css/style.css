@@ -126,7 +126,7 @@
     max-width: calc(50% - 40px);
     display: flex;
     font-size: 18px;
-    justify-content: space-around;
+    justify-content: space-between;
     max-height: 150px;
     align-items: center;
 }
@@ -141,7 +141,7 @@
 }
 
 .buttonContainer button {
-    margin: 5px 0;
+    margin: 5px 10px 5px 5px;
 }
 
 .myRecipe {
