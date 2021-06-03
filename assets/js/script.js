@@ -38,8 +38,8 @@ else {
         calConsumed:[],
         steps: [],
         calBurned: [],
-        calTarget:"2000",
-        totalCal:"0"
+        calTarget: 2000
+        //totalCal:"0"
     }
     userDatabase.push(thisUser);
     localStorage.setItem('userData', JSON.stringify(userDatabase));
@@ -374,6 +374,19 @@ $("#result-display").on("click", ".showRecipe", function(event) {
 $("#result-display").on("click", ".modal-close", function(event) {
     $(".modal").remove();
 })
+
+//-----PROGRESS BAR UPDATE FUNCTION-----//
+var progressBar = function(arr) {
+    var sum = 0;
+    $.each(arr,function(){
+        sum+=parseFloat(this);
+    });
+    var progress = (sum / parseInt(userDatabase[0].calTarget)) * 100;
+
+    progress = progress;
+    console.log(progress);
+    $(".progressCalCon").attr("value", progress);
+}
 // VARIABLE DECLERATION FOR LOADING THE VALUES TO THE BIO AND PROGRESS CHART
 var userNameEl=document.querySelector("#user-name");
 var userGenderEl=document.querySelector("#user-gender");
@@ -388,10 +401,12 @@ $(window).on("load", function() {
     userGenderEl.textContent=userDatabase[0].gender;
     userWeightEl.textContent=userDatabase[0].weight;
     userHeightEl.textContent=userDatabase[0].height;
-    userCalTargetEl.textContent=userDatabase[0].calTarget+" Cal";
-    // userCalTargetEl.max=userDatabase[0].calTarget;
-    userCalConsumedEl.textContent=userDatabase[0].totalCal + " Cal";
-    // userCalTargetEl.max=userDatabase[0].calTarget;
+
+    if (userDatabase[0].calTarget && userDatabase[0].calConsumed.length != 0) {
+        if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.length) {
+            progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
+        }
+    }
     //-----DISPLAY FROM LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
 
     if (userDatabase[0].calConsumed.length === 0) {
