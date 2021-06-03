@@ -38,8 +38,8 @@ else {
         calConsumed:[],
         steps: [],
         calBurned: [],
-        calTarget:"2000",
-        totalCal:"0"
+        calTarget: 0
+        //totalCal:"0"
     }
     userDatabase.push(thisUser);
     localStorage.setItem('userData', JSON.stringify(userDatabase));
@@ -131,6 +131,7 @@ var fetchFood = function(searchText) {
 }
 //-----SAVE USERDATA IN LOCALSTORAGE-----//
 var saveUserData = function() {
+    console.log(userDatabase);
     localStorage.setItem('userData', JSON.stringify(userDatabase));
 }
 
@@ -149,7 +150,7 @@ var displaySearchResults = function(result) {
             imgBox.alt='food image';
 
             var textBox = document.createElement("div");
-
+            textBox.className = "dispResTextBox";
             textBox.innerHTML = "<p>"+result.FoodName[i]+"</p><p>Calories: "
                 +result.calorie[i]+" kcal</p><p>Serving: "+
                 result.weightPerServing[i]+" "+result.uomPerServing[i]+"</p>"
@@ -225,9 +226,13 @@ $("#result-display").on("click", ".selectOneButton", function(event) {
             userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].serv.push(calorieDetails.weightPerServing[index]);
         }
         console.log(userDatabase)
-    }
-
+    }   
     saveUserData();
+    //Dynamically update progress bar on add
+    if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.length) {
+        progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
+    }
+    
 })
 
 //-----TOGGLE ON THE DROPDOWN WHEN CLICKED-----//
@@ -281,7 +286,14 @@ $(".calorieSection").on("blur", ".form-control", function() {
     userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].serv.splice(rowIndex,1,storeText);
 
     $(this).replaceWith(servVal); 
-    saveUserData();  
+    saveUserData(); 
+    //Dynamically update progress bar on edit
+    if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.length) {
+        progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
+    } else {
+        progressBar([0]);
+    }
+    
 })
 
 //-----TABLE DELETE BUTTON LOGIC-----//
@@ -300,17 +312,24 @@ $(".calorieSection").on("click", ".deleteBtn", function() {
         $(this).text(i+1);
     })
     saveUserData();
+    //Dynamically update progress bar on delete
+    if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.length) {
+        progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
+    } else {
+        progressBar([0]);
+    }
 })
 
 //-----ON CLICK MANUAL SUBMIT-----//
 $("#manualForm").on("submit", function(event) {
     event.preventDefault();
+    //picks value to be appended to table
     var sno = $("#calorieConsumed tr").length -1;
-    console.log($("#manualInput").val().trim());
+
     var desc = $("#manualInput").val().trim();
     var calNew = $("#manualCalorie").val().trim();
     var servNew = $("#manualServing").val().trim();
-
+    //creates and append the row
     $(".calorieSection").find("tbody").append("<tr><th class='sno'>"+sno+"</th><th>"+desc+
         "</th><td><span class='cal'>"+calNew+"</span></td><td><span class='serv'>"+servNew+
         "</span></td><td>"+editDelete+"</td></tr>");
@@ -319,9 +338,9 @@ $("#manualForm").on("submit", function(event) {
     if (userDatabase[0].calConsumed.length === 0 || userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].date != dateToday) {
         userDatabase[0].calConsumed.push({
             date: dateToday,
-            food: desc,
-            cal: calNew,
-            serv: servNew    
+            food: [desc],
+            cal: [calNew],
+            serv: [servNew]    
         })
         console.log(userDatabase)
         
@@ -334,8 +353,12 @@ $("#manualForm").on("submit", function(event) {
         }
         console.log(userDatabase)
     }
-
     saveUserData();
+    //Dynamically update progress bar on add
+    if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.length) {
+        progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
+    }
+    //clears form values
     $("#manualInput").val("");
     $("#manualCalorie").val("");
     $("#manualServing").val("");
@@ -345,11 +368,13 @@ $("#manualForm").on("submit", function(event) {
 $("#result-display").on("click", ".showRecipe", function(event) {
     var index = $(this).closest(".searchResult").attr("data-result-id");
     var recipe = calorieDetails.instruction[index];
+    //recipe head with food name
     var recipeHead = "<h3> Recipe for " + calorieDetails.FoodName[index] + "</h3>"
+    
     var recipeText = "";
-    console.log(recipe);
     var inininText = "";
     var inText = "";
+    //picks text data from the api for instruction
     $.each(recipe, function(index, value) {
         console.log(value.name);
         inText = value.name;
@@ -363,6 +388,7 @@ $("#result-display").on("click", ".showRecipe", function(event) {
     recipeText = recipeHead + recipeText;
     console.log(recipeText);
 
+    //creates new modal on click
     var newModal = $("<div>").addClass("modal is-active")
         .html('<div class="modal-background"></div><div class="modal-content myRecipe">'+
         recipeText+'</div><button class="modal-close is-large" aria-label="close"></button');
@@ -372,8 +398,49 @@ $("#result-display").on("click", ".showRecipe", function(event) {
 
 //-----ON CLICK CLOSE MODAL CLOSE-----//
 $("#result-display").on("click", ".modal-close", function(event) {
+    //removes modal
     $(".modal").remove();
 })
+
+//-----CALORIE EDIT ON BUTTON CLICK-----//
+$(".myCalTarget").on("click" , ".calTarButton", function() {
+    var calTar = $(".setMyTarget")
+        .text()
+        .trim();
+    var calInput = $("<input>").addClass("form-control").val(calTar);
+
+    $(".setMyTarget").replaceWith(calInput);
+    calInput.trigger("focus");
+})
+
+//-----CALORIE TARGET SAVE ON BLUR-----//
+$(".myCalTarget").on("blur", ".form-control", function() {
+    var text = $(this)
+        .val()
+        .trim();
+
+    var calTar = $("<span>").addClass("setMyTarget").text(text);
+    userDatabase[0].calTarget = parseInt(text);
+    $(this).replaceWith(calTar);
+    saveUserData();
+    progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
+})    
+
+//-----PROGRESS BAR UPDATE FUNCTION - UPDATES THE BAR VALUE AND DISPLAYS %-----//
+var progressBar = function(arr) {
+    console.log(arr)
+    var sum = 0;
+    //adds array value
+    $.each(arr,function(){
+        sum+=parseFloat(this);
+        console.log(sum)
+    });
+    //calculates progress and displays percent
+    var progress = ((sum / parseInt(userDatabase[0].calTarget)) * 100).toFixed(2);
+    $(".myCalPercent").text(progress + "%");
+    //updates bar value
+    $(".progressCalCon").attr("value", progress);
+}
 // VARIABLE DECLERATION FOR LOADING THE VALUES TO THE BIO AND PROGRESS CHART
 var userNameEl=document.querySelector("#user-name");
 var userGenderEl=document.querySelector("#user-gender");
@@ -383,15 +450,21 @@ var userCalTargetEl=document.querySelector("#target-bar");
 var userCalConsumedEl=document.querySelector("#prog-bar");
 //-----WINDOW ONLOAD DISPLAY TABLE-----//
 $(window).on("load", function() {
-    // MVP - DISPLAY THE FIRST USER's DETAIL
+    // MVP - DISPLAY THE FIRST USER's DETAIL - BIO
     userNameEl.textContent=userDatabase[0].name;
     userGenderEl.textContent=userDatabase[0].gender;
     userWeightEl.textContent=userDatabase[0].weight;
     userHeightEl.textContent=userDatabase[0].height;
-    userCalTargetEl.textContent=userDatabase[0].calTarget+" Cal";
-    // userCalTargetEl.max=userDatabase[0].calTarget;
-    userCalConsumedEl.textContent=userDatabase[0].totalCal + " Cal";
-    // userCalTargetEl.max=userDatabase[0].calTarget;
+    console.log(userDatabase[0].calTarget)
+    //Progress BAR function - check if target set then call progress bar
+    if (userDatabase[0].calTarget) {
+        if (userDatabase[0].calConsumed.length != 0 && userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.length) {
+            progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
+        }
+    }
+    //Display calorie target from storage in progress
+    $(".setMyTarget").text(userDatabase[0].calTarget);
+
     //-----DISPLAY FROM LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
 
     if (userDatabase[0].calConsumed.length === 0) {
@@ -407,6 +480,7 @@ $(window).on("load", function() {
         }
     })
     }
+    
 })
 
     /*for (var i=0; i<userDatabase[0].calConsumed[currentIndex].cal.length; i++) {
@@ -439,11 +513,32 @@ $("#getLocation").on("click", function getLocation () {
 })
 
 // Weather API integration/functionality begins here
-$("#displayWeather").on("click", function serachEvent (event) {    
+$("#displayWeather").on("click", function serachEvent (event) { 
+    event.preventDefault();
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+        
+    } else { 
+        positionBtn.text("Geolocation is not supported by this browser.");
+        return;
+    }
+    function showPosition(position) {
+        latitude = Math.floor(position.coords.latitude);
+        longitude =Math.floor(position.coords.longitude);
+        //positionBtn.text("longitude = " + longitude + " " + " latitude = " + latitude)
+        searchWeather(latitude, longitude)
+    }
+
+   console.log(longitude,latitude)
+   
+})
+
+function searchWeather(latitude,longitude) {
+
     let cardElContainer = $("#cardElementsContainer").text("");
     // these are the variables for the API fetch
     cardElContainer.text('');
-    event.preventDefault();
+    
     fetch(
         'https://api.openweathermap.org/data/2.5/forecast?lat=' +
         latitude +
@@ -521,7 +616,7 @@ $("#displayWeather").on("click", function serachEvent (event) {
 
                             // creating the elements for each card
                             cardElContainer = $("#cardElementsContainer");
-                            createcardEL = $("<div>").addClass("card  border border-primary").text(dayDateTime);
+                            createcardEL = $("<div>").addClass("card border border-primary weatherBox").text(dayDateTime);
                             createCardBody = $("<div>").addClass("card-body");
                             headerEl = $("<h5>").addClass("card-title");
                             listElTemp = $("<li>").addClass("listClass").attr("id", "dayTemp").text(dayTempKelvin + " C");
@@ -555,11 +650,11 @@ $("#displayWeather").on("click", function serachEvent (event) {
                             workoutSugg = $("<p>").text(coldWeather);
                             headerEl.append(workoutSugg);
                         }
-                        if (dayTempKelvin > 15 && dayTempKelvin <25 ) {
+                        if (dayTempKelvin >= 15 && dayTempKelvin <25 ) {
                             workoutSugg = $("<p>").text(niceWeather);
                             headerEl.append(workoutSugg);
                         }
-                        if (dayTempKelvin > 25 ) {
+                        if (dayTempKelvin >= 25 ) {
                             workoutSugg = $("<p>").text(hotWeather);
                             headerEl.append(workoutSugg);
                         }
@@ -571,6 +666,6 @@ $("#displayWeather").on("click", function serachEvent (event) {
                     // -----------------------------------------------------------------------------------------------
             });
 
-});
+}
 
 

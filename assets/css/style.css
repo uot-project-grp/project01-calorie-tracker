@@ -126,7 +126,7 @@
     max-width: calc(50% - 40px);
     display: flex;
     font-size: 18px;
-    justify-content: space-around;
+    justify-content: space-between;
     max-height: 150px;
     align-items: center;
 }
@@ -135,13 +135,17 @@
     height: 100%;
 }
 
+.dispResTextBox {
+    margin: 5px;
+}
+
 .buttonContainer {
     display: flex;
     flex-direction: column;
 }
 
 .buttonContainer button {
-    margin: 5px 0;
+    margin: 5px 10px 5px 5px;
 }
 
 .myRecipe {
@@ -169,6 +173,7 @@
     resize: none;
     color: rgb(38, 38, 221);
     max-width: 50px;
+    padding: 0 0 5px 0;
 }
 
 .form-control:focus {
@@ -223,3 +228,41 @@
     flex-direction: row;
 }
 
+.myCalTarget {
+    padding: 10px 0;
+    font-weight: bold;
+}
+
+.myCalTarget span {
+    padding: 0 5px;
+}
+
+.myCalTarget input {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.myCalBar{
+    padding: 10px 5px;
+    font-weight: bold;
+}
+
+.progressCalCon {
+    margin: 5px 0;
+}
+
+.bioBoxCont {
+    max-width: calc(50% - 40px);
+    flex: 40%;
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 20px;
+}
+
+.prog {
+    flex-direction: column;
+}
+
+.weatherBox {
+    padding: 8px;
+}

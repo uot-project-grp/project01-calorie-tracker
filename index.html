@@ -41,12 +41,13 @@
     <!-- hero/jumbotron start -->
     <section class="hero boxBorder columns">
         <!-- Start avataar here -->
+    <div class="bioBoxCont boxBorder">   
         <div class="avataar">    
             <img src="https://picsum.photos/id/1005/200" alt="avataar" class="avataar"/>
         </div>
         <!-- End avataar here -->
         <!-- Start bio here -->
-        <div class="column boxBorder align-center bio"> 
+        <div class="column align-center bio"> 
             <h2 class="column mainBoxHeader">Bio</h2>
             <ul class ="bio-info">
                 <li class="bio-items">
@@ -91,29 +92,37 @@
                 </li>
             </ul>
         </div>
+    </div>     
         <!-- end bio here -->
         <!-- Start Progress Section -->
-        <section class="column boxBorder prog">    
+        <section class="column boxBorder prog bioBoxCont">    
             <div class="column is-12 align-center">
                     <h2 class="mainBoxHeader">Progress</h2>
             </div>
-            <div class = "column is-12">
+            <div class = "column">
                 <div>
-                    <div>
-                        <span>Calorie Target</span>
-                        <div id="target-bar" class="box">
-                        </div>
-                    </div>
+                   <div class="is-flex myCalTarget">
+                        <span>Calorie Target: </span>
+                        <span class="setMyTarget"></span>
+                        <span>kcal</span>
+                        <span><button class="calTarButton">Edit</button></span>
+                        
+
+    <!--                <div id="target-bar" class="box">   
+                        </div>          -->
+                    </div>      
                     <!-- <div>
                         <progress id="target-bar" value="19" max="90">
                         </progress>
                     </div> -->
                 </div> 
                 <div>
-                    <div>
-                        <span>Calorie Consumed</span>
-                        <div id="prog-bar" class="box">
-                        </div>
+                    <div class="myCalBar">
+                        <span>Calorie Consumed: </span>
+                        <span class="myCalPercent"></span>
+                        <progress class="progress is-primary progressCalCon" value="" max="100"></progress>
+<!--                    <div id="prog-bar" class="box">
+                        </div>          -->
                     </div>
                     <!-- <div >
                         <progress id="prog-bar" value="" max="">
@@ -121,13 +130,13 @@
                     </div> -->
                 </div>
             </div>    
-            <div class="column is-12">
+<!--             <div class="column is-12">
                 <form>
                     <label for="cal-goal">Enter Your Daily Calorie Goal</label>
                     <input type="number" placeholder="Calories" id="cal-goal" name="cal-goal" class="form-input input" />
                     <button class="button is-info">Set Goal</button>
                 </form>
-            </div>
+            </div> -->
         </section>
         <!-- End Progress Section -->
     </section>
@@ -201,7 +210,7 @@
 
     <!-- Weather display here -->
     <div class="cardElementsContainer column boxBorder calorieSection"  id="cardElementsContainer">
-        <button class="my-2 my-sm-0 button is-info submitButton" id="getLocation">Click here to ger your location</button>
+        <!--<button class="my-2 my-sm-0 button is-info submitButton" id="getLocation">Click here to ger your location</button>-->
         <button class="btn btn-outline-success my-2 my-sm-0 button is-info submitButton" id="displayWeather" >Click here for weather and work our suggestions</button>
     </div>
 
