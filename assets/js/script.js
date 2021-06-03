@@ -2,7 +2,15 @@
 function myFunction() {
     document.getElementById("changeUser").classList.toggle("changeUser");
   }
-  
+
+//   Redirect to Registration Page
+function redirct () {
+    location.href = "user.html"
+}
+
+
+
+
   /* Closing the dropdown menu if the user clicks outside of it */
   window.onclick = function(event) {
     if (!event.target.matches('.user')) {
