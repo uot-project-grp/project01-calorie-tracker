@@ -135,6 +135,10 @@
     height: 100%;
 }
 
+.dispResTextBox {
+    margin: 5px;
+}
+
 .buttonContainer {
     display: flex;
     flex-direction: column;
@@ -257,4 +261,8 @@
 
 .prog {
     flex-direction: column;
+}
+
+.weatherBox {
+    padding: 8px;
 }

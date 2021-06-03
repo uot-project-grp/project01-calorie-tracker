@@ -150,7 +150,7 @@ var displaySearchResults = function(result) {
             imgBox.alt='food image';
 
             var textBox = document.createElement("div");
-
+            textBox.className = "dispResTextBox";
             textBox.innerHTML = "<p>"+result.FoodName[i]+"</p><p>Calories: "
                 +result.calorie[i]+" kcal</p><p>Serving: "+
                 result.weightPerServing[i]+" "+result.uomPerServing[i]+"</p>"
@@ -616,7 +616,7 @@ function searchWeather(latitude,longitude) {
 
                             // creating the elements for each card
                             cardElContainer = $("#cardElementsContainer");
-                            createcardEL = $("<div>").addClass("card  border border-primary").text(dayDateTime);
+                            createcardEL = $("<div>").addClass("card border border-primary weatherBox").text(dayDateTime);
                             createCardBody = $("<div>").addClass("card-body");
                             headerEl = $("<h5>").addClass("card-title");
                             listElTemp = $("<li>").addClass("listClass").attr("id", "dayTemp").text(dayTempKelvin + " C");
