@@ -113,7 +113,7 @@ var fetchFood = function(searchText) {
     
     //-----WORKING FETCH CODE - USING FIXED VARIABLE FOR TESTING-----//
     fetch(
-        "https://api.spoonacular.com/recipes/complexSearch?apiKey=528245fe05d64c8ea869f7952527c40a&query="+searchText+"&addRecipeNutrition=true&number=6"
+        "https://api.spoonacular.com/recipes/complexSearch?apiKey=1d1c3696b7904c6aa2424198b18c00b0&query="+searchText+"&addRecipeNutrition=true&number=6"
     ).then(function(response) {
         if (response.ok) {
             console.log(response);
