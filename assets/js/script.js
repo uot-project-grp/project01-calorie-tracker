@@ -131,6 +131,7 @@ var fetchFood = function(searchText) {
 }
 //-----SAVE USERDATA IN LOCALSTORAGE-----//
 var saveUserData = function() {
+    console.log(userDatabase);
     localStorage.setItem('userData', JSON.stringify(userDatabase));
 }
 
@@ -226,11 +227,12 @@ $("#result-display").on("click", ".selectOneButton", function(event) {
         }
         console.log(userDatabase)
     }   
+    saveUserData();
     //Dynamically update progress bar on add
     if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.length) {
         progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
     }
-    saveUserData();
+    
 })
 
 //-----TOGGLE ON THE DROPDOWN WHEN CLICKED-----//
@@ -284,14 +286,14 @@ $(".calorieSection").on("blur", ".form-control", function() {
     userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].serv.splice(rowIndex,1,storeText);
 
     $(this).replaceWith(servVal); 
- 
+    saveUserData(); 
     //Dynamically update progress bar on edit
     if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.length) {
         progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
     } else {
         progressBar([0]);
     }
-    saveUserData(); 
+    
 })
 
 //-----TABLE DELETE BUTTON LOGIC-----//
@@ -309,14 +311,13 @@ $(".calorieSection").on("click", ".deleteBtn", function() {
         console.log("here");
         $(this).text(i+1);
     })
-
+    saveUserData();
     //Dynamically update progress bar on delete
     if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.length) {
         progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
     } else {
         progressBar([0]);
     }
-    saveUserData();
 })
 
 //-----ON CLICK MANUAL SUBMIT-----//
@@ -337,9 +338,9 @@ $("#manualForm").on("submit", function(event) {
     if (userDatabase[0].calConsumed.length === 0 || userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].date != dateToday) {
         userDatabase[0].calConsumed.push({
             date: dateToday,
-            food: desc,
-            cal: calNew,
-            serv: servNew    
+            food: [desc],
+            cal: [calNew],
+            serv: [servNew]    
         })
         console.log(userDatabase)
         
@@ -352,12 +353,11 @@ $("#manualForm").on("submit", function(event) {
         }
         console.log(userDatabase)
     }
-
+    saveUserData();
     //Dynamically update progress bar on add
     if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.length) {
         progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
     }
-    saveUserData();
     //clears form values
     $("#manualInput").val("");
     $("#manualCalorie").val("");
@@ -402,6 +402,7 @@ $("#result-display").on("click", ".modal-close", function(event) {
     $(".modal").remove();
 })
 
+//-----CALORIE EDIT ON BUTTON CLICK-----//
 $(".myCalTarget").on("click" , ".calTarButton", function() {
     var calTar = $(".setMyTarget")
         .text()
@@ -419,7 +420,7 @@ $(".myCalTarget").on("blur", ".form-control", function() {
         .trim();
 
     var calTar = $("<span>").addClass("setMyTarget").text(text);
-    userDatabase[0].calTarget = text;
+    userDatabase[0].calTarget = parseInt(text);
     $(this).replaceWith(calTar);
     saveUserData();
     progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
@@ -427,10 +428,12 @@ $(".myCalTarget").on("blur", ".form-control", function() {
 
 //-----PROGRESS BAR UPDATE FUNCTION - UPDATES THE BAR VALUE AND DISPLAYS %-----//
 var progressBar = function(arr) {
+    console.log(arr)
     var sum = 0;
     //adds array value
     $.each(arr,function(){
         sum+=parseFloat(this);
+        console.log(sum)
     });
     //calculates progress and displays percent
     var progress = ((sum / parseInt(userDatabase[0].calTarget)) * 100).toFixed(2);

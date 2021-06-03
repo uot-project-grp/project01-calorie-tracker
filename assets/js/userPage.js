@@ -29,7 +29,8 @@ $("#userData").on("click", ".userSubmit", function(event) {
         api: [clientId,clientSecret,refresherToken,authCode,accessToken],
         calConsumed:[],
         steps: [],
-        calBurned: []
+        calBurned: [],
+        calTarget: 0
     }
 
     userDatabase.push(thisUser);
