@@ -169,6 +169,7 @@
     resize: none;
     color: rgb(38, 38, 221);
     max-width: 50px;
+    padding: 0 0 5px 0;
 }
 
 .form-control:focus {
@@ -223,3 +224,25 @@
     flex-direction: row;
 }
 
+.myCalTarget {
+    padding: 10px 0;
+    font-weight: bold;
+}
+
+.myCalTarget span {
+    padding: 0 5px;
+}
+
+.myCalTarget input {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.myCalBar{
+    padding: 10px 5px;
+    font-weight: bold;
+}
+
+.progressCalCon {
+    margin: 5px 0;
+}

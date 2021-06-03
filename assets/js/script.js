@@ -403,6 +403,28 @@ $("#result-display").on("click", ".modal-close", function(event) {
     $(".modal").remove();
 })
 
+$(".myCalTarget").on("click" , ".calTarButton", function() {
+    var calTar = $(".setMyTarget")
+        .text()
+        .trim();
+    var calInput = $("<input>").addClass("form-control").val(calTar);
+
+    $(".setMyTarget").replaceWith(calInput);
+    calInput.trigger("focus");
+})
+
+//-----CALORIE TARGET SAVE ON BLUR-----//
+$(".myCalTarget").on("blur", ".form-control", function() {
+    var text = $(this)
+        .val()
+        .trim();
+
+    var calTar = $("<span>").addClass("setMyTarget").text(text);
+    userDatabase[0].calTarget = text;
+    $(this).replaceWith(calTar); 
+    progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
+})    
+
 //-----PROGRESS BAR UPDATE FUNCTION - UPDATES THE BAR VALUE AND DISPLAYS %-----//
 var progressBar = function(arr) {
     var sum = 0;
