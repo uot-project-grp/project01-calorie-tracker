@@ -199,7 +199,21 @@
     justify-content: space-between;
 }
 
-
+.bio-info {
+    display: flex;
+    flex-direction: column;
+    
+    
+}
+.bio-items {
+    padding: 0;
+}
+.display-flex {
+    display: flex!important;
+}
+.align-right {
+    padding-left: 4px;
+}
 /* stylesfor the weather section */
 #cardElementsContainer{
     display: flex;

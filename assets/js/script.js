@@ -369,10 +369,20 @@ $("#result-display").on("click", ".showRecipe", function(event) {
 $("#result-display").on("click", ".modal-close", function(event) {
     $(".modal").remove();
 })
-
+// VARIABLE DECLERATION FOR LOADING THE VALUES TO THE BIO AND PROGRESS CHART
+var userNameEl=document.querySelector("#user-name");
+var userGenderEl=document.querySelector("#user-gender");
+var userWeightEl=document.querySelector("#user-weight");
+var userHeightEl=document.querySelector("#user-height");
 //-----WINDOW ONLOAD DISPLAY TABLE-----//
 $(window).on("load", function() {
+    // MVP - DISPLAY THE FIRST USER's DETAIL
+    userNameEl.textContent=userDatabase[0].name;
+    userGenderEl.textContent=userDatabase[0].gender;
+    userWeightEl.textContent=userDatabase[0].weight;
+    userHeightEl.textContent=userDatabase[0].height;
     //-----DISPLAY FROM LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
+
     if (userDatabase[0].calConsumed.length === 0) {
         return;
     } else {$.each(userDatabase[0].calConsumed, function(index, value) {
