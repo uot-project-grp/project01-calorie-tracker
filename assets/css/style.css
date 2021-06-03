@@ -246,3 +246,15 @@
 .progressCalCon {
     margin: 5px 0;
 }
+
+.bioBoxCont {
+    max-width: calc(50% - 40px);
+    flex: 40%;
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 20px;
+}
+
+.prog {
+    flex-direction: column;
+}
