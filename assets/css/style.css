@@ -251,6 +251,11 @@
     margin: 5px 0;
 }
 
+.myCalPercent {
+    color: rgb(94, 94, 94);
+    font-weight: 600;
+}
+
 .bioBoxCont {
     max-width: calc(50% - 40px);
     flex: 40%;

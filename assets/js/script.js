@@ -437,7 +437,12 @@ var progressBar = function(arr) {
     });
     //calculates progress and displays percent
     var progress = ((sum / parseInt(userDatabase[0].calTarget)) * 100).toFixed(2);
-    $(".myCalPercent").text(progress + "%");
+    if (userDatabase[0].calTarget === 0) {
+        $(".myCalPercent").text("Please set calorie target");
+    } else {
+        $(".myCalPercent").text(progress + "%");
+    }
+    
     //updates bar value
     $(".progressCalCon").attr("value", progress);
 }
