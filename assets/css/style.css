@@ -77,7 +77,7 @@
 }
 
 .calorieSection, .searchSection {
-    margin: 20px;
+    margin: 5px 20px;
     flex: 1 40%;
 }
 
@@ -265,4 +265,8 @@
 
 .weatherBox {
     padding: 8px;
+}
+
+.columns {
+    margin-top: 0;
 }
