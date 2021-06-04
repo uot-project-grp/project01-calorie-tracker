@@ -677,23 +677,29 @@ function searchWeather(latitude,longitude) {
 //------------CHART EXPERIMENT
 var xAxis = []
 for (var i=0; i<7; i++) {
-    xAxis.splice(0,0,moment().subtract(i, 'days').format("MMM DD"))
+    xAxis.splice(0,0,moment().subtract(i, 'days').format("MMMDD"))
 }
 console.log(xAxis);
-chartD = moment().format("MMM DD");
 
 var data = {
     labels: xAxis,
     series: [
-        [5, 2, 4, 2, 0, 5, 1]
+        [500, 2000, 400, 200, 0, 500, 1000]
     ]
 }
 
 var chartDimen = {
     fullWidth: true,
     chartPadding: {
-        right: 30
-    }
+        right: 35
+    },
+    plugins: [
+        Chartist.plugins.ctThreshold({
+          threshold: 1000
+        })
+    ]
 }
+
+var chartPlugin = 
 
 new Chartist.Line('.ct-chart', data, chartDimen)

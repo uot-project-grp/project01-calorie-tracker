@@ -206,9 +206,7 @@
 
 .bio-info {
     display: flex;
-    flex-direction: column;
-    
-    
+    flex-direction: column;   
 }
 .bio-items {
     padding: 0;
@@ -223,10 +221,10 @@
     text-align: center;
 }
 /* stylesfor the weather section */
-#cardElementsContainer{
+/*#cardElementsContainer{
     display: flex;
     flex-direction: row;
-}
+}*/
 
 .myCalTarget {
     padding: 10px 0;
@@ -272,6 +270,31 @@
     padding: 8px;
 }
 
+.ct-chart {
+    max-height: 200px;
+}
+
+.otherSection {
+    margin: 0 20px;
+    flex: 1 40%;
+}
+
 .columns {
     margin-top: 0;
+}
+
+.ct-line.ct-threshold-above, .ct-point.ct-threshold-above, .ct-bar.ct-threshold-above {
+    stroke: #f05b4f;
+}
+  
+.ct-line.ct-threshold-below, .ct-point.ct-threshold-below, .ct-bar.ct-threshold-below {
+    stroke: #59922b;
+}
+  
+.ct-area.ct-threshold-above {
+    fill: #f05b4f;
+}
+  
+.ct-area.ct-threshold-below {
+    fill: #59922b;
 }
