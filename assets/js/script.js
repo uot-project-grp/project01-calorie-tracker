@@ -456,28 +456,53 @@ var updateChart = function() {
         xAxis.splice(0,0,moment().subtract(i, 'days').format("MMMDD"))
         console.log(xAxis)
     }
-    debugger
+    var x = 1;
     for (var i=0; i<7; i++) {
-        $.each(userDatabase[0].calConsumed, function(index,value) {
-            debugger
-            var sum = 0;
-            if (value.date === moment().subtract(i, 'days').format("YYYY-MM-DD")) {
-                debugger
-                $.each(value.cal,function() {
-                    debugger
+        var sum = 0;
+        var index = userDatabase[0].calConsumed.length-x;
+        if (index >= 0) {
+            if (userDatabase[0].calConsumed[index].date === moment().subtract(i, 'days').format("YYYY-MM-DD")) {    
+                $.each(userDatabase[0].calConsumed[index].cal,function() {
                     sum+=parseFloat(this);
                     console.log(sum);
                 })
                 yAxis.splice(0,0,sum);
+                x++;
             }
-            else {
-                debugger
-                yAxis.splice(0,0,sum);
-            }
-        })
+        }
+        
+        else {
+            yAxis.splice(0,0,sum);
+        }
     }
     console.log(yAxis)
+
+
+    //------------CHART EXPERIMENT
+    console.log(xAxis)
+    var data = {
+        labels: xAxis,
+        series: [
+            yAxis
+        ]
+    }
+
+    var chartThresh = userDatabase[0].calTarget;
+
+    var chartDimen = {
+        fullWidth: true,
+        chartPadding: {
+            right: 35
+        },
+        plugins: [
+            Chartist.plugins.ctThreshold({
+            threshold: chartThresh
+            })
+        ]
+    }
+    new Chartist.Line('.ct-chart', data, chartDimen)
 }
+
 
 // VARIABLE DECLERATION FOR LOADING THE VALUES TO THE BIO AND PROGRESS CHART
 var userNameEl=document.querySelector("#user-name");
@@ -699,29 +724,3 @@ function searchWeather(latitude,longitude) {
 
 }
 
-//------------CHART EXPERIMENT
-
-var data = {
-    labels: xAxis,
-    series: [
-        [500, 2000, 400, 200, 0, 500, 1000]
-    ]
-}
-
-var chartThresh = userDatabase[0].calTarget;
-
-var chartDimen = {
-    fullWidth: true,
-    chartPadding: {
-        right: 35
-    },
-    plugins: [
-        Chartist.plugins.ctThreshold({
-          threshold: chartThresh
-        })
-    ]
-}
-
-var chartPlugin = 
-
-new Chartist.Line('.ct-chart', data, chartDimen)
