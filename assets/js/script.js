@@ -16,7 +16,9 @@ function myFunction() {
       }
     }
   }
-
+//-----CHART DECLARATION-----//  
+var xAxis = []
+var yAxis = []
 var resultSection = document.querySelector("#result-display");
 var userDatabase = [];
 //var userDatabase = JSON.parse(localStorage.getItem('userData')) || [];
@@ -447,6 +449,36 @@ var progressBar = function(arr) {
     //updates bar value
     $(".progressCalCon").attr("value", progress);
 }
+
+//-----CHART UPDATE FUNCTION-----//
+var updateChart = function() {
+    for (var i=0; i<7; i++) {
+        xAxis.splice(0,0,moment().subtract(i, 'days').format("MMMDD"))
+        console.log(xAxis)
+    }
+    debugger
+    for (var i=0; i<7; i++) {
+        $.each(userDatabase[0].calConsumed, function(index,value) {
+            debugger
+            var sum = 0;
+            if (value.date === moment().subtract(i, 'days').format("YYYY-MM-DD")) {
+                debugger
+                $.each(value.cal,function() {
+                    debugger
+                    sum+=parseFloat(this);
+                    console.log(sum);
+                })
+                yAxis.splice(0,0,sum);
+            }
+            else {
+                debugger
+                yAxis.splice(0,0,sum);
+            }
+        })
+    }
+    console.log(yAxis)
+}
+
 // VARIABLE DECLERATION FOR LOADING THE VALUES TO THE BIO AND PROGRESS CHART
 var userNameEl=document.querySelector("#user-name");
 var userGenderEl=document.querySelector("#user-gender");
@@ -454,6 +486,7 @@ var userWeightEl=document.querySelector("#user-weight");
 var userHeightEl=document.querySelector("#user-height");
 var userCalTargetEl=document.querySelector("#target-bar");
 var userCalConsumedEl=document.querySelector("#prog-bar");
+
 //-----WINDOW ONLOAD DISPLAY TABLE-----//
 $(window).on("load", function() {
     // MVP - DISPLAY THE FIRST USER's DETAIL - BIO
@@ -462,17 +495,15 @@ $(window).on("load", function() {
     userWeightEl.textContent=userDatabase[0].weight;
     userHeightEl.textContent=userDatabase[0].height;
     console.log(userDatabase[0].calTarget)
-    //Progress BAR function - check if target set then call progress bar
-    if (userDatabase[0].calTarget) {
-        if (userDatabase[0].calConsumed.length != 0 && userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.length) {
-            progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
-        }
+    //Progress BAR function - check if cal consumed data exist
+    if (userDatabase[0].calConsumed.length != 0) {
+        progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
     }
+
     //Display calorie target from storage in progress
     $(".setMyTarget").text(userDatabase[0].calTarget);
 
     //-----DISPLAY FROM LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
-
     if (userDatabase[0].calConsumed.length === 0) {
         return;
     } else {$.each(userDatabase[0].calConsumed, function(index, value) {
@@ -486,15 +517,9 @@ $(window).on("load", function() {
         }
     })
     }
-    
+    //-----UPDATE CHART-----//
+    updateChart();
 })
-
-    /*for (var i=0; i<userDatabase[0].calConsumed[currentIndex].cal.length; i++) {
-        $("tbody").append("<tr><th class='sno'>"+i+"</th><th>"+userDatabase[0].calConsumed[currentIndex].food[i]+
-        "</th><td><span class='cal'>"+userDatabase[0].calConsumed[currentIndex].cal[i]+"</span></td><td><span class='serv'>"+userDatabase[0].calConsumed[currentIndex].serv[i]+
-        "</span></td><td>"+editDelete+"</td></tr>");
-    }*/
-
 
 // ---------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------
@@ -675,11 +700,6 @@ function searchWeather(latitude,longitude) {
 }
 
 //------------CHART EXPERIMENT
-var xAxis = []
-for (var i=0; i<7; i++) {
-    xAxis.splice(0,0,moment().subtract(i, 'days').format("MMMDD"))
-}
-console.log(xAxis);
 
 var data = {
     labels: xAxis,
@@ -688,6 +708,8 @@ var data = {
     ]
 }
 
+var chartThresh = userDatabase[0].calTarget;
+
 var chartDimen = {
     fullWidth: true,
     chartPadding: {
@@ -695,7 +717,7 @@ var chartDimen = {
     },
     plugins: [
         Chartist.plugins.ctThreshold({
-          threshold: 1000
+          threshold: chartThresh
         })
     ]
 }
