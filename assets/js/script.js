@@ -55,8 +55,8 @@ var userDatabase = [];
 
 var userDatabase = JSON.parse(localStorage.getItem('userData')) || [];
 //-----DATE FOR TODAY-----// 
-dateToday = moment().format("YYYY-MM-DD");
-
+var dateToday = moment().format("YYYY-MM-DD");
+var userDataIndex = 0;
 //-----CAPTURE LOCALSTORAGE OR IF EMPTY INITIALIZE-----// 
 /*if (localStorage.getItem('userData')) {
     userDatabase = JSON.parse(localStorage.getItem('userData'));
@@ -533,6 +533,21 @@ var divertUser = function() {
     );
     $("#bioBoxCont").replaceWith(registerNotice);
 }
+
+var displayUser = function() {
+    $.each(userDatabase, function(index, value) {
+        var userLink = $("<a>")
+            .addClass("registor")
+            .attr("data-user",index)
+            .text(value.initial);
+        $(".dynamicUser").append(userLink);
+
+        if (value.default === "y") {
+            userDataIndex = index;
+            console.log(userDataIndex);
+        }
+    })
+}
 // VARIABLE DECLERATION FOR LOADING THE VALUES TO THE BIO AND PROGRESS CHART
 var userNameEl=document.querySelector("#user-name");
 var userGenderEl=document.querySelector("#user-gender");
@@ -548,6 +563,9 @@ $(window).on("load", function() {
     if (userDatabase.length === 0) {
         $(".UserBtnText").text("Register Here");
         divertUser();
+    } 
+    else {
+        displayUser();
     }
     // MVP - DISPLAY THE FIRST USER's DETAIL - BIO
     userNameEl.textContent="Name: "+ userDatabase[0].name;
