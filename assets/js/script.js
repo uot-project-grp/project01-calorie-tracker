@@ -22,11 +22,9 @@ var yAxis = []
 var resultSection = document.querySelector("#result-display");
 var userDatabase = [];
 //var userDatabase = JSON.parse(localStorage.getItem('userData')) || [];
-
+//-----DATE FOR TODAY-----// 
 dateToday = moment().format("YYYY-MM-DD");
-
-console.log(dateToday);
-
+//-----CAPTURE LOCALSTORAGE OR IF EMPTY INITIALIZE-----// 
 if (localStorage.getItem('userData')) {
     userDatabase = JSON.parse(localStorage.getItem('userData'));
 }
@@ -48,8 +46,8 @@ else {
     localStorage.setItem('userData', JSON.stringify(userDatabase));
 }
 
-
 console.log(userDatabase);
+//-----DOM FOR EDIT DELETE-----// 
 var editDelete = `
 <div class="dropdown is-right editDelete">
 <div class="dropdown-trigger">
@@ -73,14 +71,6 @@ var editDelete = `
 ;
 
 var calorieDetails = {};
-//-----FIXED TEST VARIABLE FROM SAMPLE DATA EXTRACTED-----//
-/*var calorieDetails = {
-    imgLink: ["https://spoonacular.com/recipeImages/655726-312x231.jpg", "https://spoonacular.com/recipeImages/638746-312x231.jpg"],
-    calorie: [429.85, 356.99],
-    weightPerServing: [316, 666],
-    uomPerServing: ["g", "g"],
-    FoodName: ["Perfect Chicken Soup", "Chipotle Chicken Soup"]
-}*/
 
 //-----EXTRACT DATA FROM FOOD API-----//
 var foodSearchResults = function(data) {
@@ -93,11 +83,6 @@ var foodSearchResults = function(data) {
         FoodName: [],
         instruction: []
     }
-    //var imgLink = [];
-    //var calorie = [];
-    //var weightPerServing = [];
-    //var uomPerServing = [];
-    //var FoodName = [];
 
     for (var i=0; i<data.results.length; i++) {
         calorieDetails.imgLink[i] = data.results[i].image;
@@ -129,8 +114,6 @@ var fetchFood = function(searchText) {
             console.log("Result not found.")
         }
     })
-    //-----FOR TESTING ONLY - THIS FUNCTION SHOULD BE IN foodSearchResults-----//
-    //displaySearchResults(calorieDetails);
 }
 //-----SAVE USERDATA IN LOCALSTORAGE-----//
 var saveUserData = function() {
@@ -272,7 +255,7 @@ $(".calorieSection").on("click", ".editBtn", function() {
     })
 })
 
-//-----TABLE SAVE LOGIC ON BLUR-----//
+//-----TABLE SAVE AFTER EDIT LOGIC ON BLUR-----//
 $(".calorieSection").on("blur", ".form-control", function() {
     var text = $(this)
         .val()
@@ -405,7 +388,7 @@ $("#result-display").on("click", ".modal-close", function(event) {
     $(".modal").remove();
 })
 
-//-----CALORIE EDIT ON BUTTON CLICK-----//
+//-----CALORIE TARGET EDIT ON BUTTON CLICK-----//
 $(".myCalTarget").on("click" , ".calTarButton", function() {
     var calTar = $(".setMyTarget")
         .text()
@@ -488,12 +471,19 @@ var updateChart = function() {
     }
 
     var chartThresh = userDatabase[0].calTarget;
+    var topUp = 200;
+    console.log(Math.max.apply(Math, yAxis))
+    if (Math.max.apply(Math, yAxis) > chartThresh) {
+        topUp = Math.max.apply(Math, yAxis) - chartThresh;
+        console.log(topUp)
+    }
 
     var chartDimen = {
         fullWidth: true,
         chartPadding: {
             right: 35
         },
+        high: chartThresh + topUp,
         plugins: [
             Chartist.plugins.ctThreshold({
             threshold: chartThresh
