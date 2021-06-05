@@ -1,7 +1,7 @@
 /* Toggling for when dropbox is clicked */
-function myFunction() {
+/*function myFunction() {
     document.getElementById("changeUser").classList.toggle("changeUser");
-  }
+} */
 
 //   Redirect to Registration Page
 function redirct () {
@@ -9,7 +9,7 @@ function redirct () {
 }
 
   /* Closing the dropdown menu if the user clicks outside of it */
-  window.onclick = function(event) {
+  /*window.onclick = function(event) {
     if (!event.target.matches('.user')) {
       var dropdowns = document.getElementsByClassName("User");
       var i;
@@ -20,7 +20,7 @@ function redirct () {
         }
       }
     }
-  }
+  }*/
 
 /* User interface */
 // Select and load user profile
