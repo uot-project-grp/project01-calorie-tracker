@@ -12,25 +12,19 @@ $("#userData").on("click", ".userSubmit", function(event) {
     var height = $(".height").val().trim();
     console.log(userName,initial,gender,weight,height,api);
 
-    if (api === "Mock API") {
-        var clientId = "646428140885-vd6lkigqjfqvifar0oh941msd653ab1v.apps.googleusercontent.com";
-        var clientSecret = "feOiXd3_T1YEkWPUC9uHdlzi";
-        var refresherToken = "1//048y0xhlQuPcvCgYIARAAGAQSNwF-L9IrZ2jdygr-eiS3cTBTZZwsbamZ09fOMNjdzt-Q7GUIgMjWD5eRf2T0UHcFmrFqHn67oys";
-        var authCode = "";
-        var accessToken = "";
-    }
-
     var thisUser = {
         name: userName,
         initial: initial,
         gender: gender,
         weight: weight,
         height: height,
-        api: [clientId,clientSecret,refresherToken,authCode,accessToken],
+        api: [],
         calConsumed:[],
         steps: [],
         calBurned: [],
-        calTarget: 0
+        calTarget: 0,
+        position: [],
+        default: "y"
     }
 
     userDatabase.push(thisUser);

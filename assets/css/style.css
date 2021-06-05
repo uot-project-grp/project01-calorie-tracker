@@ -226,6 +226,27 @@
     cursor:pointer;
 }
 
+.registerNotice {
+    flex-direction: column;
+    padding: 50px;
+    text-align: center;
+    align-items: center;
+}
+
+.registerNotice h2 {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.registerNotice h3 {
+    font-size: 20px;
+}
+
+.registerNotice button{
+    width: 50%;
+    margin-top: 10px;
+}
+
 .avataar {
     margin: 20px 0 20px 20px;
     vertical-align: middle;

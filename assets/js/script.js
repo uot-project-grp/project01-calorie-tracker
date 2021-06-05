@@ -53,11 +53,12 @@ localStorage.setItem('userData', JSON.stringify(userDatabase));
 var resultSection = document.querySelector("#result-display");
 var userDatabase = [];
 
-//var userDatabase = JSON.parse(localStorage.getItem('userData')) || [];
+var userDatabase = JSON.parse(localStorage.getItem('userData')) || [];
 //-----DATE FOR TODAY-----// 
 dateToday = moment().format("YYYY-MM-DD");
+
 //-----CAPTURE LOCALSTORAGE OR IF EMPTY INITIALIZE-----// 
-if (localStorage.getItem('userData')) {
+/*if (localStorage.getItem('userData')) {
     userDatabase = JSON.parse(localStorage.getItem('userData'));
 }
 else {
@@ -77,7 +78,7 @@ else {
     }
     userDatabase.push(thisUser);
     localStorage.setItem('userData', JSON.stringify(userDatabase));
-}
+}*/
 
 console.log(userDatabase);
 //-----DOM FOR EDIT DELETE-----// 
@@ -463,25 +464,27 @@ var updateChart = function() {
     var x = 1;
     for (var i=0; i<7; i++) {
         var sum = 0;
+        //Initialize index starting from last index
         var index = userDatabase[0].calConsumed.length-x;
+        //if index exists go in
         if (index >= 0) {
+            //checks if the date matches (sub 0 - 6) so starting today to last seven days
             if (userDatabase[0].calConsumed[index].date === moment().subtract(i, 'days').format("YYYY-MM-DD")) {    
+                //calculate sum of cal
                 $.each(userDatabase[0].calConsumed[index].cal,function() {
                     sum+=parseFloat(this);
                 })
                 yAxis.splice(0,0,sum);
+                //if there is a match only then x is incremented else it will keep looking for a date match in the last index
                 x++;
             }
         }
-        
+        //if no index left just put 0, sum is initialized to 0    
         else {
             yAxis.splice(0,0,sum);
         }
     }
-
-
-
-    //------------CHART EXPERIMENT
+    //-----CHART IMPLEMENTATION-----//
 
     var data = {
         labels: xAxis,
@@ -489,9 +492,11 @@ var updateChart = function() {
             yAxis
         ]
     }
-
+    //check calorie target
     var chartThresh = userDatabase[0].calTarget;
+    //initialized to 200
     var topUp = 200;
+    //If anything in total calorie is greater than calorie target, topup value is increased dynamically
     if (Math.max.apply(Math, yAxis) > chartThresh) {
         topUp = Math.max.apply(Math, yAxis) - chartThresh;
 
@@ -516,6 +521,18 @@ $('.userDrpdwn').hover(function() {
     $(this).parent().toggleClass('.is-active');
 }
 );
+
+var divertUser = function() {
+    $("#otherSection").hide();
+    var registerNotice = $("<div>").addClass("registerNotice boxBorder bioBoxCont").html(
+        '<h2>No User Registered</h2>'+
+        '<h3>Please use the below link to register</h3>'+
+        '<button class="button headButtonOveride" onclick="redirct()">'+
+        '<div><span class="UserBtnText">Register Here</span></div>'+
+        '</button>'
+    );
+    $("#bioBoxCont").replaceWith(registerNotice);
+}
 // VARIABLE DECLERATION FOR LOADING THE VALUES TO THE BIO AND PROGRESS CHART
 var userNameEl=document.querySelector("#user-name");
 var userGenderEl=document.querySelector("#user-gender");
@@ -526,11 +543,17 @@ var userCalConsumedEl=document.querySelector("#prog-bar");
 
 //-----WINDOW ONLOAD DISPLAY TABLE-----//
 $(window).on("load", function() {
+
+    //-----INITIALIZE USER MENU-----//
+    if (userDatabase.length === 0) {
+        $(".UserBtnText").text("Register Here");
+        divertUser();
+    }
     // MVP - DISPLAY THE FIRST USER's DETAIL - BIO
-    userNameEl.textContent=userDatabase[0].name;
-    userGenderEl.textContent=userDatabase[0].gender;
-    userWeightEl.textContent=userDatabase[0].weight;
-    userHeightEl.textContent=userDatabase[0].height;
+    userNameEl.textContent="Name: "+ userDatabase[0].name;
+    userGenderEl.textContent="Gender: "+ userDatabase[0].gender;
+    userWeightEl.textContent="Weight: "+ userDatabase[0].weight;
+    userHeightEl.textContent="Height: "+ userDatabase[0].height;
     //Progress BAR function - check if cal consumed data exist
     if (userDatabase[0].calConsumed.length != 0) {
         progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
