@@ -24,7 +24,7 @@ function redirct () {
 
 /* User interface */
 // Select and load user profile
-selectElement('user-content','user1')
+/*selectElement('user-content','user1')
 
 function selectElement(id, valueToSelect) {    
     let element = document.getElementById(id);
@@ -44,7 +44,7 @@ function selectElement(id, valueToSelect) {
     let element = document.getElementById(id);
     element.value = valueToSelect;
 }
-
+*/
 //Retrieve data from local storage 
 var RetriveUserData = function() {
 localStorage.setItem('userData', JSON.stringify(userDatabase));
@@ -512,7 +512,10 @@ var updateChart = function() {
     new Chartist.Line('.ct-chart', data, chartDimen)
 }
 
-
+$('.userDrpdwn').hover(function() {
+    $(this).parent().toggleClass('.is-active');
+}
+);
 // VARIABLE DECLERATION FOR LOADING THE VALUES TO THE BIO AND PROGRESS CHART
 var userNameEl=document.querySelector("#user-name");
 var userGenderEl=document.querySelector("#user-gender");

@@ -31,17 +31,34 @@
         </div>
          <!---DROPDOWN BOX FOR USER SELECTION-->
          <div class="User">
-            <div>
+            <!--<div>
                 <button class="registor" onclick="redirct()">Register</button>
-            </div>
+            </div>-->
             <div class="selectBox">
-              <option val="">Select User</option>
-              <select name="user-content" id="user-content">
+                <div class="dropdown is-hoverable userDrpdwn is-right">
+                    <div class="dropdown-trigger">
+                      <button class="button headButtonOveride" aria-haspopup="true" aria-controls="dropdown-menu4">
+                        <span>Select User</span>
+                      </button>
+                    </div>
+                    <div class="dropdown-menu headMenuOveride" id="dropdown-menu4" role="menu">
+                      <div class="dropdown-content headMenuCont">
+                        <div class="dropdown-item">
+                            <div class="dynamicUser">
+                                
+                            </div>
+                            <hr class="dropdown-divider">
+                            <a class="registor" onclick="redirct()">Register</a>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              <!-- <select name="user-content" id="user-content">
                 <option value="changeUser('user1')">User 1</option>
                 <option value="changeUser('user2')">User 2</option>
                 <option value="changeUser('user3')">User 3</option>
             
-                </select>
+                </select>-->
             </div>
          </div>
     </div>
@@ -218,7 +235,7 @@
     <!-- Weather display here -->
         <div class="column boxBorder otherSection"  id="cardElementsContainer">
             <!--<button class="my-2 my-sm-0 button is-info submitButton" id="getLocation">Click here to ger your location</button>-->
-            <button class="btn btn-outline-success my-2 my-sm-0 button is-info submitButton" id="displayWeather" >Click here for weather and work our suggestions</button>
+            <!--<button class="btn btn-outline-success my-2 my-sm-0 button is-info submitButton" id="displayWeather" >Click here for weather and work our suggestions</button>-->
         </div>
         <div class="ct-chart ct-perfect-fourth column boxBorder otherSection is-flex">
 
