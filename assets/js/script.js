@@ -16,9 +16,7 @@ function myFunction() {
       }
     }
   }
-//-----CHART DECLARATION-----//  
-var xAxis = []
-var yAxis = []
+
 var resultSection = document.querySelector("#result-display");
 var userDatabase = [];
 //var userDatabase = JSON.parse(localStorage.getItem('userData')) || [];
@@ -218,7 +216,7 @@ $("#result-display").on("click", ".selectOneButton", function(event) {
     if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.length) {
         progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
     }
-    
+    updateChart();
 })
 
 //-----TOGGLE ON THE DROPDOWN WHEN CLICKED-----//
@@ -279,7 +277,7 @@ $(".calorieSection").on("blur", ".form-control", function() {
     } else {
         progressBar([0]);
     }
-    
+    updateChart();
 })
 
 //-----TABLE DELETE BUTTON LOGIC-----//
@@ -304,6 +302,7 @@ $(".calorieSection").on("click", ".deleteBtn", function() {
     } else {
         progressBar([0]);
     }
+    updateChart();
 })
 
 //-----ON CLICK MANUAL SUBMIT-----//
@@ -344,6 +343,7 @@ $("#manualForm").on("submit", function(event) {
     if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.length) {
         progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
     }
+    updateChart();
     //clears form values
     $("#manualInput").val("");
     $("#manualCalorie").val("");
@@ -410,6 +410,7 @@ $(".myCalTarget").on("blur", ".form-control", function() {
     $(this).replaceWith(calTar);
     saveUserData();
     progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
+    updateChart();
 })    
 
 //-----PROGRESS BAR UPDATE FUNCTION - UPDATES THE BAR VALUE AND DISPLAYS %-----//
@@ -435,6 +436,9 @@ var progressBar = function(arr) {
 
 //-----CHART UPDATE FUNCTION-----//
 var updateChart = function() {
+    //-----CHART DECLARATION-----//  
+    var xAxis = []
+    var yAxis = []
     for (var i=0; i<7; i++) {
         xAxis.splice(0,0,moment().subtract(i, 'days').format("MMMDD"))
         console.log(xAxis)
