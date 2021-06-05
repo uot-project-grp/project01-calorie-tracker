@@ -271,7 +271,7 @@
 }
 
 .ct-chart {
-    max-height: 200px;
+    max-height: 300px;
 }
 
 .otherSection {
@@ -297,4 +297,8 @@
   
 .ct-area.ct-threshold-below {
     fill: #59922b;
+}
+
+#cardElementsContainer {
+    display: flex;
 }
