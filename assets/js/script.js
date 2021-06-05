@@ -1,24 +1,58 @@
 /* Toggling for when dropbox is clicked */
 function myFunction() {
-    document.getElementById("#").classList.toggle("#");
+    document.getElementById("changeUser").classList.toggle("changeUser");
   }
-  
+
+//   Redirect to Registration Page
+function redirct () {
+    location.href = "user.html"
+}
+
   /* Closing the dropdown menu if the user clicks outside of it */
   window.onclick = function(event) {
     if (!event.target.matches('.user')) {
-      var dropdowns = document.getElementsByClassName("user");
+      var dropdowns = document.getElementsByClassName("User");
       var i;
       for (i = 0; i < dropdowns.length; i++) {
         var openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('#')) {
-          openDropdown.classList.remove('#');
+        if (openDropdown.classList.contains('changeUser')) {
+          openDropdown.classList.remove('changeUser');
         }
       }
     }
   }
 
+/* User interface */
+// Select and load user profile
+selectElement('user-content','user1')
+
+function selectElement(id, valueToSelect) {    
+    let element = document.getElementById(id);
+    element.value = valueToSelect;
+}
+
+selectElement('user-content','user2')
+
+function selectElement(id, valueToSelect) {    
+    let element = document.getElementById(id);
+    element.value = valueToSelect;
+}
+
+selectElement('user-content','user3')
+
+function selectElement(id, valueToSelect) {    
+    let element = document.getElementById(id);
+    element.value = valueToSelect;
+}
+
+//Retrieve data from local storage 
+var RetriveUserData = function() {
+localStorage.setItem('userData', JSON.stringify(userDatabase));
+  }
+
 var resultSection = document.querySelector("#result-display");
 var userDatabase = [];
+
 //var userDatabase = JSON.parse(localStorage.getItem('userData')) || [];
 //-----DATE FOR TODAY-----// 
 dateToday = moment().format("YYYY-MM-DD");

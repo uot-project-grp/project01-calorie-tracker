@@ -30,11 +30,12 @@
                 </div>
          <!---DROPDOWN BOX FOR USER SELECTION-->
          <div class="User">
-            <select name="User" id="user-content">
+             <button class="registor" onclick="redirct()">Register</button>
               <option val="">Select User</option>
-                <option value="#">User 1</option>
-                <option value="#">User 2</option>
-                <option value="#">User 3</option>
+              <select name="user-content" id="user-content">
+                <option value="changeUser('user1')">User 1</option>
+                <option value="changeUser('user2')">User 2</option>
+                <option value="changeUser('user3')">User 3</option>
             </select>
          </div>
     </div>
@@ -222,5 +223,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.4/chartist.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-chartist-plugin-threshold@0.0.7/dist/chartist-plugin-threshold.min.js"></script>
     <script src="./assets/js/script.js"></script>
+    <script src="./assets/js/userPage.js"></script>
 </body>
 </html>
