@@ -10,7 +10,7 @@ var selectDefault = function() {
 
 $("#userData").on("focus", "input", function() {
     $(this).removeClass("is-danger");
-    $(".userWarning").hide();
+    $(".userWarning").text("");
 })
 
 var validateInput = function(userName, initial, gender, weight,height) {
@@ -50,7 +50,6 @@ $("#userData").on("click", ".userSubmit", function(event) {
     console.log(userName,initial,gender,weight,height);
 
     if (validateInput(userName, initial, gender, weight,height) === false) {
-        $(".userWarning").show();
         $(".userWarning").text("Missing or invalid input!! All feilds are required. Height and weight only accept numbers!!")
     } 
     else {

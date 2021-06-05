@@ -367,3 +367,7 @@
 #cardElementsContainer {
     display: flex;
 }
+
+.warningMsg {
+    color: red;
+}

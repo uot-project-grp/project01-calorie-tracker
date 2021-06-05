@@ -287,7 +287,10 @@ $(".calorieSection").on("blur", ".form-control", function() {
     var text = $(this)
         .val()
         .trim();
-    
+    if (isNaN(text)) {
+        $(".editServWarning").text("Edit not saved!! Please enter a numeric value");
+        return;
+    }
     var servVal = $("<span>").addClass("serv").text(text);
     //-----EDIT LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
     var rowIndex = $(this).closest("tr").index();
@@ -340,12 +343,20 @@ $("#manualForm").on("submit", function(event) {
     var desc = $("#manualInput").val().trim();
     var calNew = $("#manualCalorie").val().trim();
     var servNew = $("#manualServing").val().trim();
+    if (desc.length ===0 || calNew.lemgth ===0 || servNew.length === 0) {
+        $(".manInpWarning").text("At least one input field is blank, please check!!");
+        return;
+    }
+    else if (isNaN(calNew) || isNaN(servNew)) {
+        $(".manInpWarning").text("Please enter numeric value for calorie and serving!!");
+        return;
+    }
     //creates and append the row
     $(".calorieSection").find("tbody").append("<tr><th class='sno'>"+sno+"</th><th>"+desc+
         "</th><td><span class='cal'>"+calNew+"</span></td><td><span class='serv'>"+servNew+
         "</span></td><td>"+editDelete+"</td></tr>");
 
-    //-----ADD LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
+    //-----ADD LOCAL STORAGE-----//
     if (userDatabase[userDataIndex].calConsumed.length === 0 || userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].date != dateToday) {
         userDatabase[userDataIndex].calConsumed.push({
             date: dateToday,
@@ -526,6 +537,8 @@ $('.userDrpdwn').hover(function() {
 //-----CHANGE BIO SECTION WHEN NO USER IS REGISTERED-----//
 var divertUser = function() {
     $("#otherSection").hide();
+    $(".main-search").hide();
+    $(".prog").hide();
     var registerNotice = $("<div>").addClass("registerNotice boxBorder bioBoxCont").html(
         '<h2>No User Registered</h2>'+
         '<h3>Please use the below link to register</h3>'+
@@ -581,6 +594,10 @@ var bioUpdate = function() {
     userWeightEl.textContent="Weight: "+ userDatabase[userDataIndex].weight;
     userHeightEl.textContent="Height: "+ userDatabase[userDataIndex].height;
 }
+
+$("body").on("focus", "input", function() {
+    $(".warningMsg").text("");
+})
 
 //-----WINDOW ONLOAD DISPLAY TABLE-----//
 $(window).on("load", function() {
