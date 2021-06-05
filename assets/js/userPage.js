@@ -1,5 +1,14 @@
 var userDatabase = JSON.parse(localStorage.getItem('userData')) || [];
 
+var selectDefault = function() {
+    $.each(userDatabase, function(index, value) {
+        if (index != userDatabase.length -1) {
+            value.default = "n";
+        }
+    })
+}
+    
+
 $("#userData").on("click", ".userSubmit", function(event) {
     event.preventDefault();
     var userName = $(".name").val().trim();
@@ -29,6 +38,9 @@ $("#userData").on("click", ".userSubmit", function(event) {
 
     userDatabase.push(thisUser);
     localStorage.setItem('userData', JSON.stringify(userDatabase));
+    if (userDatabase.length > 1) {
+        selectDefault();
+    }
     window.location.replace("index.html");
 })
 
