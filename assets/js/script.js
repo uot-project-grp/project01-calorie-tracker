@@ -1,54 +1,12 @@
-/* Toggling for when dropbox is clicked */
-/*function myFunction() {
-    document.getElementById("changeUser").classList.toggle("changeUser");
-} */
-
 //   Redirect to Registration Page
 function redirct () {
     location.href = "user.html"
 }
 
-  /* Closing the dropdown menu if the user clicks outside of it */
-  /*window.onclick = function(event) {
-    if (!event.target.matches('.user')) {
-      var dropdowns = document.getElementsByClassName("User");
-      var i;
-      for (i = 0; i < dropdowns.length; i++) {
-        var openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('changeUser')) {
-          openDropdown.classList.remove('changeUser');
-        }
-      }
-    }
-  }*/
-
-/* User interface */
-// Select and load user profile
-/*selectElement('user-content','user1')
-
-function selectElement(id, valueToSelect) {    
-    let element = document.getElementById(id);
-    element.value = valueToSelect;
-}
-
-selectElement('user-content','user2')
-
-function selectElement(id, valueToSelect) {    
-    let element = document.getElementById(id);
-    element.value = valueToSelect;
-}
-
-selectElement('user-content','user3')
-
-function selectElement(id, valueToSelect) {    
-    let element = document.getElementById(id);
-    element.value = valueToSelect;
-}
-*/
 //Retrieve data from local storage 
 var RetriveUserData = function() {
 localStorage.setItem('userData', JSON.stringify(userDatabase));
-  }
+}
 
 var resultSection = document.querySelector("#result-display");
 var userDatabase = [];
@@ -57,28 +15,6 @@ var userDatabase = JSON.parse(localStorage.getItem('userData')) || [];
 //-----DATE FOR TODAY-----// 
 var dateToday = moment().format("YYYY-MM-DD");
 var userDataIndex = 0;
-//-----CAPTURE LOCALSTORAGE OR IF EMPTY INITIALIZE-----// 
-/*if (localStorage.getItem('userData')) {
-    userDatabase = JSON.parse(localStorage.getItem('userData'));
-}
-else {
-    var thisUser = {
-        name: "Random User",
-        initial: "RU",
-        gender: "Male",
-        weight: "78",
-        height: "180",
-        api: ["clientId","clientSecret","refresherToken","authCode","accessToken"],
-        calConsumed:[],
-        steps: [],
-        calBurned: [],
-        calTarget: 0,
-        position: []
-        //totalCal:"0"
-    }
-    userDatabase.push(thisUser);
-    localStorage.setItem('userData', JSON.stringify(userDatabase));
-}*/
 
 console.log(userDatabase);
 //-----DOM FOR EDIT DELETE-----// 
@@ -436,7 +372,10 @@ $(".myCalTarget").on("blur", ".form-control", function() {
     var text = $(this)
         .val()
         .trim();
-
+    if (isNaN(text)) {
+        $(".calTarWarning").text("Calorie target not saved!! Please enter a numeric value");
+        return;
+    }
     var calTar = $("<span>").addClass("setMyTarget").text(text);
     userDatabase[userDataIndex].calTarget = parseInt(text);
     $(this).replaceWith(calTar);
@@ -646,26 +585,6 @@ $(window).on("load", function() {
 })
 
 // ---------------------------------------------------------------------------------------------------------------------
-// ---------------------------------------------------------------------------------------------------------------------
-// ---------------------------------------------------------------------------------------------------------------------
-
-// this functoin will get the lon/lat of the user location.
-//let latitude = '';
-//let longitude = '';
-/*let positionBtn = $("#getLocation")
-$("#getLocation").on("click", function getLocation () {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else { 
-        positionBtn.text("Geolocation is not supported by this browser.");
-    }
-    function showPosition(position) {
-        latitude = Math.floor(position.coords.latitude);
-        longitude =Math.floor(position.coords.longitude);
-        positionBtn.text("longitude = " + longitude + " " + " latitude = " + latitude)
-   }
-
-})*/
 
 //-----Weather API integration/functionality begins here
 function showPosition(position) {
@@ -676,25 +595,6 @@ function showPosition(position) {
     saveUserData();
     searchWeather(userDatabase[userDataIndex].position[0], userDatabase[userDataIndex].position[1]);
 }
-/*$("#displayWeather").on("click", function serachEvent (event) { 
-    event.preventDefault();
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-        
-    } else { 
-        positionBtn.text("Geolocation is not supported by this browser.");
-        return;
-    }
-    function showPosition(position) {
-        latitude = Math.floor(position.coords.latitude);
-        longitude =Math.floor(position.coords.longitude);
-        //positionBtn.text("longitude = " + longitude + " " + " latitude = " + latitude)
-        searchWeather(latitude, longitude)
-    }
-
-   console.log(longitude,latitude)
-   
-})*/
 
 function searchWeather(latitude,longitude) {
 
