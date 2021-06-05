@@ -551,8 +551,23 @@ var displayUser = function() {
         }
     })
 }
-// VARIABLE DECLERATION FOR LOADING THE VALUES TO THE BIO AND PROGRESS CHART
 
+//-----CHANGE USER ON CLICKING DROPDOWN-----//
+$(".dynamicUser").on("click", "a", function() {
+    console.log($(this).attr("data-user"));
+    userDataIndex = parseInt($(this).attr("data-user"));
+    $.each(userDatabase, function(index, value) {
+        if (index === userDataIndex) {
+            value.default = "y";
+        } else {
+            value.default = "n";
+        }
+    })
+    saveUserData();
+    location.reload();
+})
+
+// VARIABLE DECLERATION FOR LOADING THE VALUES TO THE BIO AND PROGRESS CHART
 var userNameEl=document.querySelector("#user-name");
 var userGenderEl=document.querySelector("#user-gender");
 var userWeightEl=document.querySelector("#user-weight");
@@ -576,41 +591,41 @@ $(window).on("load", function() {
         divertUser();
         return;
     } 
-    //else {
-        displayUser();
-        bioUpdate();
-        //Progress BAR function - check if cal consumed data exist
-        if (userDatabase[userDataIndex].calConsumed.length != 0) {
-            progressBar(userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].cal);
-        }   
-        //Display calorie target from storage in progress
-        $(".setMyTarget").text(userDatabase[userDataIndex].calTarget);
-    
-        //-----DISPLAY FROM LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
-        if (userDatabase[userDataIndex].calConsumed.length != 0) {
-            $.each(userDatabase[userDataIndex].calConsumed, function(index, value) {
-                if (value.date === dateToday) {
-                    var currentIndex = index;
-                    for (var i=0; i<userDatabase[userDataIndex].calConsumed[currentIndex].cal.length; i++) {
-                        $("tbody").append("<tr><th class='sno'>"+(i+1)+"</th><th>"+userDatabase[userDataIndex].calConsumed[currentIndex].food[i]+
-                        "</th><td><span class='cal'>"+userDatabase[userDataIndex].calConsumed[currentIndex].cal[i]+"</span></td><td><span class='serv'>"+userDatabase[userDataIndex].calConsumed[currentIndex].serv[i]+
-                        "</span></td><td>"+editDelete+"</td></tr>");
-                    }
-                }
-            });
-        }
-        //-----UPDATE CHART-----//
-        updateChart();
-        //-----WEATHER API-----//
 
-        if (userDatabase[userDataIndex].position.length < 1) {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition); 
+    displayUser();
+    bioUpdate();
+    //Progress BAR function - check if cal consumed data exist
+    if (userDatabase[userDataIndex].calConsumed.length != 0) {
+        progressBar(userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].cal);
+    }   
+    //Display calorie target from storage in progress
+    $(".setMyTarget").text(userDatabase[userDataIndex].calTarget);
+
+    //-----DISPLAY FROM LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
+    if (userDatabase[userDataIndex].calConsumed.length != 0) {
+        $.each(userDatabase[userDataIndex].calConsumed, function(index, value) {
+            if (value.date === dateToday) {
+                var currentIndex = index;
+                for (var i=0; i<userDatabase[userDataIndex].calConsumed[currentIndex].cal.length; i++) {
+                    $("tbody").append("<tr><th class='sno'>"+(i+1)+"</th><th>"+userDatabase[userDataIndex].calConsumed[currentIndex].food[i]+
+                    "</th><td><span class='cal'>"+userDatabase[userDataIndex].calConsumed[currentIndex].cal[i]+"</span></td><td><span class='serv'>"+userDatabase[userDataIndex].calConsumed[currentIndex].serv[i]+
+                    "</span></td><td>"+editDelete+"</td></tr>");
+                }
             }
-        } else {
-            searchWeather(userDatabase[userDataIndex].position[0], userDatabase[userDataIndex].position[1]);
+        });
+    }
+    //-----UPDATE CHART-----//
+    updateChart();
+    //-----WEATHER API-----//
+
+    if (userDatabase[userDataIndex].position.length < 1) {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition); 
         }
-    //}
+    } else {
+        searchWeather(userDatabase[userDataIndex].position[0], userDatabase[userDataIndex].position[1]);
+    }
+
 })
 
 // ---------------------------------------------------------------------------------------------------------------------

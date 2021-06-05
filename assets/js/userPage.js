@@ -2,10 +2,10 @@ var userDatabase = JSON.parse(localStorage.getItem('userData')) || [];
 
 var selectDefault = function() {
     $.each(userDatabase, function(index, value) {
-        if (index != userDatabase.length -1) {
-            value.default = "n";
-        }
+        value.default = "n";
+        console.log(value.default);
     })
+    console.log(userDatabase);
 }
     
 
@@ -36,11 +36,11 @@ $("#userData").on("click", ".userSubmit", function(event) {
         default: "y"
     }
 
-    userDatabase.push(thisUser);
-    localStorage.setItem('userData', JSON.stringify(userDatabase));
-    if (userDatabase.length > 1) {
+    if (userDatabase.length > 0) {
         selectDefault();
     }
+    userDatabase.push(thisUser);
+    localStorage.setItem('userData', JSON.stringify(userDatabase));
     window.location.replace("index.html");
 })
 
