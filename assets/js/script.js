@@ -37,7 +37,8 @@ else {
         calConsumed:[],
         steps: [],
         calBurned: [],
-        calTarget: 0
+        calTarget: 0,
+        position: []
         //totalCal:"0"
     }
     userDatabase.push(thisUser);
@@ -123,7 +124,6 @@ var saveUserData = function() {
 var displaySearchResults = function(result) {
     if (result.FoodName.length) {
         for (var i=0; i<result.FoodName.length; i++) {
-            console.log(result.FoodName[i]);
 
             var displayBox = document.createElement("article");
             displayBox.className = "column boxBorder searchResult";
@@ -146,7 +146,6 @@ var displaySearchResults = function(result) {
             selectOneButton.textContent = "Select";
             buttonDiv.appendChild(selectOneButton);
 
-            console.log(result.instruction[i].length);
             if (result.instruction[i].length) {
                 var showRecipe = document.createElement("button");
                 showRecipe.className = "button is-info showRecipe";
@@ -171,7 +170,6 @@ var displaySearchResults = function(result) {
 //-----EVENT HANDLER FOR SEARCH SUBMIT-----//
 $("#searchForm").on("submit", function(event) {
     event.preventDefault();
-    //console.log($(this));
     var searchText = $("#foodSearch").val().trim();
     resultSection.textContent = "";
     fetchFood(searchText);
@@ -185,7 +183,6 @@ $("#result-display").on("click", ".selectOneButton", function(event) {
     var index = $(this).closest(".searchResult").attr("data-result-id");
     var sno = $("#calorieConsumed tr").length -1;
     //creates a table and inserts the data to the display table
-    console.log(length);
     $("tbody").append("<tr><th class='sno'>"+sno+"</th><th>"+calorieDetails.FoodName[index]+
         "</th><td><span class='cal'>"+calorieDetails.calorie[index]+"</span></td><td><span class='serv'>"+calorieDetails.weightPerServing[index]+
         "</span></td><td>"+editDelete+"</td></tr>");
@@ -199,17 +196,14 @@ $("#result-display").on("click", ".selectOneButton", function(event) {
             cal: [calorieDetails.calorie[index]],
             serv: [calorieDetails.weightPerServing[index]]   
         })
-        console.log(userDatabase)
         // adding calories to totalCal
         // userDatabase[0].totalCal=userDatabase[0].totalCal+calorieDetails.calorie[index];
     } else {
-        console.log(userDatabase[0].calConsumed.length-1);
         if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].date === dateToday) {
             userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].food.push(calorieDetails.FoodName[index]);
             userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.push(calorieDetails.calorie[index]);
             userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].serv.push(calorieDetails.weightPerServing[index]);
         }
-        console.log(userDatabase)
     }   
     saveUserData();
     //Dynamically update progress bar on add
@@ -264,7 +258,6 @@ $(".calorieSection").on("blur", ".form-control", function() {
     var rowIndex = $(this).closest("tr").index();
     var calNew = parseFloat($(this).closest("tr").find(".cal").text());
     var storeText = parseFloat(text);
-    console.log(calNew,storeText)
 
     userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.splice(rowIndex,1,calNew);
     userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].serv.splice(rowIndex,1,storeText);
@@ -282,7 +275,6 @@ $(".calorieSection").on("blur", ".form-control", function() {
 
 //-----TABLE DELETE BUTTON LOGIC-----//
 $(".calorieSection").on("click", ".deleteBtn", function() {
-    console.log("delete");
     var rowIndex = $(this).closest("tr").index();
     $(this).closest("tr").remove();
 
@@ -292,7 +284,6 @@ $(".calorieSection").on("click", ".deleteBtn", function() {
     userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].serv.splice(rowIndex,1);
 
     $(".sno").each(function(i) {
-        console.log("here");
         $(this).text(i+1);
     })
     saveUserData();
@@ -326,17 +317,14 @@ $("#manualForm").on("submit", function(event) {
             food: [desc],
             cal: [calNew],
             serv: [servNew]    
-        })
-        console.log(userDatabase)
-        
-    } else {
-        console.log(userDatabase[0].calConsumed.length-1);
+        })    
+    } 
+    else {
         if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].date === dateToday) {
             userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].food.push(desc);
             userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.push(calNew);
             userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].serv.push(servNew);
         }
-        console.log(userDatabase)
     }
     saveUserData();
     //Dynamically update progress bar on add
@@ -362,7 +350,6 @@ $("#result-display").on("click", ".showRecipe", function(event) {
     var inText = "";
     //picks text data from the api for instruction
     $.each(recipe, function(index, value) {
-        console.log(value.name);
         inText = value.name;
         inText = "<p><span class='recipeBold'>INSTRUCTION "+(index+1)+": </span>"+inText+" </p>";
         $.each(value.steps, function(index, valueIn) {
@@ -372,7 +359,6 @@ $("#result-display").on("click", ".showRecipe", function(event) {
         inininText = "";
     })
     recipeText = recipeHead + recipeText;
-    console.log(recipeText);
 
     //creates new modal on click
     var newModal = $("<div>").addClass("modal is-active")
@@ -415,12 +401,10 @@ $(".myCalTarget").on("blur", ".form-control", function() {
 
 //-----PROGRESS BAR UPDATE FUNCTION - UPDATES THE BAR VALUE AND DISPLAYS %-----//
 var progressBar = function(arr) {
-    console.log(arr)
     var sum = 0;
     //adds array value
     $.each(arr,function(){
         sum+=parseFloat(this);
-        console.log(sum)
     });
     //calculates progress and displays percent
     var progress = ((sum / parseInt(userDatabase[0].calTarget)) * 100).toFixed(2);
@@ -441,7 +425,6 @@ var updateChart = function() {
     var yAxis = []
     for (var i=0; i<7; i++) {
         xAxis.splice(0,0,moment().subtract(i, 'days').format("MMMDD"))
-        console.log(xAxis)
     }
     var x = 1;
     for (var i=0; i<7; i++) {
@@ -451,7 +434,6 @@ var updateChart = function() {
             if (userDatabase[0].calConsumed[index].date === moment().subtract(i, 'days').format("YYYY-MM-DD")) {    
                 $.each(userDatabase[0].calConsumed[index].cal,function() {
                     sum+=parseFloat(this);
-                    console.log(sum);
                 })
                 yAxis.splice(0,0,sum);
                 x++;
@@ -462,11 +444,11 @@ var updateChart = function() {
             yAxis.splice(0,0,sum);
         }
     }
-    console.log(yAxis)
+
 
 
     //------------CHART EXPERIMENT
-    console.log(xAxis)
+
     var data = {
         labels: xAxis,
         series: [
@@ -476,10 +458,9 @@ var updateChart = function() {
 
     var chartThresh = userDatabase[0].calTarget;
     var topUp = 200;
-    console.log(Math.max.apply(Math, yAxis))
     if (Math.max.apply(Math, yAxis) > chartThresh) {
         topUp = Math.max.apply(Math, yAxis) - chartThresh;
-        console.log(topUp)
+
     }
 
     var chartDimen = {
@@ -513,7 +494,6 @@ $(window).on("load", function() {
     userGenderEl.textContent=userDatabase[0].gender;
     userWeightEl.textContent=userDatabase[0].weight;
     userHeightEl.textContent=userDatabase[0].height;
-    console.log(userDatabase[0].calTarget)
     //Progress BAR function - check if cal consumed data exist
     if (userDatabase[0].calConsumed.length != 0) {
         progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
@@ -523,9 +503,19 @@ $(window).on("load", function() {
     $(".setMyTarget").text(userDatabase[0].calTarget);
 
     //-----DISPLAY FROM LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
-    if (userDatabase[0].calConsumed.length === 0) {
-        return;
-    } else {$.each(userDatabase[0].calConsumed, function(index, value) {
+    if (userDatabase[0].calConsumed.length != 0) {
+        $.each(userDatabase[0].calConsumed, function(index, value) {
+            if (value.date === dateToday) {
+                var currentIndex = index;
+                for (var i=0; i<userDatabase[0].calConsumed[currentIndex].cal.length; i++) {
+                    $("tbody").append("<tr><th class='sno'>"+(i+1)+"</th><th>"+userDatabase[0].calConsumed[currentIndex].food[i]+
+                    "</th><td><span class='cal'>"+userDatabase[0].calConsumed[currentIndex].cal[i]+"</span></td><td><span class='serv'>"+userDatabase[0].calConsumed[currentIndex].serv[i]+
+                    "</span></td><td>"+editDelete+"</td></tr>");
+                }
+            }
+        });
+    } 
+    /*else {$.each(userDatabase[0].calConsumed, function(index, value) {
         if (value.date === dateToday) {
             var currentIndex = index;
             for (var i=0; i<userDatabase[0].calConsumed[currentIndex].cal.length; i++) {
@@ -535,9 +525,19 @@ $(window).on("load", function() {
             }
         }
     })
-    }
+    }*/
     //-----UPDATE CHART-----//
     updateChart();
+    //-----WEATHER API-----//
+
+    if (userDatabase[0].position.length < 1) {
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition); 
+        }
+    } else {
+        searchWeather(userDatabase[0].position[0], userDatabase[0].position[1]);
+    }
 })
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -545,9 +545,9 @@ $(window).on("load", function() {
 // ---------------------------------------------------------------------------------------------------------------------
 
 // this functoin will get the lon/lat of the user location.
-let latitude = '';
-let longitude = '';
-let positionBtn = $("#getLocation")
+//let latitude = '';
+//let longitude = '';
+/*let positionBtn = $("#getLocation")
 $("#getLocation").on("click", function getLocation () {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
@@ -560,10 +560,18 @@ $("#getLocation").on("click", function getLocation () {
         positionBtn.text("longitude = " + longitude + " " + " latitude = " + latitude)
    }
 
-})
+})*/
 
-// Weather API integration/functionality begins here
-$("#displayWeather").on("click", function serachEvent (event) { 
+//-----Weather API integration/functionality begins here
+function showPosition(position) {
+    console.log(Math.floor(position.coords.latitude))
+    userDatabase[0].position[0] = Math.floor(position.coords.latitude);
+    userDatabase[0].position[1] = Math.floor(position.coords.longitude);
+    //positionBtn.text("longitude = " + longitude + " " + " latitude = " + latitude)
+    saveUserData();
+    searchWeather(userDatabase[0].position[0], userDatabase[0].position[1]);
+}
+/*$("#displayWeather").on("click", function serachEvent (event) { 
     event.preventDefault();
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
@@ -581,7 +589,7 @@ $("#displayWeather").on("click", function serachEvent (event) {
 
    console.log(longitude,latitude)
    
-})
+})*/
 
 function searchWeather(latitude,longitude) {
 
@@ -623,7 +631,7 @@ function searchWeather(latitude,longitude) {
                     });
                     // Build an array of moments we want to report on (one per day)
                     let forcastDayMoments = [];
-                    for (let i = 0; i < 5; i++) {
+                    for (let i = 0; i < 2; i++) {
                             let forcastDayMoment = moment(firstDateMoment).add(i, 'days');
                             forcastDayMoments.push(forcastDayMoment);
                     }
