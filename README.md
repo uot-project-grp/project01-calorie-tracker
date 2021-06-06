@@ -14,8 +14,8 @@
 ### Built with
 * HTML, CSS AND JavaScript
 * [Bulma](https://bulma.io/)
-* JQuery
-* Momentjs
+* [JQuery](https://jquery.com/)
+* [Momentjs](https://momentjs.com/)
 * [chartist-js](https://github.com/gionkunz/chartist-js)
 
 ### APIs used
