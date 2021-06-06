@@ -385,12 +385,15 @@ $(".myCalTarget").on("blur", ".form-control", function() {
 })    
 
 //-----PROGRESS BAR UPDATE FUNCTION - UPDATES THE BAR VALUE AND DISPLAYS %-----//
-var progressBar = function(arr) {
+var progressBar = function(arr, date) {
     var sum = 0;
+    console.log(date)
     //adds array value
-    $.each(arr,function(){
-        sum+=parseFloat(this);
-    });
+    if (date === dateToday) {
+        $.each(arr,function(){
+            sum+=parseFloat(this);
+        });
+    }
     //calculates progress and displays percent
     var progress = ((sum / parseInt(userDatabase[userDataIndex].calTarget)) * 100).toFixed(2);
     if (userDatabase[userDataIndex].calTarget === 0) {
@@ -428,12 +431,16 @@ var updateChart = function() {
                 //if there is a match only then x is incremented else it will keep looking for a date match in the last index
                 x++;
             }
+            else {
+                yAxis.splice(0,0,sum);
+            }
         }
         //if no index left just put 0, sum is initialized to 0    
         else {
             yAxis.splice(0,0,sum);
         }
     }
+    console.log(yAxis)
     //-----CHART IMPLEMENTATION-----//
 
     var data = {
@@ -552,7 +559,7 @@ $(window).on("load", function() {
     bioUpdate();
     //Progress BAR function - check if cal consumed data exist
     if (userDatabase[userDataIndex].calConsumed.length != 0) {
-        progressBar(userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].cal);
+        progressBar(userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].cal, userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].date);
     }   
     //Display calorie target from storage in progress
     $(".setMyTarget").text(userDatabase[userDataIndex].calTarget);
