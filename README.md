@@ -44,7 +44,8 @@ An application which allows its users to easily manage their calories consumed o
 * THEN I will be asked my location and this information will be stored in local storage and suggest whether it is ideal to exercise outdoors or stay indoors for the next two days.
 * WHEN I have recorded a number of different food items on a weekly means,
 * THEN I am shown a graph which outlines personal progress over the course of the last 7 days.
-* AND if I go beyond the set target, then the graph’s line will change to red to indicate that attention is required to stay consistent with the user’s calorie goal. 
+* AND if I go beyond the set target, 
+* Then the graph’s line will change to red to indicate that attention is required to stay consistent with the user’s calorie goal. 
 
 * GIVEN my need to have an individualized model and plan for calories consumed overtime,
 * WHEN I open my personalized user page every time, 
