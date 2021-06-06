@@ -16,7 +16,6 @@ var userDatabase = JSON.parse(localStorage.getItem('userData')) || [];
 var dateToday = moment().format("YYYY-MM-DD");
 var userDataIndex = 0;
 
-console.log(userDatabase);
 //-----DOM FOR EDIT DELETE-----// 
 var editDelete = `
 <div class="dropdown is-right editDelete">
@@ -44,7 +43,6 @@ var calorieDetails = {};
 
 //-----EXTRACT DATA FROM FOOD API-----//
 var foodSearchResults = function(data) {
-    console.log(data.results[0].analyzedInstructions)
     calorieDetails = {
         imgLink: [],
         calorie: [],
@@ -63,7 +61,6 @@ var foodSearchResults = function(data) {
         calorieDetails.instruction[i] = data.results[i].analyzedInstructions;
     }
     displaySearchResults(calorieDetails);
-    console.log(calorieDetails);
 }
 
 //-----FETCH API FOR FOOD ITEM - SPOONACULAR-----//
@@ -74,9 +71,7 @@ var fetchFood = function(searchText) {
         "https://api.spoonacular.com/recipes/complexSearch?apiKey=1d1c3696b7904c6aa2424198b18c00b0&query="+searchText+"&addRecipeNutrition=true&number=6"
     ).then(function(response) {
         if (response.ok) {
-            console.log(response);
             response.json().then(function(data) {
-                console.log(data)
                 foodSearchResults(data);
             })
         }
@@ -87,7 +82,6 @@ var fetchFood = function(searchText) {
 }
 //-----SAVE USERDATA IN LOCALSTORAGE-----//
 var saveUserData = function() {
-    console.log(userDatabase);
     localStorage.setItem('userData', JSON.stringify(userDatabase));
 }
 
@@ -387,7 +381,6 @@ $(".myCalTarget").on("blur", ".form-control", function() {
 //-----PROGRESS BAR UPDATE FUNCTION - UPDATES THE BAR VALUE AND DISPLAYS %-----//
 var progressBar = function(arr, date) {
     var sum = 0;
-    console.log(date)
     //adds array value
     if (date === dateToday) {
         $.each(arr,function(){
@@ -440,7 +433,6 @@ var updateChart = function() {
             yAxis.splice(0,0,sum);
         }
     }
-    console.log(yAxis)
     //-----CHART IMPLEMENTATION-----//
 
     var data = {
@@ -505,7 +497,6 @@ var displayUser = function() {
 
         if (value.default === "y") {
             userDataIndex = index;
-            console.log(userDataIndex);
             $(".UserBtnText").text(userDatabase[userDataIndex].initial);
         }
     })
@@ -513,7 +504,6 @@ var displayUser = function() {
 
 //-----CHANGE USER ON CLICKING DROPDOWN-----//
 $(".dynamicUser").on("click", "a", function() {
-    console.log($(this).attr("data-user"));
     userDataIndex = parseInt($(this).attr("data-user"));
     $.each(userDatabase, function(index, value) {
         if (index === userDataIndex) {
@@ -595,7 +585,6 @@ $(window).on("load", function() {
 
 //-----Weather API integration/functionality begins here
 function showPosition(position) {
-    console.log(Math.floor(position.coords.latitude))
     userDatabase[userDataIndex].position[0] = Math.floor(position.coords.latitude);
     userDatabase[userDataIndex].position[1] = Math.floor(position.coords.longitude);
     //positionBtn.text("longitude = " + longitude + " " + " latitude = " + latitude)
@@ -625,7 +614,6 @@ function searchWeather(latitude,longitude) {
                     let weatherDataList = weatherData.list || [];
 
                     //     data from API
-                    console.log(weatherData);
 
                     if (weatherDataList.length == 0) {
                             //TODO: show a friendly error message
