@@ -463,6 +463,10 @@
     .searchResult {
         font-size: 14px;
     }
+
+    .searchResult img {
+        height: 65%;
+    }
 }   
 
 @media screen and (max-width: 575px) {

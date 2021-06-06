@@ -530,8 +530,8 @@ var bioUpdate = function() {
     // MVP - DISPLAY THE FIRST USER's DETAIL - BIO
     userNameEl.textContent="Name: "+ userDatabase[userDataIndex].name;
     userGenderEl.textContent="Gender: "+ userDatabase[userDataIndex].gender;
-    userWeightEl.textContent="Weight: "+ userDatabase[userDataIndex].weight;
-    userHeightEl.textContent="Height: "+ userDatabase[userDataIndex].height;
+    userWeightEl.textContent="Weight: "+ userDatabase[userDataIndex].weight + " kg";
+    userHeightEl.textContent="Height: "+ userDatabase[userDataIndex].height + " cm";
 }
 
 $("body").on("focus", "input", function() {
