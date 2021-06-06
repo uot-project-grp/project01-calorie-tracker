@@ -26,39 +26,39 @@
 An application which allows its users to easily manage their calories consumed over a given time but inputting or selecting values for meals. Every user's information will be saved in the application for easy retreival when they return to their designated page. 
 
 ### User Story 
-AS a USER, 
-I WANT to have the ability to stay on track of my health and fitness by recording the number of calories consumed in a day to ultimately accomplish a set target for myself.  
+* AS a USER, 
+* I WANT to have the ability to stay on track of my health and fitness by recording the number of calories consumed in a day to ultimately accomplish a set target for myself.  
 
 ### Acceptance Test for User Story 
-GIVEN the need to track my calories in order to modify eating patterns to stay healthy, 
-WHEN I manually input a food and its calories,
-THEN the value captured should be saved in the table according to the individual. 
-WHEN I search a food item,
-THEN I will be given 10 different food items and I can select the one which is most similar to the meal I consumed calorie-wise and serving-wise.
-AND I will also be able to click on the “recipe” button to display the recipe for the selected dish. 
-WHEN I want to remove a food item,
-THEN I can click the arrow on the right-hand corner to either edit the serving size or delete the item entirely from the log. 
-WHEN I can input a quantitative calorie target in kcal, 
-THEN I will be given a percentage and visual representation of the number of calories consumed in the day at a given time. 
-WHEN I first load the application,
-THEN I will be asked my location and this information will be stored in local storage and suggest whether it is ideal to exercise outdoors or stay indoors for the next two days.
-WHEN I have recorded a number of different food items on a weekly means,
-THEN I am shown a graph which outlines personal progress over the course of the last 7 days.
-AND if I go beyond the set target, then the graph’s line will change to red to indicate that attention is required to stay consistent with the user’s calorie goal. 
+* GIVEN the need to track my calories in order to modify eating patterns to stay healthy, 
+* WHEN I manually input a food and its calories,
+* THEN the value captured should be saved in the table according to the individual. 
+* WHEN I search a food item,
+* THEN I will be given 10 different food items and I can select the one which is most similar to the meal I consumed calorie-wise and serving-wise.
+* AND I will also be able to click on the “recipe” button to display the recipe for the selected dish. 
+* WHEN I want to remove a food item,
+* THEN I can click the arrow on the right-hand corner to either edit the serving size or delete the item entirely from the log. 
+* WHEN I can input a quantitative calorie target in kcal, 
+* THEN I will be given a percentage and visual representation of the number of calories consumed in the day at a given time. 
+* WHEN I first load the application,
+* THEN I will be asked my location and this information will be stored in local storage and suggest whether it is ideal to exercise outdoors or stay indoors for the next two days.
+* WHEN I have recorded a number of different food items on a weekly means,
+* THEN I am shown a graph which outlines personal progress over the course of the last 7 days.
+* AND if I go beyond the set target, then the graph’s line will change to red to indicate that attention is required to stay consistent with the user’s calorie goal. 
 
-GIVEN my need to have an individualized model and plan for calories consumed overtime,
-WHEN I open my personalized user page every time, 
-THEN I will see my avatar, health-related bio, calorie target, calories consumed, and a record of the food I have consumed. 
-IF I am a new user,
-THEN I can create a new user profile which will be accessible for me every time I open the application.
-IF I am a returning user and I would like to change quantitative data such as my height and weight, 
-THEN I can edit such values by inputting a different numerical value.
-IF I attempt to change such values in non-numerical values, 
-THEN the section will show error and require the user to enter a numerical value.
-WHEN I click on another user’s profile,
-THEN I can view their avatar, bio, calorie target, calories consumed, and food record. 
+* GIVEN my need to have an individualized model and plan for calories consumed overtime,
+* WHEN I open my personalized user page every time, 
+* THEN I will see my avatar, health-related bio, calorie target, calories consumed, and a record of the food I have consumed. 
+* IF I am a new user,
+* THEN I can create a new user profile which will be accessible for me every time I open the application.
+* IF I am a returning user and I would like to change quantitative data such as my height and weight, 
+* THEN I can edit such values by inputting a different numerical value.
+* IF I attempt to change such values in non-numerical values, 
+* THEN the section will show error and require the user to enter a numerical value.
+* WHEN I click on another user’s profile,
+* THEN I can view their avatar, bio, calorie target, calories consumed, and food record. 
 
-### Build process
+### Build Process
 * Calorie tracker app keeps track of user data and inputs using local storage.
 * Multiple uses can register and store their data using this page.
 * If no user is registered then the page will display message, requesting user to register.
