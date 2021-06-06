@@ -1,41 +1,80 @@
 var userDatabase = JSON.parse(localStorage.getItem('userData')) || [];
 
+var selectDefault = function() {
+    $.each(userDatabase, function(index, value) {
+        value.default = "n";
+        console.log(value.default);
+    })
+    console.log(userDatabase);
+}
+
+$("#userData").on("focus", "input", function() {
+    $(this).removeClass("is-danger");
+    $(".userWarning").text("");
+})
+
+var validateInput = function(userName, initial, gender, weight,height) {
+    var okay = true;
+    if (userName.length === 0) {
+        $(".name").addClass("is-danger");
+        okay = false;
+    }
+    if (initial.length === 0) {
+        $(".initial").addClass("is-danger");
+        okay = false;
+    }
+    if (gender.length === 0) {
+        okay = false;
+    }
+    if (isNaN(weight) || weight.length === 0) {
+        $(".weight").addClass("is-danger");
+        okay = false;
+    }
+    if (isNaN(height) || height.length === 0) {
+        $(".height").addClass("is-danger");
+        okay = false;
+    }
+    return okay;
+}
+
 $("#userData").on("click", ".userSubmit", function(event) {
     event.preventDefault();
     var userName = $(".name").val().trim();
     var initial = $(".initial").val().trim();
 
+    
     var gender = $("input[name='gender']:checked").closest("label").text().trim();
-    var api = $("input[name='api']:checked").closest("label").text().trim();
-
+    console.log(gender.length)
     var weight = $(".weight").val().trim();
     var height = $(".height").val().trim();
-    console.log(userName,initial,gender,weight,height,api);
+    console.log(userName,initial,gender,weight,height);
 
-    if (api === "Mock API") {
-        var clientId = "646428140885-vd6lkigqjfqvifar0oh941msd653ab1v.apps.googleusercontent.com";
-        var clientSecret = "feOiXd3_T1YEkWPUC9uHdlzi";
-        var refresherToken = "1//048y0xhlQuPcvCgYIARAAGAQSNwF-L9IrZ2jdygr-eiS3cTBTZZwsbamZ09fOMNjdzt-Q7GUIgMjWD5eRf2T0UHcFmrFqHn67oys";
-        var authCode = "";
-        var accessToken = "";
+    if (validateInput(userName, initial, gender, weight,height) === false) {
+        $(".userWarning").text("Missing or invalid input!! All feilds are required. Height and weight only accept numbers!!")
+    } 
+    else {
+        var thisUser = {
+            name: userName,
+            initial: initial,
+            gender: gender,
+            weight: weight,
+            height: height,
+            api: [],
+            calConsumed:[],
+            steps: [],
+            calBurned: [],
+            calTarget: 0,
+            position: [],
+            default: "y"
+        }
+
+        if (userDatabase.length > 0) {
+            selectDefault();
+        }
+        userDatabase.push(thisUser);
+        localStorage.setItem('userData', JSON.stringify(userDatabase));
+        window.location.replace("index.html");
     }
-
-    var thisUser = {
-        name: userName,
-        initial: initial,
-        gender: gender,
-        weight: weight,
-        height: height,
-        api: [clientId,clientSecret,refresherToken,authCode,accessToken],
-        calConsumed:[],
-        steps: [],
-        calBurned: [],
-        calTarget: 0
-    }
-
-    userDatabase.push(thisUser);
-    localStorage.setItem('userData', JSON.stringify(userDatabase));
-    window.location.replace("index.html");
 })
 
 $("#userData").on("click", ".userCancel", function(event) {

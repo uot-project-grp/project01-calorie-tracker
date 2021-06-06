@@ -1,83 +1,20 @@
-/* Toggling for when dropbox is clicked */
-function myFunction() {
-    document.getElementById("changeUser").classList.toggle("changeUser");
-  }
-
 //   Redirect to Registration Page
 function redirct () {
     location.href = "user.html"
 }
 
-  /* Closing the dropdown menu if the user clicks outside of it */
-  window.onclick = function(event) {
-    if (!event.target.matches('.user')) {
-      var dropdowns = document.getElementsByClassName("User");
-      var i;
-      for (i = 0; i < dropdowns.length; i++) {
-        var openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('changeUser')) {
-          openDropdown.classList.remove('changeUser');
-        }
-      }
-    }
-  }
-
-/* User interface */
-// Select and load user profile
-/*selectElement('user-content','user1')
-
-function selectElement(id, valueToSelect) {    
-    let element = document.getElementById(id);
-    element.value = valueToSelect;
-}
-
-selectElement('user-content','user2')
-
-function selectElement(id, valueToSelect) {    
-    let element = document.getElementById(id);
-    element.value = valueToSelect;
-}
-
-selectElement('user-content','user3')
-
-function selectElement(id, valueToSelect) {    
-    let element = document.getElementById(id);
-    element.value = valueToSelect;
-}
-*/
 //Retrieve data from local storage 
 var RetriveUserData = function() {
 localStorage.setItem('userData', JSON.stringify(userDatabase));
-  }
+}
 
 var resultSection = document.querySelector("#result-display");
 var userDatabase = [];
 
-//var userDatabase = JSON.parse(localStorage.getItem('userData')) || [];
+var userDatabase = JSON.parse(localStorage.getItem('userData')) || [];
 //-----DATE FOR TODAY-----// 
-dateToday = moment().format("YYYY-MM-DD");
-//-----CAPTURE LOCALSTORAGE OR IF EMPTY INITIALIZE-----// 
-if (localStorage.getItem('userData')) {
-    userDatabase = JSON.parse(localStorage.getItem('userData'));
-}
-else {
-    var thisUser = {
-        name: "Random User",
-        initial: "RU",
-        gender: "Male",
-        weight: "78",
-        height: "180",
-        api: ["clientId","clientSecret","refresherToken","authCode","accessToken"],
-        calConsumed:[],
-        steps: [],
-        calBurned: [],
-        calTarget: 0,
-        position: []
-        //totalCal:"0"
-    }
-    userDatabase.push(thisUser);
-    localStorage.setItem('userData', JSON.stringify(userDatabase));
-}
+var dateToday = moment().format("YYYY-MM-DD");
+var userDataIndex = 0;
 
 console.log(userDatabase);
 //-----DOM FOR EDIT DELETE-----// 
@@ -223,8 +160,8 @@ $("#result-display").on("click", ".selectOneButton", function(event) {
 
     resultSection.textContent = "";
     //-----ADD LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
-    if (userDatabase[0].calConsumed.length === 0 || userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].date != dateToday) {
-        userDatabase[0].calConsumed.push({
+    if (userDatabase[userDataIndex].calConsumed.length === 0 || userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].date != dateToday) {
+        userDatabase[userDataIndex].calConsumed.push({
             date: dateToday,
             food: [calorieDetails.FoodName[index]],
             cal: [calorieDetails.calorie[index]],
@@ -233,16 +170,16 @@ $("#result-display").on("click", ".selectOneButton", function(event) {
         // adding calories to totalCal
         // userDatabase[0].totalCal=userDatabase[0].totalCal+calorieDetails.calorie[index];
     } else {
-        if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].date === dateToday) {
-            userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].food.push(calorieDetails.FoodName[index]);
-            userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.push(calorieDetails.calorie[index]);
-            userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].serv.push(calorieDetails.weightPerServing[index]);
+        if (userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].date === dateToday) {
+            userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].food.push(calorieDetails.FoodName[index]);
+            userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].cal.push(calorieDetails.calorie[index]);
+            userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].serv.push(calorieDetails.weightPerServing[index]);
         }
     }   
     saveUserData();
     //Dynamically update progress bar on add
-    if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.length) {
-        progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
+    if (userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].cal.length) {
+        progressBar(userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].cal);
     }
     updateChart();
 })
@@ -286,21 +223,24 @@ $(".calorieSection").on("blur", ".form-control", function() {
     var text = $(this)
         .val()
         .trim();
-    
+    if (isNaN(text)) {
+        $(".editServWarning").text("Edit not saved!! Please enter a numeric value");
+        return;
+    }
     var servVal = $("<span>").addClass("serv").text(text);
     //-----EDIT LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
     var rowIndex = $(this).closest("tr").index();
     var calNew = parseFloat($(this).closest("tr").find(".cal").text());
     var storeText = parseFloat(text);
 
-    userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.splice(rowIndex,1,calNew);
-    userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].serv.splice(rowIndex,1,storeText);
+    userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].cal.splice(rowIndex,1,calNew);
+    userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].serv.splice(rowIndex,1,storeText);
 
     $(this).replaceWith(servVal); 
     saveUserData(); 
     //Dynamically update progress bar on edit
-    if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.length) {
-        progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
+    if (userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].cal.length) {
+        progressBar(userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].cal);
     } else {
         progressBar([0]);
     }
@@ -313,17 +253,17 @@ $(".calorieSection").on("click", ".deleteBtn", function() {
     $(this).closest("tr").remove();
 
     //-----DELETE LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
-    userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].food.splice(rowIndex,1);
-    userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.splice(rowIndex,1);
-    userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].serv.splice(rowIndex,1);
+    userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].food.splice(rowIndex,1);
+    userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].cal.splice(rowIndex,1);
+    userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].serv.splice(rowIndex,1);
 
     $(".sno").each(function(i) {
         $(this).text(i+1);
     })
     saveUserData();
     //Dynamically update progress bar on delete
-    if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.length) {
-        progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
+    if (userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].cal.length) {
+        progressBar(userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].cal);
     } else {
         progressBar([0]);
     }
@@ -339,14 +279,22 @@ $("#manualForm").on("submit", function(event) {
     var desc = $("#manualInput").val().trim();
     var calNew = $("#manualCalorie").val().trim();
     var servNew = $("#manualServing").val().trim();
+    if (desc.length ===0 || calNew.lemgth ===0 || servNew.length === 0) {
+        $(".manInpWarning").text("At least one input field is blank, please check!!");
+        return;
+    }
+    else if (isNaN(calNew) || isNaN(servNew)) {
+        $(".manInpWarning").text("Please enter numeric value for calorie and serving!!");
+        return;
+    }
     //creates and append the row
     $(".calorieSection").find("tbody").append("<tr><th class='sno'>"+sno+"</th><th>"+desc+
         "</th><td><span class='cal'>"+calNew+"</span></td><td><span class='serv'>"+servNew+
         "</span></td><td>"+editDelete+"</td></tr>");
 
-    //-----ADD LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
-    if (userDatabase[0].calConsumed.length === 0 || userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].date != dateToday) {
-        userDatabase[0].calConsumed.push({
+    //-----ADD LOCAL STORAGE-----//
+    if (userDatabase[userDataIndex].calConsumed.length === 0 || userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].date != dateToday) {
+        userDatabase[userDataIndex].calConsumed.push({
             date: dateToday,
             food: [desc],
             cal: [calNew],
@@ -354,16 +302,16 @@ $("#manualForm").on("submit", function(event) {
         })    
     } 
     else {
-        if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].date === dateToday) {
-            userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].food.push(desc);
-            userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.push(calNew);
-            userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].serv.push(servNew);
+        if (userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].date === dateToday) {
+            userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].food.push(desc);
+            userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].cal.push(calNew);
+            userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].serv.push(servNew);
         }
     }
     saveUserData();
     //Dynamically update progress bar on add
-    if (userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal.length) {
-        progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
+    if (userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].cal.length) {
+        progressBar(userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].cal);
     }
     updateChart();
     //clears form values
@@ -424,12 +372,15 @@ $(".myCalTarget").on("blur", ".form-control", function() {
     var text = $(this)
         .val()
         .trim();
-
+    if (isNaN(text)) {
+        $(".calTarWarning").text("Calorie target not saved!! Please enter a numeric value");
+        return;
+    }
     var calTar = $("<span>").addClass("setMyTarget").text(text);
-    userDatabase[0].calTarget = parseInt(text);
+    userDatabase[userDataIndex].calTarget = parseInt(text);
     $(this).replaceWith(calTar);
     saveUserData();
-    progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
+    progressBar(userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].cal);
     updateChart();
 })    
 
@@ -441,8 +392,8 @@ var progressBar = function(arr) {
         sum+=parseFloat(this);
     });
     //calculates progress and displays percent
-    var progress = ((sum / parseInt(userDatabase[0].calTarget)) * 100).toFixed(2);
-    if (userDatabase[0].calTarget === 0) {
+    var progress = ((sum / parseInt(userDatabase[userDataIndex].calTarget)) * 100).toFixed(2);
+    if (userDatabase[userDataIndex].calTarget === 0) {
         $(".myCalPercent").text("Please set calorie target");
     } else {
         $(".myCalPercent").text(progress + "%");
@@ -463,25 +414,27 @@ var updateChart = function() {
     var x = 1;
     for (var i=0; i<7; i++) {
         var sum = 0;
-        var index = userDatabase[0].calConsumed.length-x;
+        //Initialize index starting from last index
+        var index = userDatabase[userDataIndex].calConsumed.length-x;
+        //if index exists go in
         if (index >= 0) {
-            if (userDatabase[0].calConsumed[index].date === moment().subtract(i, 'days').format("YYYY-MM-DD")) {    
-                $.each(userDatabase[0].calConsumed[index].cal,function() {
+            //checks if the date matches (sub 0 - 6) so starting today to last seven days
+            if (userDatabase[userDataIndex].calConsumed[index].date === moment().subtract(i, 'days').format("YYYY-MM-DD")) {    
+                //calculate sum of cal
+                $.each(userDatabase[userDataIndex].calConsumed[index].cal,function() {
                     sum+=parseFloat(this);
                 })
                 yAxis.splice(0,0,sum);
+                //if there is a match only then x is incremented else it will keep looking for a date match in the last index
                 x++;
             }
         }
-        
+        //if no index left just put 0, sum is initialized to 0    
         else {
             yAxis.splice(0,0,sum);
         }
     }
-
-
-
-    //------------CHART EXPERIMENT
+    //-----CHART IMPLEMENTATION-----//
 
     var data = {
         labels: xAxis,
@@ -489,9 +442,11 @@ var updateChart = function() {
             yAxis
         ]
     }
-
-    var chartThresh = userDatabase[0].calTarget;
+    //check calorie target
+    var chartThresh = userDatabase[userDataIndex].calTarget;
+    //initialized to 200
     var topUp = 200;
+    //If anything in total calorie is greater than calorie target, topup value is increased dynamically
     if (Math.max.apply(Math, yAxis) > chartThresh) {
         topUp = Math.max.apply(Math, yAxis) - chartThresh;
 
@@ -512,10 +467,58 @@ var updateChart = function() {
     new Chartist.Line('.ct-chart', data, chartDimen)
 }
 
+//-----USER DROPDOWN ON HOVER-----//
 $('.userDrpdwn').hover(function() {
     $(this).parent().toggleClass('.is-active');
 }
 );
+
+//-----CHANGE BIO SECTION WHEN NO USER IS REGISTERED-----//
+var divertUser = function() {
+    $("#otherSection").hide();
+    $(".main-search").hide();
+    $(".prog").hide();
+    var registerNotice = $("<div>").addClass("registerNotice boxBorder bioBoxCont").html(
+        '<h2>No User Registered</h2>'+
+        '<h3>Please use the below link to register</h3>'+
+        '<button class="button headButtonOveride" onclick="redirct()">'+
+        '<div><span class="UserBtnText">Register Here</span></div>'+
+        '</button>'
+    );
+    $("#bioBoxCont").replaceWith(registerNotice);
+}
+//-----DISPLAY ALL USERS IN DROPDOWN AND SELECT DEFAULT DROPDOWN-----//
+var displayUser = function() {
+    $.each(userDatabase, function(index, value) {
+        var userLink = $("<a>")
+            .addClass("registor")
+            .attr("data-user",index)
+            .text(value.initial);
+        $(".dynamicUser").append(userLink);
+
+        if (value.default === "y") {
+            userDataIndex = index;
+            console.log(userDataIndex);
+            $(".UserBtnText").text(userDatabase[userDataIndex].initial);
+        }
+    })
+}
+
+//-----CHANGE USER ON CLICKING DROPDOWN-----//
+$(".dynamicUser").on("click", "a", function() {
+    console.log($(this).attr("data-user"));
+    userDataIndex = parseInt($(this).attr("data-user"));
+    $.each(userDatabase, function(index, value) {
+        if (index === userDataIndex) {
+            value.default = "y";
+        } else {
+            value.default = "n";
+        }
+    })
+    saveUserData();
+    location.reload();
+})
+
 // VARIABLE DECLERATION FOR LOADING THE VALUES TO THE BIO AND PROGRESS CHART
 var userNameEl=document.querySelector("#user-name");
 var userGenderEl=document.querySelector("#user-gender");
@@ -523,110 +526,75 @@ var userWeightEl=document.querySelector("#user-weight");
 var userHeightEl=document.querySelector("#user-height");
 var userCalTargetEl=document.querySelector("#target-bar");
 var userCalConsumedEl=document.querySelector("#prog-bar");
+var bioUpdate = function() {
+    // MVP - DISPLAY THE FIRST USER's DETAIL - BIO
+    userNameEl.textContent="Name: "+ userDatabase[userDataIndex].name;
+    userGenderEl.textContent="Gender: "+ userDatabase[userDataIndex].gender;
+    userWeightEl.textContent="Weight: "+ userDatabase[userDataIndex].weight + " kg";
+    userHeightEl.textContent="Height: "+ userDatabase[userDataIndex].height + " cm";
+}
+
+$("body").on("focus", "input", function() {
+    $(".warningMsg").text("");
+})
 
 //-----WINDOW ONLOAD DISPLAY TABLE-----//
 $(window).on("load", function() {
-    // MVP - DISPLAY THE FIRST USER's DETAIL - BIO
-    userNameEl.textContent=userDatabase[0].name;
-    userGenderEl.textContent=userDatabase[0].gender;
-    userWeightEl.textContent=userDatabase[0].weight;
-    userHeightEl.textContent=userDatabase[0].height;
-    //Progress BAR function - check if cal consumed data exist
-    if (userDatabase[0].calConsumed.length != 0) {
-        progressBar(userDatabase[0].calConsumed[userDatabase[0].calConsumed.length-1].cal);
-    }
 
+    //-----INITIALIZE USER MENU-----//
+    if (userDatabase.length === 0) {
+        $(".UserBtnText").text("Register Here");
+        divertUser();
+        return;
+    } 
+
+    displayUser();
+    bioUpdate();
+    //Progress BAR function - check if cal consumed data exist
+    if (userDatabase[userDataIndex].calConsumed.length != 0) {
+        progressBar(userDatabase[userDataIndex].calConsumed[userDatabase[userDataIndex].calConsumed.length-1].cal);
+    }   
     //Display calorie target from storage in progress
-    $(".setMyTarget").text(userDatabase[0].calTarget);
+    $(".setMyTarget").text(userDatabase[userDataIndex].calTarget);
 
     //-----DISPLAY FROM LOCAL STORAGE - FOR NOW DEFAULTED TO ARRAY 0-----//
-    if (userDatabase[0].calConsumed.length != 0) {
-        $.each(userDatabase[0].calConsumed, function(index, value) {
+    if (userDatabase[userDataIndex].calConsumed.length != 0) {
+        $.each(userDatabase[userDataIndex].calConsumed, function(index, value) {
             if (value.date === dateToday) {
                 var currentIndex = index;
-                for (var i=0; i<userDatabase[0].calConsumed[currentIndex].cal.length; i++) {
-                    $("tbody").append("<tr><th class='sno'>"+(i+1)+"</th><th>"+userDatabase[0].calConsumed[currentIndex].food[i]+
-                    "</th><td><span class='cal'>"+userDatabase[0].calConsumed[currentIndex].cal[i]+"</span></td><td><span class='serv'>"+userDatabase[0].calConsumed[currentIndex].serv[i]+
+                for (var i=0; i<userDatabase[userDataIndex].calConsumed[currentIndex].cal.length; i++) {
+                    $("tbody").append("<tr><th class='sno'>"+(i+1)+"</th><th>"+userDatabase[userDataIndex].calConsumed[currentIndex].food[i]+
+                    "</th><td><span class='cal'>"+userDatabase[userDataIndex].calConsumed[currentIndex].cal[i]+"</span></td><td><span class='serv'>"+userDatabase[userDataIndex].calConsumed[currentIndex].serv[i]+
                     "</span></td><td>"+editDelete+"</td></tr>");
                 }
             }
         });
-    } 
-    /*else {$.each(userDatabase[0].calConsumed, function(index, value) {
-        if (value.date === dateToday) {
-            var currentIndex = index;
-            for (var i=0; i<userDatabase[0].calConsumed[currentIndex].cal.length; i++) {
-                $("tbody").append("<tr><th class='sno'>"+(i+1)+"</th><th>"+userDatabase[0].calConsumed[currentIndex].food[i]+
-                "</th><td><span class='cal'>"+userDatabase[0].calConsumed[currentIndex].cal[i]+"</span></td><td><span class='serv'>"+userDatabase[0].calConsumed[currentIndex].serv[i]+
-                "</span></td><td>"+editDelete+"</td></tr>");
-            }
-        }
-    })
-    }*/
+    }
     //-----UPDATE CHART-----//
     updateChart();
     //-----WEATHER API-----//
 
-    if (userDatabase[0].position.length < 1) {
-
+    if (userDatabase[userDataIndex].position.length < 1) {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition); 
         }
     } else {
-        searchWeather(userDatabase[0].position[0], userDatabase[0].position[1]);
+        searchWeather(userDatabase[userDataIndex].position[0], userDatabase[userDataIndex].position[1]);
     }
+
 })
 
 // ---------------------------------------------------------------------------------------------------------------------
-// ---------------------------------------------------------------------------------------------------------------------
-// ---------------------------------------------------------------------------------------------------------------------
-
-// this functoin will get the lon/lat of the user location.
-//let latitude = '';
-//let longitude = '';
-/*let positionBtn = $("#getLocation")
-$("#getLocation").on("click", function getLocation () {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else { 
-        positionBtn.text("Geolocation is not supported by this browser.");
-    }
-    function showPosition(position) {
-        latitude = Math.floor(position.coords.latitude);
-        longitude =Math.floor(position.coords.longitude);
-        positionBtn.text("longitude = " + longitude + " " + " latitude = " + latitude)
-   }
-
-})*/
 
 //-----Weather API integration/functionality begins here
 function showPosition(position) {
     console.log(Math.floor(position.coords.latitude))
-    userDatabase[0].position[0] = Math.floor(position.coords.latitude);
-    userDatabase[0].position[1] = Math.floor(position.coords.longitude);
+    userDatabase[userDataIndex].position[0] = Math.floor(position.coords.latitude);
+    userDatabase[userDataIndex].position[1] = Math.floor(position.coords.longitude);
     //positionBtn.text("longitude = " + longitude + " " + " latitude = " + latitude)
     saveUserData();
-    searchWeather(userDatabase[0].position[0], userDatabase[0].position[1]);
+    searchWeather(userDatabase[userDataIndex].position[0], userDatabase[userDataIndex].position[1]);
 }
-/*$("#displayWeather").on("click", function serachEvent (event) { 
-    event.preventDefault();
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-        
-    } else { 
-        positionBtn.text("Geolocation is not supported by this browser.");
-        return;
-    }
-    function showPosition(position) {
-        latitude = Math.floor(position.coords.latitude);
-        longitude =Math.floor(position.coords.longitude);
-        //positionBtn.text("longitude = " + longitude + " " + " latitude = " + latitude)
-        searchWeather(latitude, longitude)
-    }
-
-   console.log(longitude,latitude)
-   
-})*/
 
 function searchWeather(latitude,longitude) {
 
